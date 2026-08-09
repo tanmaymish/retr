@@ -4,6 +4,7 @@ import Panel from '../components/Panel';
 import TapFlow from './TapFlow';
 import FitScore from './FitScore';
 import AdvisorCoPilot from './AdvisorCoPilot';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 // Screens with real logic/AI-driven content instead of static extracted
 // markup. Everything else falls back to the generic panel renderer.
@@ -16,6 +17,7 @@ const CUSTOM_SCREENS = {
 export default function ScreenView() {
   const { id } = useParams();
   const found = findScreen(id);
+  useDocumentTitle(found ? `${found.screen.id} — ${found.screen.label}` : 'Design gallery');
   if (!found) return <Navigate to="/gallery" replace />;
   const { turn, screen } = found;
   const { prev, next } = neighbours(id);

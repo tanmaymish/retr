@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import { getPanelHtml } from '../data/screens';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const twinHtml = getPanelHtml('5a', 2); // "Your twin" summary panel
 const emergencyHtml = getPanelHtml('2a', 1); // "Emergency access" panel
 
 export default function AppYou() {
+  useDocumentTitle('You');
   return (
     <div style={{ background: '#fff', fontFamily: 'Archivo, sans-serif', color: '#201e1d' }}>
       <div dangerouslySetInnerHTML={{ __html: twinHtml }} />

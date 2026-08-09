@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import './PhoneShell.css';
 
 // The real app: one persistent iOS-style device frame with a bottom tab bar,
 // content swapping underneath it — unlike the design gallery, where every
@@ -14,14 +15,11 @@ const TABS = [
 export default function PhoneShell({ children }) {
   return (
     <div
+      className="phone-shell"
       style={{
-        width: 402,
-        height: 874,
-        borderRadius: 48,
         overflow: 'hidden',
         position: 'relative',
         background: '#F2F2F7',
-        boxShadow: '0 40px 80px rgba(0,0,0,0.18), 0 0 0 1px rgba(0,0,0,0.12)',
         fontFamily: '-apple-system, system-ui, sans-serif',
         flex: 'none',
         display: 'flex',
@@ -29,6 +27,7 @@ export default function PhoneShell({ children }) {
       }}
     >
       <div
+        className="phone-shell-notch"
         style={{
           position: 'absolute',
           top: 11,

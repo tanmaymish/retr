@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { faqContent } from '../data/aiContent';
 import { IOSDevice } from '../components/frames/IOSFrame';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const FALLBACK_ITEMS = [
   {
@@ -11,6 +12,7 @@ const FALLBACK_ITEMS = [
 ];
 
 export default function Ask() {
+  useDocumentTitle('Ask about your money');
   const items = faqContent?.items?.length ? faqContent.items : FALLBACK_ITEMS;
   const isAI = Boolean(faqContent?.items?.length);
   const [openIdx, setOpenIdx] = useState(0);

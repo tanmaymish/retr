@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { turns } from '../data/screens';
 import Logo from '../components/Logo';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 export default function Home() {
+  useDocumentTitle('Design gallery');
   return (
     <div style={{ maxWidth: 1040, margin: '0 auto', padding: '0 24px 64px' }}>
       <header style={{ padding: '40px 0 28px', borderBottom: '2px solid var(--color-divider)' }}>
