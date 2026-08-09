@@ -16,7 +16,7 @@ const CUSTOM_SCREENS = {
 export default function ScreenView() {
   const { id } = useParams();
   const found = findScreen(id);
-  if (!found) return <Navigate to="/" replace />;
+  if (!found) return <Navigate to="/gallery" replace />;
   const { turn, screen } = found;
   const { prev, next } = neighbours(id);
   const Custom = CUSTOM_SCREENS[id];
@@ -36,8 +36,11 @@ export default function ScreenView() {
           zIndex: 5,
         }}
       >
-        <Link to="/" style={{ color: 'var(--color-accent)', font: '600 11px Archivo, sans-serif' }}>
+        <Link to="/gallery" style={{ color: 'var(--color-accent)', font: '600 11px Archivo, sans-serif' }}>
           ← MAP
+        </Link>
+        <Link to="/app/home" style={{ color: 'var(--color-accent)', font: '600 11px Archivo, sans-serif' }}>
+          OPEN APP →
         </Link>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ font: '600 10px ui-monospace, monospace', color: 'rgba(0,0,0,.5)' }}>

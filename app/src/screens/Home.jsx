@@ -8,18 +8,24 @@ export default function Home() {
       <header style={{ padding: '40px 0 28px', borderBottom: '2px solid var(--color-divider)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16 }}>
           <Logo size={44} align="left" />
-          <Link to="/ask" className="btn btn-secondary" style={{ fontSize: 11, flex: 'none' }}>
-            ASK ABOUT YOUR MONEY →
-          </Link>
+          <div style={{ display: 'flex', gap: 8, flex: 'none' }}>
+            <Link to="/ask" className="btn btn-secondary" style={{ fontSize: 11 }}>
+              ASK ABOUT YOUR MONEY →
+            </Link>
+            <Link to="/app/home" className="btn btn-primary" style={{ fontSize: 11 }}>
+              OPEN THE APP →
+            </Link>
+          </div>
         </div>
-        <h1 style={{ margin: '10px 0 8px', fontSize: 34 }}>Screen map</h1>
+        <h1 style={{ margin: '10px 0 8px', fontSize: 34 }}>Design gallery</h1>
         <p style={{ maxWidth: 640, opacity: 0.75, fontSize: 14, lineHeight: 1.6 }}>
-          Twenty-seven screens across six design turns, implemented from the Claude Design
-          handoff for Akshayvridhi — a financial-decision engine for net worth, protection,
-          goals and retirement, built on the Modernist design system. Screens 3c, 4c and{' '}
-          <Link to="/ask" style={{ color: 'var(--color-accent)' }}>Ask</Link> are wired to a
-          GitHub Models AI pipeline that runs via GitHub Actions — everything else is static
-          wireframe copy.
+          This is the full Claude Design handoff — 27 screens across six design turns, most of
+          them alternate explorations rather than one flow. For the real, single navigable app
+          built from these (Home, Wealth, Goals, Vault, You), see{' '}
+          <Link to="/app/home" style={{ color: 'var(--color-accent)' }}>Open the app</Link>.
+          Screens 3c, 4c and <Link to="/ask" style={{ color: 'var(--color-accent)' }}>Ask</Link>{' '}
+          are wired to a GitHub Models AI pipeline that runs via GitHub Actions — everything else
+          here is static wireframe copy.
         </p>
       </header>
 

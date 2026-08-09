@@ -23,3 +23,10 @@ export function neighbours(id) {
     next: idx < all.length - 1 ? all[idx + 1] : null,
   };
 }
+
+// Pull one panel's raw markup out of a wireframe screen, for reuse inside the
+// real app shell (e.g. the Wealth/Vault tabs reuse 2a's panels directly).
+export function getPanelHtml(id, panelIndex = 0) {
+  const found = findScreen(id);
+  return found?.screen.panels[panelIndex]?.html ?? null;
+}

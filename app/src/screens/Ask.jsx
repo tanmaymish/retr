@@ -26,8 +26,8 @@ export default function Ask() {
           borderBottom: '2px solid var(--color-divider)',
         }}
       >
-        <Link to="/" style={{ color: 'var(--color-accent)', font: '600 11px Archivo, sans-serif' }}>
-          ← MAP
+        <Link to="/app/home" style={{ color: 'var(--color-accent)', font: '600 11px Archivo, sans-serif' }}>
+          ← APP
         </Link>
         <div>
           <div style={{ font: '600 10px ui-monospace, monospace', color: 'rgba(0,0,0,.5)' }}>
