@@ -41,8 +41,8 @@ export default function ScreenView() {
         <Link to="/gallery" style={{ color: 'var(--color-accent)', font: '600 11px Archivo, sans-serif' }}>
           ← MAP
         </Link>
-        <Link to="/app/home" style={{ color: 'var(--color-accent)', font: '600 11px Archivo, sans-serif' }}>
-          OPEN APP →
+        <Link to="/site/home" style={{ color: 'var(--color-accent)', font: '600 11px Archivo, sans-serif' }}>
+          OPEN WEBSITE →
         </Link>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ font: '600 10px ui-monospace, monospace', color: 'rgba(0,0,0,.5)' }}>

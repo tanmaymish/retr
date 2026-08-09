@@ -28,6 +28,9 @@ export default function AppYou() {
         <div style={{ font: '600 10px Archivo, sans-serif', letterSpacing: '.12em', color: '#8a8785' }}>
           OTHER VIEWS
         </div>
+        <Link to="/site/home" className="btn btn-secondary btn-block" style={{ justifyContent: 'flex-start' }}>
+          OPEN THE WEBSITE →
+        </Link>
         <Link to="/screen/4c" className="btn btn-secondary btn-block" style={{ justifyContent: 'flex-start' }}>
           ADVISOR CO-PILOT VIEW
         </Link>
