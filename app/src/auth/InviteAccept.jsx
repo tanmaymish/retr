@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Badge, Button, Card, Icon, Spinner } from '../components/ui';
-import { Mark } from '../site/Landing';
+import { Wordmark } from '../site/SiteChrome';
+import { brand } from '../site/content';
 import { useApi } from '../lib/useApi';
 import { api } from '../lib/api';
 import { useAuth } from '../state/AuthContext';
@@ -30,7 +31,7 @@ export default function InviteAccept() {
           <Icon name="link_off" size={40} style={{ color: 'var(--outline)' }} />
           <h2>This invitation is no longer valid</h2>
           <p className="muted small">{error.message}</p>
-          <Link to="/" className="btn btn-secondary">Back to Heritage Ledger</Link>
+          <Link to="/" className="btn btn-secondary">Back to Akshayvriddhi</Link>
         </Card>
       </Shell>
     );
@@ -167,9 +168,8 @@ function Shell({ children }) {
     <div style={{ minHeight: '100dvh', background: 'var(--surface)' }}>
       <div className="container" style={{ display: 'grid', placeItems: 'center', padding: '48px 20px' }}>
         <div style={{ width: 'min(620px, 100%)' }} className="stack stack-md enter">
-          <Link to="/" className="row" style={{ gap: 10, color: 'var(--on-surface)', justifyContent: 'center' }}>
-            <Mark />
-            <strong style={{ fontFamily: 'var(--font-heading)', fontSize: 18 }}>Heritage Ledger</strong>
+          <Link to="/" className="row" style={{ justifyContent: 'center', color: 'var(--on-surface)' }}>
+            <Wordmark subtitle={brand.tagline} />
           </Link>
           {children}
         </div>

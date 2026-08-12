@@ -1,7 +1,8 @@
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { Spinner } from './components/ui';
 import { useAuth } from './state/AuthContext';
-import Landing from './site/Landing';
+import Home from './site/Home';
+import About from './site/About';
 import { MfaChallenge, SignIn, SignUp } from './auth/AuthPages';
 import InviteAccept from './auth/InviteAccept';
 import Onboarding from './auth/Onboarding';
@@ -21,7 +22,8 @@ import Security from './app/Security';
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Landing />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
       <Route path="/sign-in" element={<GuestOnly><SignIn /></GuestOnly>} />
       <Route path="/create-vault" element={<GuestOnly><SignUp /></GuestOnly>} />
       <Route path="/verify" element={<MfaChallenge />} />

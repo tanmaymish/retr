@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Icon } from '../components/ui';
-import { Mark } from '../site/Landing';
+import { Wordmark } from '../site/SiteChrome';
+import { brand } from '../site/content';
 import { CATEGORY_LIST } from '../lib/categories';
 import { api } from '../lib/api';
 import { useAuth } from '../state/AuthContext';
@@ -51,10 +52,7 @@ export default function Onboarding() {
   return (
     <div style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', background: 'var(--surface)' }}>
       <header className="container row-between" style={{ height: 72 }}>
-        <div className="row" style={{ gap: 10 }}>
-          <Mark size={32} />
-          <strong style={{ fontFamily: 'var(--font-heading)' }}>Heritage Ledger</strong>
-        </div>
+        <Wordmark size={32} subtitle={brand.tagline} />
         {step < 3 && (
           <button
             className="btn btn-ghost"

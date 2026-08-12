@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Badge, Icon } from '../components/ui';
-import { Mark } from '../site/Landing';
+import { Wordmark } from '../site/SiteChrome';
 import { useAuth } from '../state/AuthContext';
 import { useApi } from '../lib/useApi';
 import { api } from '../lib/api';
@@ -39,12 +39,8 @@ export default function AppShell() {
   return (
     <div className="shell">
       <aside className={`shell-nav${navOpen ? ' open' : ''}`}>
-        <Link to="/vault" className="row" style={{ gap: 10, color: 'inherit', padding: '4px 8px 20px' }}>
-          <Mark size={38} />
-          <span className="stack" style={{ gap: 0 }}>
-            <strong style={{ fontFamily: 'var(--font-heading)', fontSize: 16 }}>Heritage Ledger</strong>
-            <span className="tiny muted">Family Vault</span>
-          </span>
+        <Link to="/vault" style={{ color: 'inherit', padding: '4px 8px 20px', display: 'block' }}>
+          <Wordmark size={38} subtitle="Family Vault" />
         </Link>
 
         <nav className="stack" style={{ gap: 2 }} aria-label="Vault sections">

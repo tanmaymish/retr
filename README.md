@@ -1,8 +1,12 @@
-# Heritage Ledger
+# Akshayvriddhi
 
-A secure family digital vault. Keep the documents a family actually goes looking
-for — policies, deeds, IDs, wills — encrypted, organised, and reachable by the
-right people at the right time.
+**Prosperity with Purpose.** A financial-protection institution and the secure
+family vault behind it: the documents a family actually goes looking for —
+policies, deeds, IDs, wills — encrypted, organised, and reachable by the right
+people at the right time.
+
+The marketing site carries the brand narrative (philosophy, founders, vision and
+mission); the vault is the product it introduces.
 
 It is a full application, not a prototype: a Node API with a SQLite database, a
 React client, real authentication, per-document encryption, family sharing,
@@ -44,11 +48,11 @@ npm run build && npm start   # production mode: the API serves the built client
 
 ```bash
 cp server/.env.example server/.env       # then fill in the two secrets
-docker build -t heritage-ledger .
-docker run -p 4000:4000 -v heritage-data:/data \
+docker build -t akshayvriddhi .
+docker run -p 4000:4000 -v akshayvriddhi-data:/data \
   -e SESSION_SECRET="$(openssl rand -base64 48)" \
   -e DOCUMENT_KEY="$(openssl rand -base64 48)" \
-  heritage-ledger
+  akshayvriddhi
 ```
 
 `DOCUMENT_KEY` is the master key every document key is derived from. **Losing it
@@ -114,7 +118,7 @@ covered.
 
 ```
 app/                 React client (Vite)
-  src/site/          Marketing site — landing page, founder profiles
+  src/site/          Marketing site — home, about, founders, brand copy
   src/auth/          Sign in, sign up, MFA, onboarding, invitation acceptance
   src/app/           The vault itself
 server/
@@ -133,8 +137,9 @@ Both are stated in the interface rather than hidden:
   and emergency notifications are recorded rather than delivered. Wiring a
   transport means implementing `deliver` in `server/src/services/notifications.js`
   and nothing else changes.
-- **Founder profiles are placeholders.** `app/src/site/content.js` carries the two
-  founders' real names and LinkedIn links; their biographies, experience and
-  photographs are empty scaffolding to be filled in from what they actually
-  provide. Drop headshots at `app/public/founders/<id>.jpg` and set
-  `placeholder: false`.
+- **Founder headshots are not in yet.** The biographies, quotes and narrative in
+  `app/src/site/content.js` are the founders' own words as supplied. The photos
+  are the one thing still missing: drop a square image at
+  `app/public/founders/shiv-maheshwari.jpg` and
+  `app/public/founders/vikram-rajput.jpg` and they appear automatically. Until
+  then the cards show a monogram, which reads as intentional rather than broken.

@@ -1,7 +1,7 @@
 # Design reference
 
-`DESIGN.md` is the Heritage Ledger design system as it came out of the design
-tool: colour roles, type scale, spacing rhythm, elevation, shape language and
+`DESIGN.md` is the Heritage Ledger design system — the visual language
+Akshayvriddhi is built on — as it came out of the design tool: colour roles, type scale, spacing rhythm, elevation, shape language and
 component rules.
 
 It is the source the implementation was built from. The tokens live in
@@ -14,7 +14,7 @@ supersedes. The screens they described map onto the implementation like this:
 
 | Design screen | Where it lives now |
 | --- | --- |
-| Landing page | `app/src/site/Landing.jsx` |
+| Landing page | `app/src/site/Home.jsx`, `app/src/site/About.jsx` |
 | Onboarding — personalisation, categories, final state | `app/src/auth/Onboarding.jsx` |
 | Vault dashboard | `app/src/app/Dashboard.jsx` |
 | Smart upload — drop zone, processing, review & save | `app/src/app/Upload.jsx` |

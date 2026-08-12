@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Card, Field, Icon, Input } from '../components/ui';
-import { Mark } from '../site/Landing';
+import { Wordmark } from '../site/SiteChrome';
+import { brand } from '../site/content';
 import { useAuth } from '../state/AuthContext';
 
 function AuthShell({ title, subtitle, children, footer }) {
@@ -9,9 +10,8 @@ function AuthShell({ title, subtitle, children, footer }) {
     <div style={{ minHeight: '100dvh', display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', background: 'var(--surface)' }}>
       <div className="container" style={{ display: 'grid', placeItems: 'center', padding: '48px 20px' }}>
         <div style={{ width: 'min(440px, 100%)' }} className="stack stack-md enter">
-          <Link to="/" className="row" style={{ gap: 10, color: 'var(--on-surface)', justifyContent: 'center' }}>
-            <Mark />
-            <strong style={{ fontFamily: 'var(--font-heading)', fontSize: 18 }}>Heritage Ledger</strong>
+          <Link to="/" className="row" style={{ justifyContent: 'center', color: 'var(--on-surface)' }}>
+            <Wordmark subtitle={brand.tagline} />
           </Link>
 
           <Card className="stack stack-md">
