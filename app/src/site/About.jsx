@@ -4,6 +4,7 @@ import { Card, Icon } from '../components/ui';
 import { SitePage } from './SiteChrome';
 import { breadcrumbSchema, useSeo } from '../lib/seo';
 import { FounderCard } from './Founders';
+import { Photo } from '../components/Photo';
 import {
   brand,
   founders,
@@ -204,6 +205,19 @@ function Founders() {
           <span className="caps" style={{ color: 'var(--primary)' }}>Meet the founders</span>
           <h2>Two journeys. One purpose.</h2>
         </div>
+
+        <figure style={{ margin: 0 }}>
+          <Photo
+            name="founders-at-work"
+            alt="Shiv Maheshwari and Vikram Rajput working through the founders’ vision — experience, perspective, purpose and impact — beneath the four stages on the wall behind them."
+            width={1400}
+            height={933}
+            sizes="(max-width: 900px) 100vw, 1120px"
+          />
+          <figcaption className="tiny muted" style={{ marginTop: 10 }}>
+            Experience, perspective, purpose and impact — the four ideas the practice is built on.
+          </figcaption>
+        </figure>
         <div className="stack stack-md">
           {founders.map((founder) => (
             <FounderCard key={founder.id} founder={founder} />

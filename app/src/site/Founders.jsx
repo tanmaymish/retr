@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Badge, Card, Icon } from '../components/ui';
+import { Portrait } from '../components/Photo';
 import { initials } from '../lib/format';
 
 /**
@@ -114,21 +115,11 @@ export function FounderPhoto({ founder, size = 96 }) {
   }
 
   return (
-    <img
-      src={founder.photo}
-      alt={founder.name}
-      width={size}
-      height={size}
-      loading="lazy"
+    <Portrait
+      name={founder.photo}
+      alt={`${founder.name}, ${founder.role} of Akshayvriddhi`}
+      size={size}
       onError={() => setFailed(true)}
-      style={{
-        width: size,
-        height: size,
-        borderRadius: 'var(--radius-full)',
-        objectFit: 'cover',
-        flex: 'none',
-        background: 'var(--surface-container)',
-      }}
     />
   );
 }

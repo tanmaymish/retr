@@ -3,6 +3,7 @@ import { Badge, Card, Icon } from '../components/ui';
 import { useAuth } from '../state/AuthContext';
 import { SitePage } from './SiteChrome';
 import { FounderCard } from './Founders';
+import { Photo } from '../components/Photo';
 import { CATEGORY_LIST } from '../lib/categories';
 import { faqSchema, organizationSchema, useSeo } from '../lib/seo';
 import { assurances, brand, faqs, founders, howItWorks, problems, stages } from './content';
@@ -66,9 +67,12 @@ function TrustBar() {
 
 function Hero({ user }) {
   return (
-    <section style={{ padding: '104px 0 88px' }}>
-      <div className="container">
-        <div style={{ maxWidth: 760 }} className="stack stack-md enter">
+    <section style={{ padding: '88px 0 80px' }}>
+      <div
+        className="container grid hero-grid"
+        style={{ gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 1fr)', alignItems: 'center', gap: 48 }}
+      >
+        <div className="stack stack-md enter">
           <Badge tone="primary" icon="verified">{brand.tagline}</Badge>
           <h1>
             What you build
@@ -91,6 +95,16 @@ function Hero({ user }) {
           </div>
           <p className="tiny muted" style={{ marginTop: 6 }}>{brand.stages}</p>
         </div>
+
+        {/* The four directions the brand is organised around, in one image. */}
+        <Photo
+          name="four-directions"
+          alt="A walker at a mountain path pausing at a signpost pointing towards clarity, protection, prosperity and legacy."
+          width={1400}
+          height={933}
+          priority
+          sizes="(max-width: 900px) 100vw, 620px"
+        />
       </div>
     </section>
   );
@@ -285,6 +299,14 @@ function FoundersTeaser() {
             question: what can everything we have learned now do for others?
           </p>
         </div>
+        <Photo
+          name="founders-at-work"
+          alt="Shiv Maheshwari and Vikram Rajput at a table, working through the founders’ vision beneath a wall showing the four stages: create, continue, consume, distribute."
+          width={1400}
+          height={933}
+          sizes="(max-width: 900px) 100vw, 1120px"
+        />
+
         <div className="grid grid-2">
           {founders.map((founder) => (
             <FounderCard key={founder.id} founder={founder} compact />

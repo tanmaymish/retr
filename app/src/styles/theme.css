@@ -265,3 +265,9 @@ select.input { appearance: none; background-image: none; cursor: pointer; paddin
     transition-duration: 0.01ms !important;
   }
 }
+
+/* The home hero is two columns on desktop and stacked on anything narrower,
+   with the photograph following the words rather than pushing them down. */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+}

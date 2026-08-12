@@ -6,9 +6,13 @@
  * not add claims — years, employers, achievements — that did not come from
  * them.
  *
- * Headshots: drop a square image (600×600 or larger) at
- * `app/public/founders/<id>.jpg`. Until one exists, the card falls back to a
- * monogram, which reads as intentional rather than broken.
+ * Headshots live at `app/public/founders/<photo>.{webp,jpg}` and are referenced
+ * by base name below. If a file is missing the card falls back to a monogram,
+ * which reads as intentional rather than broken.
+ *
+ * NAME-TO-FACE MAPPING IS UNVERIFIED. The two supplied headshots carried no
+ * identifying metadata, so the assignment below is an assumption. If it is the
+ * wrong way round, swap the two `photo` values — nothing else needs changing.
  */
 
 export const brand = {
@@ -25,7 +29,7 @@ export const founders = [
     role: 'Co-Founder',
     strapline: 'Insurance Leader • Strategist • Transformation Professional',
     linkedin: 'https://www.linkedin.com/in/shiv-maheshwari-68909a3a/',
-    photo: '/founders/shiv-maheshwari.jpg',
+    photo: 'shiv-maheshwari',
     experience: 'More than two decades in life insurance',
     bio: [
       'With more than two decades of leadership experience within the life insurance industry, Shiv Maheshwari brings to Akshayvriddhi a rare combination of strategic thinking, distribution expertise, organisational transformation and people leadership.',
@@ -49,7 +53,7 @@ export const founders = [
     role: 'Co-Founder',
     strapline: 'Insurance Professional • Distribution Leader • Relationship Builder',
     linkedin: 'https://www.linkedin.com/in/vikram-rajput-98310218/',
-    photo: '/founders/vikram-rajput.jpg',
+    photo: 'vikram-rajput',
     experience: 'Nearly two decades across insurance distribution',
     bio: [
       'Vikram Rajput brings nearly two decades of experience across insurance distribution, sales leadership, agency development, transformation and regional management.',

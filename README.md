@@ -137,9 +137,12 @@ Both are stated in the interface rather than hidden:
   and emergency notifications are recorded rather than delivered. Wiring a
   transport means implementing `deliver` in `server/src/services/notifications.js`
   and nothing else changes.
-- **Founder headshots are not in yet.** The biographies, quotes and narrative in
-  `app/src/site/content.js` are the founders' own words as supplied. The photos
-  are the one thing still missing: drop a square image at
-  `app/public/founders/shiv-maheshwari.jpg` and
-  `app/public/founders/vikram-rajput.jpg` and they appear automatically. Until
-  then the cards show a monogram, which reads as intentional rather than broken.
+- **The name-to-face mapping on the founder photographs is unverified.** The two
+  supplied headshots carried no identifying metadata, so which name sits under
+  which portrait is an assumption. If it is the wrong way round, swap the two
+  `photo` values in `app/src/site/content.js` — nothing else needs changing.
+
+Photographs live in `app/public/images` (scene) and `app/public/founders`
+(portraits), each as WebP with a JPEG fallback and a smaller variant for narrow
+screens. They were optimised once and committed; no image tooling runs at build
+time.
