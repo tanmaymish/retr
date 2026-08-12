@@ -21,6 +21,7 @@ import { documentRoutes } from './routes/documents.js';
 import { familyRoutes, inviteRoutes } from './routes/family.js';
 import { emergencyRoutes } from './routes/emergency.js';
 import { overviewRoutes } from './routes/overview.js';
+import { publicRoutes } from './routes/public.js';
 import { CATEGORIES } from './engine/categories.js';
 
 /**
@@ -69,6 +70,9 @@ export function createApp(options = {}) {
 
   api.use('/auth', authRoutes(ctx));
   api.use('/invites', inviteRoutes(ctx));
+  // The marketing surface: public endpoints, plus the admin-only lead inbox
+  // which guards itself.
+  api.use('/', publicRoutes(ctx));
 
   // Past this point a session must have cleared its MFA challenge. A
   // half-authenticated session can reach the auth routes above and nothing else.
@@ -96,8 +100,21 @@ export function createApp(options = {}) {
         },
       }),
     );
-    app.get(/^(?!\/api\/).*/, (_req, res) => {
+    // Marketing routes are prerendered at build time (app/scripts/prerender.mjs)
+    // so a crawler gets that page's own title, description and canonical rather
+    // than the shared shell. Anything else falls back to the SPA entry point.
+    app.get(/^(?!\/api\/).*/, (req, res) => {
       res.setHeader('Cache-Control', 'no-cache');
+
+      const slug = req.path === '/' ? 'index' : req.path.replace(/^\/|\/$/g, '');
+      if (/^[a-z0-9-]{1,60}$/.test(slug)) {
+        const prerendered = join(config.clientDir, `${slug}.html`);
+        if (existsSync(prerendered)) {
+          res.sendFile(prerendered);
+          return;
+        }
+      }
+
       res.sendFile(indexFile);
     });
   }

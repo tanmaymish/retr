@@ -26,6 +26,10 @@ const ACCOUNT = [
   { to: '/vault/security', label: 'Security', icon: 'shield' },
 ];
 
+// Shown only to admins. The API enforces the same rule, so hiding it here is
+// convenience rather than security.
+const ADMIN = [{ to: '/vault/enquiries', label: 'Enquiries', icon: 'inbox' }];
+
 export default function AppShell() {
   const { user } = useAuth();
   const location = useLocation();
@@ -59,6 +63,14 @@ export default function AppShell() {
           {ACCOUNT.map((item) => (
             <NavItem key={item.to} {...item} />
           ))}
+          {user?.isAdmin && (
+            <>
+              <span className="nav-group">Admin</span>
+              {ADMIN.map((item) => (
+                <NavItem key={item.to} {...item} />
+              ))}
+            </>
+          )}
         </nav>
 
         <div className="grow" />

@@ -1,8 +1,13 @@
+import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { Spinner } from './components/ui';
+import { trackPageView } from './lib/analytics';
 import { useAuth } from './state/AuthContext';
 import Home from './site/Home';
 import About from './site/About';
+import Contact from './site/Contact';
+import PreparednessCheck from './site/PreparednessCheck';
+import { NotFound, Privacy, Terms } from './site/Legal';
 import { MfaChallenge, SignIn, SignUp } from './auth/AuthPages';
 import InviteAccept from './auth/InviteAccept';
 import Onboarding from './auth/Onboarding';
@@ -18,12 +23,19 @@ import Activity from './app/Activity';
 import Reminders from './app/Reminders';
 import Timeline from './app/Timeline';
 import Security from './app/Security';
+import Leads from './app/Leads';
 
 export default function App() {
+  usePageViews();
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
+      <Route path="/preparedness-check" element={<PreparednessCheck />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/privacy" element={<Privacy />} />
+      <Route path="/terms" element={<Terms />} />
       <Route path="/sign-in" element={<GuestOnly><SignIn /></GuestOnly>} />
       <Route path="/create-vault" element={<GuestOnly><SignUp /></GuestOnly>} />
       <Route path="/verify" element={<MfaChallenge />} />
@@ -43,11 +55,20 @@ export default function App() {
         <Route path="shared" element={<Shared />} />
         <Route path="activity" element={<Activity />} />
         <Route path="security" element={<Security />} />
+        <Route path="enquiries" element={<Leads />} />
       </Route>
 
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
+}
+
+/** Client-side routing means page views are ours to report. */
+function usePageViews() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    trackPageView(pathname);
+  }, [pathname]);
 }
 
 /**

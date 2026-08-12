@@ -44,9 +44,10 @@ export function Wordmark({ size = 36, subtitle }) {
 
 const LINKS = [
   { to: '/about', label: 'About' },
-  { to: '/about#philosophy', label: 'Philosophy' },
   { to: '/about#founders', label: 'Founders' },
   { to: '/#vault', label: 'The vault' },
+  { to: '/preparedness-check', label: 'Preparedness check' },
+  { to: '/contact', label: 'Contact' },
 ];
 
 export function SiteHeader() {
@@ -110,6 +111,18 @@ export function SiteFooter() {
   return (
     <footer style={{ background: 'var(--surface-container)', padding: '48px 0 40px' }}>
       <div className="container stack stack-md">
+        <div
+          className="row-between wrap"
+          style={{
+            gap: 16,
+            padding: '28px 0 32px',
+            borderBottom: '1px solid var(--outline-variant)',
+            marginBottom: 12,
+          }}
+        >
+          <h3 style={{ fontSize: 24 }}>Have something worth protecting?</h3>
+          <Link to="/contact" className="btn">Start a conversation →</Link>
+        </div>
         <div className="row-between wrap" style={{ gap: 24, alignItems: 'flex-start' }}>
           <div className="stack" style={{ gap: 8, maxWidth: 340 }}>
             <Wordmark />
@@ -122,17 +135,21 @@ export function SiteFooter() {
               <Link to="/about">About us</Link>
               <Link to="/about#founders">Founders</Link>
               <Link to="/about#vision">Vision and mission</Link>
+              <Link to="/contact">Contact</Link>
             </div>
             <div className="stack" style={{ gap: 8 }}>
               <span className="tiny caps muted">The vault</span>
               <Link to="/#how">How it works</Link>
               <Link to="/#security">Security</Link>
+              <Link to="/preparedness-check">Preparedness check</Link>
               <Link to="/#faq">Questions</Link>
             </div>
             <div className="stack" style={{ gap: 8 }}>
               <span className="tiny caps muted">Account</span>
               <Link to="/sign-in">Sign in</Link>
               <Link to="/create-vault">Create your vault</Link>
+              <Link to="/privacy">Privacy</Link>
+              <Link to="/terms">Terms</Link>
             </div>
           </div>
         </div>

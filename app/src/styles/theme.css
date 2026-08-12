@@ -207,7 +207,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .input[aria-invalid='true'] { border-color: var(--error); }
 textarea.input { min-height: 96px; resize: vertical; }
-select.input { appearance: none; background-image: none; cursor: pointer; }
+select.input { appearance: none; background-image: none; cursor: pointer; padding-right: 38px; }
 .field-error { font-size: 13px; color: var(--error); }
 .field-hint { font-size: 13px; color: var(--on-surface-variant); }
 

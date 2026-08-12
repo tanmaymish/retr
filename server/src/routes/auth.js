@@ -519,6 +519,8 @@ export function publicUser(db, userId) {
     id: row.id,
     email: row.email,
     name: row.name,
+    role: row.role,
+    isAdmin: row.role === 'admin',
     vaultProfile: row.vault_profile,
     categories: JSON.parse(row.categories_json || '[]'),
     onboardingStep: row.onboarding_step,

@@ -1,4 +1,4 @@
-import { unauthorized } from '../lib/errors.js';
+import { forbidden, unauthorized } from '../lib/errors.js';
 
 /**
  * Attaches req.session / req.user when a valid session cookie is present.
@@ -15,7 +15,7 @@ export function loadSession(ctx) {
 
     const user = ctx.db
       .prepare(
-        `SELECT id, email, name, vault_profile, onboarding_step, waiting_period_days,
+        `SELECT id, email, name, role, vault_profile, onboarding_step, waiting_period_days,
                 mfa_enabled, created_at, password_changed_at
            FROM users WHERE id = ?`,
       )
@@ -32,4 +32,14 @@ export function loadSession(ctx) {
 export function requireAuth(req, _res, next) {
   if (!req.user) return next(unauthorized());
   next();
+}
+
+/** Guards the admin-only surface. Roles are set in the database, never by request. */
+export function requireRole(...roles) {
+  const allowed = new Set(roles);
+  return function requireRoleMiddleware(req, _res, next) {
+    if (!req.user) return next(unauthorized());
+    if (!allowed.has(req.user.role)) return next(forbidden());
+    next();
+  };
 }

@@ -1,10 +1,13 @@
 {
-  "name": "heritage-ledger",
+  "name": "akshayvriddhi",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Heritage Ledger — a secure family digital vault: encrypted documents, family sharing, trustees and a time-locked emergency access protocol.",
-  "workspaces": ["app", "server"],
+  "description": "Akshayvriddhi \u2014 prosperity with purpose. Brand site, preparedness check, and a secure family document vault with trustees and time-locked emergency access.",
+  "workspaces": [
+    "app",
+    "server"
+  ],
   "engines": {
     "node": ">=22"
   },

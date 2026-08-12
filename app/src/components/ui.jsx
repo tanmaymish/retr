@@ -54,10 +54,12 @@ export function Input({ error, ...rest }) {
   return <input className="input" aria-invalid={error ? 'true' : undefined} {...rest} />;
 }
 
-export function Select({ error, children, ...rest }) {
+export function Select({ error, children, style, ...rest }) {
+  // The chevron is positioned against the wrapper, so the wrapper has to take
+  // any width the caller passes — otherwise the icon floats away from the box.
   return (
-    <div style={{ position: 'relative' }}>
-      <select className="input" aria-invalid={error ? 'true' : undefined} {...rest}>
+    <div style={{ position: 'relative', width: style?.width ?? '100%' }}>
+      <select className="input" aria-invalid={error ? 'true' : undefined} style={style} {...rest}>
         {children}
       </select>
       <Icon

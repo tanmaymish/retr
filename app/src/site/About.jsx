@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Card, Icon } from '../components/ui';
 import { SitePage } from './SiteChrome';
+import { breadcrumbSchema, useSeo } from '../lib/seo';
 import { FounderCard } from './Founders';
 import {
   brand,
@@ -20,6 +21,16 @@ import {
  */
 export default function About() {
   const { hash } = useLocation();
+  useSeo({
+    title: 'About',
+    description:
+      'Akshayvriddhi begins with experience. The philosophy, the founders, and why an institution built on listening rather than selling.',
+    path: '/about',
+    jsonLd: breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'About', path: '/about' },
+    ]),
+  });
 
   // Deep links from the nav (#founders, #philosophy) need to scroll themselves:
   // the router changes the hash without reloading the document.

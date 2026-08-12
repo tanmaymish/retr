@@ -17,6 +17,8 @@ CREATE TABLE IF NOT EXISTS users (
                            CHECK (onboarding_step IN ('personalization', 'categories', 'done')),
   -- Days a trustee's emergency request must wait before access opens.
   waiting_period_days    INTEGER NOT NULL DEFAULT 14 CHECK (waiting_period_days BETWEEN 1 AND 90),
+  -- 'admin' additionally sees the leads the marketing site captures.
+  role                   TEXT NOT NULL DEFAULT 'member' CHECK (role IN ('member', 'admin')),
   mfa_secret             TEXT,
   mfa_enabled            INTEGER NOT NULL DEFAULT 0 CHECK (mfa_enabled IN (0, 1)),
   mfa_enrolled_at        TEXT,
@@ -214,3 +216,30 @@ CREATE TABLE IF NOT EXISTS audit_log (
   created_at  TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_audit_user ON audit_log(user_id, created_at);
+
+-- Enquiries from the marketing site. Deliberately separate from vault data:
+-- a lead is not an account, and nothing here is ever joined to a user's
+-- documents.
+CREATE TABLE IF NOT EXISTS leads (
+  id              TEXT PRIMARY KEY,
+  name            TEXT NOT NULL,
+  email           TEXT NOT NULL,
+  phone           TEXT,
+  household       TEXT,
+  interests_json  TEXT NOT NULL DEFAULT '[]',
+  timeframe       TEXT,
+  message         TEXT,
+  source          TEXT NOT NULL DEFAULT 'contact'
+                    CHECK (source IN ('contact', 'preparedness_check', 'call_request')),
+  -- The check score that prompted the enquiry, when there was one. Never the
+  -- answers themselves — those are not stored anywhere.
+  check_score     INTEGER,
+  status          TEXT NOT NULL DEFAULT 'new'
+                    CHECK (status IN ('new', 'contacted', 'qualified', 'closed', 'archived')),
+  notes           TEXT,
+  ip              TEXT,
+  user_agent      TEXT,
+  created_at      TEXT NOT NULL,
+  updated_at      TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_leads_status ON leads(status, created_at);

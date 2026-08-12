@@ -163,3 +163,48 @@ export const activityQuerySchema = z.object({
   limit: z.coerce.number().int().min(1).max(200).default(50),
   before: z.string().max(40).optional(),
 });
+
+/* ── Marketing site ───────────────────────────────────────────────────────── */
+
+/** The six answers. Bands, never amounts — no personal figures are collected. */
+export const preparednessSchema = z.object({
+  dependants: z.enum(['none', 'partner', 'children', 'parents', 'multiple']),
+  life_cover: z.enum(['none', 'employer', 'personal', 'both', 'unsure']),
+  health_cover: z.enum(['none', 'employer', 'family_floater', 'both', 'unsure']),
+  reserve: z.enum(['none', 'under_three', 'three_six', 'six_plus']),
+  findable: z.enum(['no', 'some', 'most', 'yes']),
+  intentions: z.enum(['none', 'nominations', 'will_drafted', 'will_registered']),
+});
+
+export const leadSchema = z.object({
+  name: text(80),
+  email: emailSchema,
+  phone: z
+    .string()
+    .trim()
+    .regex(/^[+0-9 ()-]{7,20}$/, 'Enter a phone number we can actually dial.')
+    .nullable()
+    .optional(),
+  household: z.enum(['me', 'me_partner', 'family', 'parents', 'other']).nullable().optional(),
+  interests: z
+    .array(z.enum(['protection_review', 'goal_planning', 'legacy_structuring', 'the_vault', 'something_else']))
+    .max(5)
+    .default([]),
+  timeframe: z.enum(['now', 'this_quarter', 'this_year', 'exploring']).nullable().optional(),
+  message: optionalText(2000),
+  source: z.enum(['contact', 'preparedness_check', 'call_request']).default('contact'),
+  // Carried through from the check so the team can see what prompted the call.
+  checkScore: z.number().int().min(0).max(100).nullable().optional(),
+  // Honeypot: a real person never fills a hidden field.
+  website: z.string().max(0, 'Rejected.').optional(),
+});
+
+export const leadPatchSchema = z.object({
+  status: z.enum(['new', 'contacted', 'qualified', 'closed', 'archived']).optional(),
+  notes: optionalText(2000),
+});
+
+export const leadQuerySchema = z.object({
+  status: z.enum(['new', 'contacted', 'qualified', 'closed', 'archived']).optional(),
+  limit: z.coerce.number().int().min(1).max(200).default(100),
+});

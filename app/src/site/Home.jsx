@@ -4,14 +4,23 @@ import { useAuth } from '../state/AuthContext';
 import { SitePage } from './SiteChrome';
 import { FounderCard } from './Founders';
 import { CATEGORY_LIST } from '../lib/categories';
+import { faqSchema, organizationSchema, useSeo } from '../lib/seo';
 import { assurances, brand, faqs, founders, howItWorks, problems, stages } from './content';
 
 export default function Home() {
   const { user } = useAuth();
+  useSeo({
+    title: null,
+    description:
+      'Akshayvriddhi — prosperity with purpose. Protection advice grounded in two decades of insurance experience, and a secure family vault for the documents your family may need.',
+    path: '/',
+    jsonLd: { '@context': 'https://schema.org', '@graph': [organizationSchema, faqSchema(faqs)] },
+  });
 
   return (
     <SitePage>
       <Hero user={user} />
+      <TrustBar />
       <Stages />
       <Problems />
       <VaultIntro />
@@ -22,6 +31,36 @@ export default function Home() {
       <Faqs />
       <ClosingCta />
     </SitePage>
+  );
+}
+
+/**
+ * Credibility, stated in facts that can be checked rather than invented
+ * statistics. Every line here is either the founders' own stated experience or
+ * something the software verifiably does.
+ */
+function TrustBar() {
+  const facts = [
+    { value: 'Two decades', label: 'each, in life insurance', note: 'Shiv Maheshwari and Vikram Rajput' },
+    { value: 'AES-256-GCM', label: 'per document', note: 'Its own key, before it touches disk' },
+    { value: '14 days', label: 'trustee waiting period', note: 'And you can stop it at any point' },
+    { value: '9', label: 'categories covered', note: 'Identity through to legacy' },
+  ];
+
+  return (
+    <section style={{ borderTop: '1px solid var(--outline-variant)', borderBottom: '1px solid var(--outline-variant)' }}>
+      <div className="container grid grid-4" style={{ padding: '32px 20px' }}>
+        {facts.map((fact) => (
+          <div key={fact.label} className="stack" style={{ gap: 2 }}>
+            <strong style={{ fontFamily: 'var(--font-heading)', fontSize: 26, color: 'var(--primary)' }}>
+              {fact.value}
+            </strong>
+            <span className="small">{fact.label}</span>
+            <span className="tiny muted">{fact.note}</span>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -42,11 +81,13 @@ function Hero({ user }) {
             to continue tomorrow.
           </p>
           <div className="row wrap" style={{ gap: 12, marginTop: 8 }}>
-            <Link to={user ? '/vault' : '/create-vault'} className="btn">
-              {user ? 'Open my vault' : 'Create your vault'}
+            <Link to="/preparedness-check" className="btn">
+              Take the preparedness check
               <Icon name="arrow_forward" size={18} />
             </Link>
-            <Link to="/about" className="btn btn-secondary">Why we built this</Link>
+            <Link to={user ? '/vault' : '/create-vault'} className="btn btn-secondary">
+              {user ? 'Open my vault' : 'Create your vault'}
+            </Link>
           </div>
           <p className="tiny muted" style={{ marginTop: 6 }}>{brand.stages}</p>
         </div>

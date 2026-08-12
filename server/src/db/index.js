@@ -22,8 +22,28 @@ export function openDatabase(config) {
   db.pragma('synchronous = NORMAL');
 
   db.exec(readFileSync(join(here, 'schema.sql'), 'utf8'));
+  applyColumnMigrations(db);
 
   return db;
+}
+
+/**
+ * CREATE TABLE IF NOT EXISTS does nothing to a table that already exists, so
+ * columns added after a database was first created are applied here. Each entry
+ * is checked against the live schema and added only when missing, which makes
+ * this safe to run on every start.
+ */
+function applyColumnMigrations(db) {
+  const migrations = [
+    { table: 'users', column: 'role', definition: "TEXT NOT NULL DEFAULT 'member'" },
+  ];
+
+  for (const { table, column, definition } of migrations) {
+    const columns = db.prepare(`PRAGMA table_info(${table})`).all();
+    if (!columns.length) continue;
+    if (columns.some((c) => c.name === column)) continue;
+    db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
+  }
 }
 
 /** Deletes sessions that expired or were revoked more than a day ago. */
