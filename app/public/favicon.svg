@@ -1,13 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-  <rect width="64" height="64" fill="#faf6ee"/>
-  <g transform="translate(2 4) scale(0.433)">
-    <circle cx="60" cy="6" r="3.4" fill="#1c2b45"/>
-    <g stroke="#c9a668" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" fill="none">
-      <path d="M60,95 Q44,55 60,16 Q76,55 60,95"/>
-      <path d="M60,95 Q24,68 28,30 Q52,58 60,95"/>
-      <path d="M60,95 Q96,68 92,30 Q68,58 60,95"/>
-      <path d="M60,95 Q10,83 12,52 Q40,74 60,95"/>
-      <path d="M60,95 Q110,83 108,52 Q80,74 60,95"/>
-    </g>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Heritage Ledger">
+  <rect width="64" height="64" rx="14" fill="#000666" />
+  <path
+    d="M32 13 46 19v12c0 9.2-5.9 17.4-14 20-8.1-2.6-14-10.8-14-20V19l14-6Z"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="3.5"
+    stroke-linejoin="round"
+  />
+  <path d="M26 32.5 30.5 37 39 28" fill="none" stroke="#a3f69c" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
 </svg>
