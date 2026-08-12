@@ -1,51 +1,72 @@
-/* Akshayvriddhi — design tokens, from the Heritage Ledger design system
-   (see design/DESIGN.md). Midnight Indigo on Warm Ivory: institutional trust
-   without the coldness of fintech. Manrope carries structure, Plus Jakarta
-   Sans carries everything a person actually reads. */
+/* Akshayvriddhi — design tokens, taken from the logo.
+   Every colour below was sampled out of the artwork in app/public/brand: the
+   maroon of the crescent and the wordmark, the gold of the rising arrow and
+   the bars, and the cream the whole lockup is drawn on. Maroon carries action
+   and identity, gold is the accent that marks growth and anything asking for
+   attention, cream is the ground.
+
+   Type follows the same source. The lockup is set in wide serif capitals, so
+   Cinzel carries the wordmark; Manrope carries structure and Plus Jakarta Sans
+   carries everything a person actually reads.
+
+   This is a single, committed light theme. There is no dark variant, and the
+   background is always painted explicitly. */
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
 
 :root {
-  --surface: #fcf9f8;
-  --surface-dim: #dcd9d9;
-  --surface-lowest: #ffffff;
-  --surface-low: #f6f3f2;
-  --surface-container: #f0eded;
-  --surface-high: #eae7e7;
-  --surface-highest: #e4e2e1;
+  /* The cream the logo sits on, stepped down into surfaces. */
+  --surface: #fbf6ec;
+  --surface-dim: #ded4c0;
+  --surface-lowest: #fffdf7;
+  --surface-low: #f7f1e5;
+  --surface-container: #f2ebdd;
+  --surface-high: #ece4d4;
+  --surface-highest: #e6ddca;
 
-  --on-surface: #1b1c1c;
-  --on-surface-variant: #454652;
-  --outline: #767683;
-  --outline-variant: #c6c5d4;
+  --on-surface: #24161a;
+  --on-surface-variant: #5a4a4c;
+  --outline: #8b7873;
+  --outline-variant: #ded1c2;
 
-  --primary: #000666;
-  --on-primary: #ffffff;
-  --primary-container: #1a237e;
-  --on-primary-container: #8690ee;
-  --primary-fixed: #e0e0ff;
-  --primary-fixed-dim: #bdc2ff;
-  --on-primary-fixed-variant: #343d96;
+  /* Maroon: the crescent and the wordmark. */
+  --primary: #661426;
+  --on-primary: #fffaf3;
+  --primary-container: #4a0d1a;
+  --on-primary-container: #e6b7bf;
+  --primary-fixed: #f6e3e6;
+  /* Gold on the maroon band — the arrow against the crescent. */
+  --primary-fixed-dim: #d9a95f;
+  --on-primary-fixed-variant: #8a2338;
 
-  --secondary: #5e5f5c;
-  --secondary-container: #e0e0dc;
+  --secondary: #6b5a4a;
+  --secondary-container: #ece2d2;
 
-  --tertiary: #002103;
-  --tertiary-container: #a3f69c;
-  --on-tertiary-container: #005312;
+  /* Gold: the arrow, the bars, the hairline rules. */
+  --gold: #b8863f;
+  --gold-ink: #85591d;
+  --gold-surface: #f8eeda;
+
+  --tertiary: #14301a;
+  --tertiary-container: #cfe6c9;
+  --on-tertiary-container: #24512c;
   --sage: #2f6b3a;
-  --sage-surface: #e7f4e6;
+  --sage-surface: #e8f2e2;
 
-  --amber: #8a5a00;
-  --amber-surface: #fdf1dc;
+  /* Attention is the brand's own gold; it has to read as warning, not error. */
+  --amber: #85591d;
+  --amber-surface: #f8eeda;
 
-  --error: #ba1a1a;
-  --on-error: #ffffff;
-  --error-container: #ffdad6;
-  --on-error-container: #93000a;
+  /* Brighter and warmer than the maroon, so an error never reads as branding. */
+  --error: #b3261e;
+  --on-error: #fffaf3;
+  --error-container: #f9d5cd;
+  --on-error-container: #7d160e;
 
   --font-heading: 'Manrope', system-ui, sans-serif;
   --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-display: 'Cinzel', 'Times New Roman', serif;
 
   --radius-sm: 0.25rem;
   --radius: 0.5rem;
@@ -60,10 +81,10 @@
   --stack-lg: 48px;
   --page-max: 1200px;
 
-  /* Tonal layering with indigo-tinted ambient shadows. */
-  --elev-1: 0 4px 20px rgba(0, 6, 102, 0.04);
-  --elev-2: 0 12px 40px rgba(0, 6, 102, 0.08);
-  --elev-hover: 0 2px 24px rgba(0, 6, 102, 0.09);
+  /* Tonal layering with maroon-tinted ambient shadows. */
+  --elev-1: 0 4px 20px rgba(74, 13, 26, 0.05);
+  --elev-2: 0 12px 40px rgba(74, 13, 26, 0.10);
+  --elev-hover: 0 2px 24px rgba(74, 13, 26, 0.12);
 
   --spring: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -151,7 +172,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   border-radius: var(--radius-lg);
   padding: 24px;
   box-shadow: var(--elev-1);
-  border: 1px solid rgba(0, 6, 102, 0.04);
+  border: 1px solid rgba(74, 13, 26, 0.06);
 }
 .card-flat { background: var(--surface-low); box-shadow: none; }
 .card-link { display: block; color: inherit; transition: box-shadow 0.25s var(--spring), transform 0.25s var(--spring); }
@@ -203,7 +224,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(0, 6, 102, 0.1);
+  box-shadow: 0 0 0 3px rgba(102, 20, 38, 0.14);
 }
 .input[aria-invalid='true'] { border-color: var(--error); }
 textarea.input { min-height: 96px; resize: vertical; }
@@ -228,14 +249,68 @@ select.input { appearance: none; background-image: none; cursor: pointer; paddin
   white-space: nowrap;
 }
 .badge .material-symbols-rounded { font-size: 14px; }
+/* A badge carrying a sentence rather than a word has to be allowed to wrap,
+   or it pushes its card off the side of a phone screen. */
+.badge-wrap { white-space: normal; text-align: left; }
 .badge-verified { background: var(--sage-surface); color: var(--sage); }
 .badge-ai { background: var(--primary-fixed); color: var(--on-primary-fixed-variant); }
-.badge-pending { background: var(--amber-surface); color: var(--amber); }
-.badge-danger { background: var(--error-container); color: var(--on-error-container); }
+.badge-pending { background: var(--gold-surface); color: var(--gold-ink); }
+/* In a maroon palette a pale-red pill sits close to the brand's own rose tint,
+   so danger is given an outline as well as a hue: it separates by shape, which
+   also survives colour blindness. */
+.badge-danger {
+  background: var(--error-container);
+  color: var(--on-error-container);
+  box-shadow: inset 0 0 0 1px rgba(179, 38, 30, 0.35);
+}
 .badge-primary { background: var(--primary-fixed); color: var(--primary); }
+.badge-gold { background: var(--gold-surface); color: var(--gold-ink); }
 
 /* ── Misc ───────────────────────────────────────────────────────────────── */
 .divider { height: 1px; background: var(--outline-variant); opacity: 0.5; border: 0; margin: 0; }
+
+/* The lockup's own divider: a gold hairline broken by a diamond. Used to
+   separate sections the way the logo separates the name from the sub-line. */
+.rule-gold {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 0;
+  margin: 0;
+  color: var(--gold);
+}
+.rule-gold::before,
+.rule-gold::after {
+  content: '';
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  opacity: 0.55;
+}
+.rule-gold::marker { content: none; }
+.rule-gold > span {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-ink);
+}
+/* As an eyebrow the rule only trails, so the label stays flush with the
+   heading below it. */
+.rule-gold.lead::before { display: none; }
+.rule-gold.on-dark,
+.rule-gold.on-dark > span { color: var(--primary-fixed-dim); }
+.diamond { color: var(--gold); font-size: 10px; line-height: 1; }
+
+/* Wide serif capitals, as the lockup sets the name. */
+.wordmark-type {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
 
 .empty {
   display: flex;

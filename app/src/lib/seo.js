@@ -26,6 +26,8 @@ export function useSeo({ title, description, path, type = 'website', jsonLd, noI
     setMeta('property', 'og:type', type);
     setMeta('property', 'og:url', url);
     setMeta('property', 'og:site_name', SITE_NAME);
+    setMeta('property', 'og:image', `${origin}/brand/og.png`);
+    setMeta('name', 'twitter:image', `${origin}/brand/og.png`);
     setMeta('name', 'twitter:card', 'summary_large_image');
     setMeta('name', 'twitter:title', fullTitle);
     setMeta('name', 'twitter:description', desc);
@@ -74,6 +76,7 @@ export const organizationSchema = {
   name: SITE_NAME,
   slogan: 'Prosperity with Purpose',
   description: DEFAULT_DESCRIPTION,
+  logo: '/brand/logo.png',
   areaServed: 'IN',
   founder: [
     {

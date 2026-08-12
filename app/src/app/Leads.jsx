@@ -82,6 +82,13 @@ export default function Leads() {
   );
 }
 
+/** Where the enquiry came from, so the inbox reads at a glance. */
+const SOURCE = {
+  contact: { icon: 'mail', background: 'var(--surface-container)', label: 'Contact form' },
+  preparedness_check: { icon: 'fact_check', background: 'var(--primary-fixed)', label: 'Preparedness check' },
+  call_request: { icon: 'call', background: 'var(--gold-surface)', label: 'Asked for a call' },
+};
+
 function LeadCard({ lead, onUpdate }) {
   const [open, setOpen] = useState(false);
   const [notes, setNotes] = useState(lead.notes ?? '');
@@ -95,14 +102,14 @@ function LeadCard({ lead, onUpdate }) {
               width: 42,
               height: 42,
               borderRadius: 'var(--radius-md)',
-              background: lead.source === 'preparedness_check' ? 'var(--primary-fixed)' : 'var(--surface-container)',
+              background: SOURCE[lead.source]?.background ?? 'var(--surface-container)',
               color: 'var(--primary)',
               display: 'grid',
               placeItems: 'center',
               flex: 'none',
             }}
           >
-            <Icon name={lead.source === 'preparedness_check' ? 'fact_check' : 'mail'} size={20} />
+            <Icon name={SOURCE[lead.source]?.icon ?? 'mail'} size={20} />
           </span>
           <div className="stack" style={{ gap: 3 }}>
             <strong>{lead.name}</strong>
@@ -110,7 +117,9 @@ function LeadCard({ lead, onUpdate }) {
               {lead.email}
               {lead.phone ? ` · ${lead.phone}` : ''}
             </span>
-            <span className="tiny muted">{relativeTime(lead.createdAt)}</span>
+            <span className="tiny muted">
+              {SOURCE[lead.source]?.label ?? lead.source} · {relativeTime(lead.createdAt)}
+            </span>
           </div>
         </div>
 

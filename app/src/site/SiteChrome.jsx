@@ -2,40 +2,43 @@ import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Icon } from '../components/ui';
 import { useAuth } from '../state/AuthContext';
-import { brand } from './content';
+import { CallbackPopup, requestCallback } from './CallbackPopup';
+import { brand, site } from './content';
 
-/** The wordmark. Used on the site, the auth screens and the app shell. */
-export function Mark({ size = 36 }) {
+/**
+ * The emblem from the logo: the crescent, the figure, the rising arrow and the
+ * bars. `size` is its height; the artwork keeps its own proportions.
+ * Decorative by default, because the name is set beside it in text.
+ */
+export function Mark({ size = 36, alt = '' }) {
   return (
-    <span
-      style={{
-        width: size,
-        height: size,
-        borderRadius: 'var(--radius-md)',
-        background: 'var(--primary)',
-        color: 'var(--on-primary)',
-        display: 'grid',
-        placeItems: 'center',
-        fontFamily: 'var(--font-heading)',
-        fontWeight: 700,
-        fontSize: size * 0.38,
-        letterSpacing: '-0.02em',
-        flex: 'none',
-      }}
-    >
-      AV
-    </span>
+    <img
+      src="/brand/mark.png"
+      alt={alt}
+      width={Math.round(size * 0.859)}
+      height={size}
+      style={{ height: size, width: 'auto', flex: 'none', display: 'block' }}
+    />
   );
 }
 
-export function Wordmark({ size = 36, subtitle }) {
+/** The full lockup — emblem, name, IMF line — as supplied by the founders. */
+export function Lockup({ width = 260 }) {
   return (
-    <span className="row" style={{ gap: 10 }}>
+    <img
+      src="/brand/logo.png"
+      alt={`${brand.name} — ${brand.tagline}`}
+      style={{ width, maxWidth: '100%', height: 'auto', display: 'block' }}
+    />
+  );
+}
+
+export function Wordmark({ size = 44, subtitle }) {
+  return (
+    <span className="row" style={{ gap: 12 }}>
       <Mark size={size} />
-      <span className="stack" style={{ gap: 0 }}>
-        <strong style={{ fontFamily: 'var(--font-heading)', fontSize: 17, letterSpacing: '-0.01em' }}>
-          {brand.name}
-        </strong>
+      <span className="stack" style={{ gap: 2 }}>
+        <strong className="wordmark-type" style={{ fontSize: Math.max(14, size * 0.35) }}>{brand.name}</strong>
         {subtitle && <span className="tiny muted">{subtitle}</span>}
       </span>
     </span>
@@ -60,14 +63,21 @@ export function SiteHeader() {
         position: 'sticky',
         top: 0,
         zIndex: 40,
-        background: 'rgba(252, 249, 248, 0.88)',
+        background: 'rgba(251, 246, 236, 0.9)',
         backdropFilter: 'blur(12px)',
         borderBottom: '1px solid var(--outline-variant)',
       }}
     >
       <div className="container row-between" style={{ height: 72 }}>
+        {/* Narrow screens get the emblem alone: the name set in wide capitals
+            is too long to share a 390px bar with the call to action. */}
         <Link to="/" style={{ color: 'var(--on-surface)' }}>
-          <Wordmark subtitle={brand.tagline} />
+          <span className="hide-mobile">
+            <Wordmark subtitle={brand.tagline} />
+          </span>
+          <span className="show-mobile">
+            <Mark size={40} alt={brand.name} />
+          </span>
         </Link>
 
         <nav className="row hide-mobile" style={{ gap: 28 }} aria-label="Primary">
@@ -81,13 +91,18 @@ export function SiteHeader() {
         <div className="row" style={{ gap: 10 }}>
           {user ? (
             <Link to="/vault" className="btn btn-sm">Open my vault</Link>
-          ) : (
+          ) : site.vaultLaunched ? (
             <>
               <Link to="/sign-in" className="small hide-mobile" style={{ color: 'var(--on-surface)' }}>
                 Sign in
               </Link>
               <Link to="/create-vault" className="btn btn-sm">Create your vault</Link>
             </>
+          ) : (
+            <button type="button" className="btn btn-sm" onClick={requestCallback}>
+              <Icon name="call" size={18} />
+              Request a call
+            </button>
           )}
           <button className="btn btn-ghost show-mobile" onClick={() => setOpen((v) => !v)} aria-label="Menu">
             <Icon name={open ? 'close' : 'menu'} />
@@ -124,8 +139,8 @@ export function SiteFooter() {
           <Link to="/contact" className="btn">Start a conversation →</Link>
         </div>
         <div className="row-between wrap" style={{ gap: 24, alignItems: 'flex-start' }}>
-          <div className="stack" style={{ gap: 8, maxWidth: 340 }}>
-            <Wordmark />
+          <div className="stack" style={{ gap: 12, maxWidth: 340 }}>
+            <Lockup width={260} />
             <p className="small muted">{brand.promise}</p>
             <p className="tiny muted">{brand.stages}</p>
           </div>
@@ -147,13 +162,17 @@ export function SiteFooter() {
             <div className="stack" style={{ gap: 8 }}>
               <span className="tiny caps muted">Account</span>
               <Link to="/sign-in">Sign in</Link>
-              <Link to="/create-vault">Create your vault</Link>
+              <Link to="/create-vault">
+                {site.vaultLaunched ? 'Create your vault' : 'Create a vault (preview)'}
+              </Link>
               <Link to="/privacy">Privacy</Link>
               <Link to="/terms">Terms</Link>
             </div>
           </div>
         </div>
-        <hr className="divider" />
+        <div className="rule-gold" role="separator">
+          <span className="diamond" aria-hidden="true">✦</span>
+        </div>
         <p className="tiny muted">
           © {new Date().getFullYear()} {brand.name}. {brand.tagline}.
         </p>
@@ -169,6 +188,7 @@ export function SitePage({ children }) {
       <SiteHeader />
       {children}
       <SiteFooter />
+      <CallbackPopup />
     </div>
   );
 }

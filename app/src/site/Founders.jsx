@@ -15,13 +15,15 @@ export function FounderCard({ founder, compact = false }) {
     <Card className="stack stack-md" id={compact ? undefined : founder.id}>
       <div className="row" style={{ gap: 18, alignItems: 'flex-start' }}>
         <FounderPhoto founder={founder} size={compact ? 76 : 96} />
-        <div className="stack" style={{ gap: 5 }}>
+        {/* `grow` carries min-width: 0 — without it the strapline refuses to
+            wrap and pushes the card past the edge of a phone screen. */}
+        <div className="stack grow" style={{ gap: 5 }}>
           <h3 style={{ fontSize: compact ? 20 : 24 }}>{founder.name}</h3>
           <span className="small" style={{ fontWeight: 600, color: 'var(--primary)' }}>{founder.role}</span>
           <span className="tiny muted">{founder.strapline}</span>
           {founder.experience && (
             <span style={{ marginTop: 4 }}>
-              <Badge tone="verified" icon="workspace_premium">{founder.experience}</Badge>
+              <Badge tone="verified" icon="workspace_premium" wrap>{founder.experience}</Badge>
             </span>
           )}
         </div>

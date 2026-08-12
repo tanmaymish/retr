@@ -1,12 +1,31 @@
 # Design reference
 
-`DESIGN.md` is the Heritage Ledger design system — the visual language
-Akshayvriddhi is built on — as it came out of the design tool: colour roles, type scale, spacing rhythm, elevation, shape language and
+`DESIGN.md` is the Heritage Ledger design system — as it came out of the design
+tool: colour roles, type scale, spacing rhythm, elevation, shape language and
 component rules.
 
-It is the source the implementation was built from. The tokens live in
-[`app/src/styles/theme.css`](../app/src/styles/theme.css) — if you change a
-colour or a radius, change it there and the whole app follows.
+**Its palette is superseded.** The structure below — the token names, the type
+scale, the spacing rhythm, the shape and elevation language — is still what the
+app implements. The colours are not: every colour is now sampled from the
+founders' logo (`app/public/brand/logo.png`), so the app runs on maroon, gold
+and cream rather than the original Midnight Indigo on Warm Ivory. Read the
+colour block below as history, and
+[`app/src/styles/theme.css`](../app/src/styles/theme.css) as the truth.
+
+The tokens live in that one file — if you change a colour or a radius, change it
+there and the whole app follows.
+
+## The brand assets
+
+`app/public/brand/` holds the logo, cut out of the supplied artwork with its
+cream background made transparent, plus the emblem on its own, the favicons and
+the Open Graph card. The palette comes from that same artwork:
+
+| Token | Colour | Where it comes from |
+| --- | --- | --- |
+| `--primary` | `#661426` | The crescent and the wordmark |
+| `--gold` | `#b8863f` | The rising arrow and the bars |
+| `--surface` | `#fbf6ec` | The ground the lockup is drawn on |
 
 The original screen exports (one `code.html` and a `screen.png` per screen) are
 not committed: they are roughly 6 MB of prototype markup that the built app

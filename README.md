@@ -142,7 +142,34 @@ Both are stated in the interface rather than hidden:
   which portrait is an assumption. If it is the wrong way round, swap the two
   `photo` values in `app/src/site/content.js` — nothing else needs changing.
 
+- **The logo spells the name `Akshay Vridhi`; the site spells it
+  `Akshayvriddhi`.** Both appear on the page — the lockup in the footer, the
+  text everywhere else — so one of them is wrong and only the founders can say
+  which. The text spelling is a single string: `brand.name` in
+  `app/src/site/content.js`. The `IMF` line in the lockup is likewise carried as
+  artwork only; no IRDAI registration number is claimed anywhere, and none
+  should be added without the certificate to back it.
+
 Photographs live in `app/public/images` (scene) and `app/public/founders`
 (portraits), each as WebP with a JPEG fallback and a smaller variant for narrow
 screens. They were optimised once and committed; no image tooling runs at build
 time.
+
+## The brand
+
+The palette is not a taste decision — every colour is sampled from the founders'
+logo, which lives in `app/public/brand`:
+
+| | |
+| --- | --- |
+| Maroon `#661426` | The crescent and the wordmark. Actions, links, identity |
+| Gold `#b8863f` | The rising arrow and the bars. Accents, rules, anything asking for attention |
+| Cream `#fbf6ec` | The ground the lockup is drawn on. Every surface steps down from it |
+
+The supplied artwork had that cream painted in as a background; it was cut out
+so the logo composites onto any surface, and the emblem was separated from the
+lockup for use at small sizes and as the favicon. The lockup sets the name in
+wide serif capitals, so Cinzel carries the wordmark while Manrope and Plus
+Jakarta Sans carry the rest.
+
+It is a single committed light theme. There is no dark variant.

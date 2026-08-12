@@ -115,7 +115,9 @@ for (const route of ROUTES) {
     .replace(
       /<meta\s+property="og:description"[^>]*>/,
       `<meta property="og:description" content="${escapeHtml(route.description)}" />`,
-    );
+    )
+    // Crawlers resolve og:image against nothing, so it has to be absolute.
+    .replace(/content="\/brand\/og\.png"/g, `content="${SITE}/brand/og.png"`);
 
   html = html.replace(
     '</head>',

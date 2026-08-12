@@ -22,6 +22,19 @@ export const brand = {
   stages: 'Create. Continue. Live. Leave a Legacy.',
 };
 
+/**
+ * What the site is currently for.
+ *
+ * The vault is built, tested and runs — but until it is launched the site is
+ * here to introduce the firm and start conversations, so the calls to action
+ * ask for a call rather than for a signup. Set `vaultLaunched` to true and the
+ * signup buttons come back everywhere; nothing else needs changing, and the
+ * vault stays reachable at /sign-in and /create-vault either way.
+ */
+export const site = {
+  vaultLaunched: false,
+};
+
 export const founders = [
   {
     id: 'shiv-maheshwari',

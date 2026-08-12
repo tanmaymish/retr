@@ -6,7 +6,8 @@ import { FounderCard } from './Founders';
 import { Photo } from '../components/Photo';
 import { CATEGORY_LIST } from '../lib/categories';
 import { faqSchema, organizationSchema, useSeo } from '../lib/seo';
-import { assurances, brand, faqs, founders, howItWorks, problems, stages } from './content';
+import { requestCallback } from './CallbackPopup';
+import { assurances, brand, faqs, founders, howItWorks, problems, site, stages } from './content';
 
 export default function Home() {
   const { user } = useAuth();
@@ -73,7 +74,9 @@ function Hero({ user }) {
         style={{ gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 1fr)', alignItems: 'center', gap: 48 }}
       >
         <div className="stack stack-md enter">
-          <Badge tone="primary" icon="verified">{brand.tagline}</Badge>
+          <span style={{ alignSelf: 'flex-start' }}>
+            <Badge tone="primary" icon="verified">{brand.tagline}</Badge>
+          </span>
           <h1>
             What you build
             <br />
@@ -89,9 +92,15 @@ function Hero({ user }) {
               Take the preparedness check
               <Icon name="arrow_forward" size={18} />
             </Link>
-            <Link to={user ? '/vault' : '/create-vault'} className="btn btn-secondary">
-              {user ? 'Open my vault' : 'Create your vault'}
-            </Link>
+            {user ? (
+              <Link to="/vault" className="btn btn-secondary">Open my vault</Link>
+            ) : site.vaultLaunched ? (
+              <Link to="/create-vault" className="btn btn-secondary">Create your vault</Link>
+            ) : (
+              <button type="button" className="btn btn-secondary" onClick={requestCallback}>
+                Talk to a founder
+              </button>
+            )}
           </div>
           <p className="tiny muted" style={{ marginTop: 6 }}>{brand.stages}</p>
         </div>
@@ -115,9 +124,12 @@ function Stages() {
   return (
     <section style={{ background: 'var(--primary)', color: 'var(--on-primary)', padding: '80px 0' }}>
       <div className="container stack stack-lg">
-        <div style={{ maxWidth: 620 }}>
-          <span className="caps" style={{ color: 'var(--primary-fixed-dim)' }}>Our philosophy</span>
-          <h2 style={{ marginTop: 12, color: 'var(--on-primary)' }}>
+        <div className="stack" style={{ gap: 20 }}>
+          {/* The four words under the logo, set the way the logo sets them. */}
+          <div className="rule-gold lead on-dark" role="separator" style={{ maxWidth: 720 }}>
+            <span>Creation · Continuation · Consumption · Distribution</span>
+          </div>
+          <h2 style={{ maxWidth: 620, color: 'var(--on-primary)' }}>
             Financial planning should accompany the whole journey — not appear only when a policy
             needs to be bought.
           </h2>
@@ -192,7 +204,10 @@ function VaultIntro() {
   return (
     <section id="vault" style={{ background: 'var(--surface-container)', padding: '88px 0' }}>
       <div className="container stack stack-md" style={{ maxWidth: 760 }}>
-        <span className="caps" style={{ color: 'var(--primary)' }}>The Akshayvriddhi vault</span>
+        <div className="row wrap" style={{ gap: 12 }}>
+          <span className="caps" style={{ color: 'var(--primary)' }}>The Akshayvriddhi vault</span>
+          {!site.vaultLaunched && <Badge tone="gold" icon="schedule">In private preview</Badge>}
+        </div>
         <h2>A place where what you have protected can actually be found.</h2>
         <p className="muted" style={{ fontSize: 17, lineHeight: 1.7 }}>
           Behind every policy is a responsibility. Behind every nomination is someone important. The
@@ -200,7 +215,13 @@ function VaultIntro() {
           choose, at the moment they need them.
         </p>
         <div className="row wrap" style={{ gap: 12, marginTop: 8 }}>
-          <Link to="/create-vault" className="btn">Create your vault</Link>
+          {site.vaultLaunched ? (
+            <Link to="/create-vault" className="btn">Create your vault</Link>
+          ) : (
+            <button type="button" className="btn" onClick={requestCallback}>
+              Ask for early access
+            </button>
+          )}
           <a href="#how" className="btn btn-secondary">See how it works</a>
         </div>
       </div>
@@ -383,7 +404,13 @@ function ClosingCta() {
           need somewhere they can actually find them.
         </p>
         <div className="row" style={{ justifyContent: 'center', marginTop: 8 }}>
-          <Link to="/create-vault" className="btn">Start securing your legacy</Link>
+          {site.vaultLaunched ? (
+            <Link to="/create-vault" className="btn">Start securing your legacy</Link>
+          ) : (
+            <button type="button" className="btn" onClick={requestCallback}>
+              Request a call
+            </button>
+          )}
         </div>
       </div>
     </section>

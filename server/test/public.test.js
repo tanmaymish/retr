@@ -144,6 +144,27 @@ describe('enquiries', () => {
     assert.equal(row.check_score, 42);
   });
 
+  it('accepts the callback popup, which sends only a name, a phone and an email', async () => {
+    const response = await server.client().post('/api/leads', {
+      name: 'Ananya Iyer',
+      email: 'ananya@example.test',
+      phone: '+91 90000 11111',
+      source: 'call_request',
+    });
+    assert.equal(response.status, 201);
+
+    const row = server.ctx.db
+      .prepare("SELECT * FROM leads WHERE source = 'call_request' ORDER BY created_at DESC")
+      .get();
+    assert.equal(row.name, 'Ananya Iyer');
+    assert.equal(row.phone, '+91 90000 11111');
+    // Nothing the popup does not ask for is invented on the way in.
+    assert.equal(row.household, null);
+    assert.equal(row.timeframe, null);
+    assert.equal(row.message, null);
+    assert.equal(row.interests_json, '[]');
+  });
+
   it('keeps the lead inbox to admins', async () => {
     const anonymous = await server.client().get('/api/leads');
     assert.equal(anonymous.status, 401);

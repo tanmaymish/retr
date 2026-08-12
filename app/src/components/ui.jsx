@@ -71,7 +71,7 @@ export function Select({ error, children, style, ...rest }) {
   );
 }
 
-export function Badge({ tone = 'neutral', icon, children }) {
+export function Badge({ tone = 'neutral', icon, wrap = false, children }) {
   const map = {
     neutral: '',
     verified: ' badge-verified',
@@ -79,9 +79,10 @@ export function Badge({ tone = 'neutral', icon, children }) {
     pending: ' badge-pending',
     danger: ' badge-danger',
     primary: ' badge-primary',
+    gold: ' badge-gold',
   };
   return (
-    <span className={`badge${map[tone] ?? ''}`}>
+    <span className={`badge${map[tone] ?? ''}${wrap ? ' badge-wrap' : ''}`}>
       {icon && <Icon name={icon} size={14} />}
       {children}
     </span>
@@ -149,7 +150,13 @@ export function Modal({ open, onClose, title, description, children, footer, wid
 
     document.addEventListener('keydown', onKeyDown);
     const timer = setTimeout(() => {
-      ref.current?.querySelector('input, button, select, textarea')?.focus();
+      // Prefer the first real field: opening on the close button makes a
+      // keyboard user tab past the whole form to reach it. Honeypots are
+      // tabIndex -1 and excluded.
+      const target =
+        ref.current?.querySelector('input:not([tabindex="-1"]), select, textarea') ??
+        ref.current?.querySelector('button');
+      target?.focus();
     }, 30);
 
     return () => {

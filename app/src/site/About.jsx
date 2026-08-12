@@ -5,6 +5,7 @@ import { SitePage } from './SiteChrome';
 import { breadcrumbSchema, useSeo } from '../lib/seo';
 import { FounderCard } from './Founders';
 import { Photo } from '../components/Photo';
+import { requestCallback } from './CallbackPopup';
 import {
   brand,
   founders,
@@ -12,6 +13,7 @@ import {
   fourQuestions,
   mission,
   promise,
+  site,
   stages,
   vision,
 } from './content';
@@ -416,7 +418,13 @@ function Signature() {
           {brand.stages}
         </p>
         <div className="row" style={{ justifyContent: 'center', marginTop: 8 }}>
-          <Link to="/create-vault" className="btn">Create your vault</Link>
+          {site.vaultLaunched ? (
+            <Link to="/create-vault" className="btn">Create your vault</Link>
+          ) : (
+            <button type="button" className="btn" onClick={requestCallback}>
+              Request a call
+            </button>
+          )}
         </div>
       </div>
     </section>
