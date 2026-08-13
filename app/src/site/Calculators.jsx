@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { Card, Icon } from '../components/ui';
 import { SitePage } from './SiteChrome';
 import { Crest, Reveal, SectionHead } from './Section';
+import { ChartKey, Columns } from './Chart';
 import { requestCallback } from './CallbackPopup';
 import { useSeo } from '../lib/seo';
 import { track } from '../lib/analytics';
@@ -26,7 +27,7 @@ export function CalculatorsHub() {
   useSeo({
     title: 'Calculators',
     description:
-      'Free calculators for Indian households: SIP, step-up SIP, lumpsum, home loan EMI and prepayment, income tax old versus new, NPS, human life value, EPF, Sukanya Samriddhi and PPF.',
+      'Free calculators for Indian households: retirement drawdown, education goal, NPS, EPF, SIP and step-up SIP, home loan EMI and prepayment, income tax old versus new, human life value, Sukanya Samriddhi and PPF.',
     path: '/calculators',
   });
 
@@ -166,6 +167,18 @@ function CalculatorRunner({ calc }) {
               {result.headline.note && <span className="small muted">{result.headline.note}</span>}
             </div>
 
+            {result.chart && (
+              <div className="stack" style={{ gap: 10 }}>
+                <Columns
+                  points={result.chart.points}
+                  markAt={result.chart.markAt}
+                  aria={result.chart.aria}
+                  foot={result.chart.foot}
+                />
+                <ChartKey bar={result.chart.key.bar} mark={result.chart.key.mark} />
+              </div>
+            )}
+
             <hr className="divider" />
 
             <dl className="stack" style={{ gap: 0, margin: 0 }}>
@@ -195,8 +208,9 @@ function CalculatorRunner({ calc }) {
             </button>
           </Card>
 
-          {/* The assumptions, as sliders. */}
-          <Card className="stack stack-md" style={{ padding: 28 }}>
+          {/* The assumptions, as sliders. Pinned, because the card beside it is
+              taller once a chart is in it, and the sliders are the point. */}
+          <Card className="stack stack-md calc-controls" style={{ padding: 28 }}>
             <h3>Adjust the assumptions</h3>
             {calc.inputs.map((input) => (
               <Slider key={input.key} input={input} value={values[input.key]} onChange={(v) => set(input.key, v)} />

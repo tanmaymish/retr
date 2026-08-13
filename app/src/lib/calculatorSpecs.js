@@ -1,4 +1,6 @@
 import {
+  drawdown,
+  educationGoal,
   emi,
   emiPrepayment,
   epf,
@@ -29,14 +31,109 @@ const money = (v) => formatMoney(v, { compact: true });
 const pct = (v) => `${v}%`;
 const yrs = (v) => `${v} yr`;
 
+/**
+ * The order is the audience. Retirement first, education second — the two
+ * questions this firm exists to answer — and everything else after them.
+ */
 export const GROUPS = [
-  { key: 'wealth', label: 'Wealth and investments' },
+  { key: 'retirement', label: 'Retirement income' },
+  { key: 'education', label: 'Children’s education' },
+  { key: 'wealth', label: 'Growing what you have' },
+  { key: 'cover', label: 'Cover and tax' },
   { key: 'loans', label: 'Loans and liability' },
-  { key: 'tax', label: 'Tax and retirement' },
-  { key: 'schemes', label: 'Provident and government schemes' },
 ];
 
 export const CALCULATORS = [
+  {
+    slug: 'retirement-drawdown',
+    group: 'retirement',
+    icon: 'hourglass_bottom',
+    title: 'How long will it last?',
+    blurb: 'Your corpus, spent down year by year.',
+    intro: 'Spending rises with prices. The corpus does not. This is where the two meet.',
+    cta: 'Ask what to do about this',
+    inputs: [
+      { key: 'corpus', label: 'Corpus at retirement', min: 500000, max: 100000000, step: 500000, value: 15000000, format: money },
+      { key: 'monthlySpend', label: 'Monthly spending', min: 10000, max: 500000, step: 5000, value: 60000, format: money },
+      { key: 'currentAge', label: 'Age at retirement', min: 45, max: 75, step: 1, value: 60, format: yrs },
+      { key: 'returnPct', label: 'Return on the corpus', min: 3, max: 14, step: 0.5, value: 7, format: pct },
+      { key: 'inflationPct', label: 'Inflation on spending', min: 2, max: 12, step: 0.5, value: 6, format: pct },
+    ],
+    run: (v) => {
+      const r = drawdown(v);
+      const survives = r.ranOutAt === null;
+      return {
+        headline: survives
+          ? { label: 'It outlasts you', value: `Still ${money(r.endingBalance)} at 95` }
+          : { label: 'The money runs out at', value: `age ${r.ranOutAt}`, tone: 'danger',
+              note: `That is ${r.lastsYears} years of retirement funded, and the rest not.` },
+        chart: {
+          points: [{ x: v.currentAge, y: v.corpus, label: `Age ${v.currentAge}: ${money(v.corpus)}` }].concat(
+            r.series.map((point) => ({ x: point.age, y: point.balance, label: `Age ${point.age}: ${money(point.balance)}` })),
+          ),
+          markAt: r.ranOutAt,
+          aria: survives
+            ? `Corpus from age ${v.currentAge} to 95, never exhausted.`
+            : `Corpus falling from ${money(v.corpus)} at age ${v.currentAge} to nothing at age ${r.ranOutAt}.`,
+          foot: [`Age ${v.currentAge}`, 'Age 95'],
+          key: { bar: 'Corpus remaining', mark: survives ? null : `Unfunded, from ${r.ranOutAt}` },
+        },
+        rows: [
+          { label: 'Withdrawn in the first year', value: formatMoney(r.firstYearWithdrawal) },
+          { label: 'Withdrawn in the last funded year', value: formatMoney(r.lastWithdrawal) },
+          { label: 'Years funded', value: `${r.lastsYears}` },
+          { label: 'Balance at the end', value: formatMoney(r.endingBalance) },
+        ],
+        note: 'Withdrawn at the start of each year; the rest earns for the year. Taxes and one-off costs are not counted.',
+      };
+    },
+  },
+  {
+    slug: 'education-goal',
+    group: 'education',
+    icon: 'school',
+    title: 'What their course will cost',
+    blurb: 'The fee in the year it falls due.',
+    intro: 'Fees have risen faster than prices for two decades. Plan against the future bill, not today’s.',
+    cta: 'Ask how to fund this',
+    inputs: [
+      { key: 'costToday', label: 'What the course costs today', min: 100000, max: 20000000, step: 50000, value: 2000000, format: money },
+      { key: 'yearsAway', label: 'Years until they start', min: 1, max: 25, step: 1, value: 12, format: yrs },
+      { key: 'feeInflationPct', label: 'Fee inflation', min: 3, max: 15, step: 0.5, value: 8, format: pct },
+      { key: 'saved', label: 'Already set aside', min: 0, max: 20000000, step: 50000, value: 500000, format: money },
+      { key: 'returnPct', label: 'Assumed return', min: 4, max: 16, step: 0.5, value: 10, format: pct },
+    ],
+    run: (v) => {
+      const r = educationGoal(v);
+      const start = new Date().getFullYear() + v.yearsAway;
+      const curve = Array.from({ length: v.yearsAway + 1 }, (_, year) => {
+        const y = v.costToday * Math.pow(1 + v.feeInflationPct / 100, year);
+        return { x: year, y, label: `${new Date().getFullYear() + year}: ${money(y)}` };
+      });
+      return {
+        headline: {
+          label: 'Set aside every month',
+          value: formatMoney(r.monthly),
+          note: `To have ${money(r.futureCost)} ready in ${start}.`,
+        },
+        chart: {
+          points: curve,
+          markAt: v.yearsAway,
+          aria: `Course fee rising from ${money(v.costToday)} today to ${money(r.futureCost)} in ${start}.`,
+          foot: [`${new Date().getFullYear()} · ${money(v.costToday)}`, `${start} · ${money(r.futureCost)}`],
+          key: { bar: 'Fee, if it keeps rising', mark: 'The year you pay it' },
+        },
+        rows: [
+          { label: 'Cost today', value: formatMoney(r.costToday) },
+          { label: `Cost in ${start}`, value: formatMoney(r.futureCost) },
+          { label: 'That is', value: `${r.multiple}× today’s fee` },
+          { label: 'What you have set aside grows to', value: formatMoney(r.savedGrowsTo) },
+          { label: 'Still to fund', value: formatMoney(r.shortfall) },
+        ],
+        note: 'One goal, funded from today. Living costs abroad, and a falling rupee, are not counted here.',
+      };
+    },
+  },
   {
     slug: 'sip',
     group: 'wealth',
@@ -183,7 +280,7 @@ export const CALCULATORS = [
   },
   {
     slug: 'income-tax',
-    group: 'tax',
+    group: 'cover',
     icon: 'receipt_long',
     title: 'Income tax: old vs new',
     blurb: 'Which regime costs you less.',
@@ -215,7 +312,7 @@ export const CALCULATORS = [
   },
   {
     slug: 'nps',
-    group: 'tax',
+    group: 'retirement',
     icon: 'elderly',
     title: 'NPS calculator',
     blurb: 'The corpus, and the pension it buys.',
@@ -246,7 +343,7 @@ export const CALCULATORS = [
   },
   {
     slug: 'human-life-value',
-    group: 'tax',
+    group: 'cover',
     icon: 'shield_with_heart',
     title: 'Human life value',
     blurb: 'The cover gap, in a number.',
@@ -285,7 +382,7 @@ export const CALCULATORS = [
   },
   {
     slug: 'epf',
-    group: 'schemes',
+    group: 'retirement',
     icon: 'savings',
     title: 'EPF projection',
     blurb: 'What the provident fund reaches.',
@@ -315,7 +412,7 @@ export const CALCULATORS = [
   },
   {
     slug: 'sukanya-samriddhi',
-    group: 'schemes',
+    group: 'education',
     icon: 'child_care',
     title: 'Sukanya Samriddhi',
     blurb: 'The scheme for a daughter, to maturity.',
@@ -341,7 +438,7 @@ export const CALCULATORS = [
   },
   {
     slug: 'ppf',
-    group: 'schemes',
+    group: 'education',
     icon: 'account_balance_wallet',
     title: 'PPF calculator',
     blurb: 'Fifteen years, tax-free at maturity.',

@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import {
+  drawdown,
+  educationGoal,
   emi,
   emiPrepayment,
   epf,
@@ -160,5 +162,77 @@ describe('retirement and schemes', () => {
     const result = ppf({ yearly: 150000, years: 15, ratePct: 7.1 });
     assert.equal(result.deposited, 2250000);
     assert.ok(Math.abs(result.maturity - 4067053) < 5000, `got ${result.maturity}`);
+  });
+});
+
+describe('drawing down', () => {
+  it('walks a corpus down and says the year it runs out', () => {
+    // 1 crore, spending 80,000 a month, is gone well before 95.
+    const thin = drawdown({ corpus: 10000000, monthlySpend: 80000, currentAge: 60 });
+    assert.ok(thin.ranOutAt !== null, 'this corpus does not last');
+    assert.ok(thin.ranOutAt < 95, `ran out at ${thin.ranOutAt}`);
+    assert.equal(thin.series.at(-1).balance, 0);
+    assert.equal(thin.lastsYears, thin.ranOutAt - 60);
+  });
+
+  it('survives the horizon when the corpus is large enough', () => {
+    const fat = drawdown({ corpus: 60000000, monthlySpend: 80000, currentAge: 60 });
+    assert.equal(fat.ranOutAt, null);
+    assert.equal(fat.survivesTo, 95);
+    assert.ok(fat.endingBalance > 0);
+  });
+
+  it('raises the withdrawal with inflation, so the last year costs more', () => {
+    const r = drawdown({ corpus: 60000000, monthlySpend: 50000, currentAge: 60, inflationPct: 6 });
+    assert.ok(r.lastWithdrawal > r.firstYearWithdrawal * 3, 'six per cent over 35 years compounds');
+  });
+
+  it('keeps one entry per age, all the way to the horizon', () => {
+    // The chart keys on the age, and it draws the unfunded years too — so the
+    // series must run to `until` with no age repeated, whether or not the money
+    // lasted.
+    for (const corpus of [10000000, 60000000]) {
+      const r = drawdown({ corpus, monthlySpend: 80000, currentAge: 60, until: 95 });
+      const ages = r.series.map((point) => point.age);
+      assert.equal(ages.length, 35);
+      assert.equal(new Set(ages).size, 35, 'no age appears twice');
+      assert.equal(ages.at(0), 61);
+      assert.equal(ages.at(-1), 95);
+    }
+  });
+
+  it('holds the balance at zero once the money is gone', () => {
+    const r = drawdown({ corpus: 10000000, monthlySpend: 80000, currentAge: 60 });
+    const after = r.series.filter((point) => point.age > r.ranOutAt);
+    assert.ok(after.length > 0, 'there are years after it runs out');
+    assert.ok(after.every((point) => point.balance === 0), 'and none of them are funded');
+  });
+
+  it('spending nothing leaves the corpus growing', () => {
+    const r = drawdown({ corpus: 1000000, monthlySpend: 0, currentAge: 60, until: 61 });
+    assert.equal(r.ranOutAt, null);
+    assert.ok(r.endingBalance > 1000000);
+  });
+});
+
+describe('education goal', () => {
+  it('inflates a fee to the year it is needed', () => {
+    // 20 lakh today at 8% for 10 years is about 43.2 lakh.
+    const r = educationGoal({ costToday: 2000000, yearsAway: 10, feeInflationPct: 8 });
+    assert.ok(Math.abs(r.futureCost - 4317850) < 5000, `got ${r.futureCost}`);
+    assert.ok(r.multiple > 2);
+  });
+
+  it('counts what is already saved, and the monthly figure closes the rest', () => {
+    const none = educationGoal({ costToday: 2000000, yearsAway: 10, saved: 0 });
+    const some = educationGoal({ costToday: 2000000, yearsAway: 10, saved: 500000 });
+    assert.ok(some.monthly < none.monthly);
+    assert.equal(some.shortfall, some.futureCost - some.savedGrowsTo);
+  });
+
+  it('asks for nothing when the goal is already funded', () => {
+    const r = educationGoal({ costToday: 1000000, yearsAway: 5, saved: 50000000 });
+    assert.equal(r.shortfall, 0);
+    assert.equal(r.monthly, 0);
   });
 });

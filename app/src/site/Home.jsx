@@ -7,6 +7,7 @@ import { faqSchema, organizationSchema, useSeo } from '../lib/seo';
 import { requestCallback } from './CallbackPopup';
 import { Crest, Reveal, SectionHead } from './Section';
 import { NewsStrip } from './NewsStrip';
+import { LiveDrawdown } from './Drawdown';
 import { CALCULATORS } from '../lib/calculatorSpecs';
 import { insights } from './insights';
 import { assurances, audience, brand, faqs, founders, howItWorks, problems, services, stages } from './content';
@@ -25,6 +26,8 @@ export default function Home() {
       <NewsStrip />
       <Hero />
       <TrustBar />
+      <Situation />
+      <LiveDrawdown />
       <Tools />
       <Stages />
       <Problems />
@@ -103,8 +106,8 @@ function Hero() {
           {brand.tagline}
         </Reveal>
 
-        <Reveal as="h1" delay={120} style={{ color: 'var(--on-band)', maxWidth: '21ch' }}>
-          What you build deserves to continue.
+        <Reveal as="h1" delay={120} style={{ color: 'var(--on-band)', maxWidth: '22ch' }}>
+          Enough to retire on. Enough to educate them.
         </Reveal>
 
         <Reveal
@@ -130,8 +133,8 @@ function Hero() {
             maxWidth: '62ch',
           }}
         >
-          Protection, retirement and the planning around them — from two founders with two
-          decades each in life insurance.
+          Two numbers decide most of a household’s life. We help you find both, and then
+          fund them.
         </Reveal>
 
         <Reveal className="row wrap" delay={240} style={{ gap: 14, justifyContent: 'center', marginTop: 10 }}>
@@ -320,21 +323,85 @@ function Services() {
 }
 
 /**
+ * Three doors, immediately under the hero.
+ *
+ * Two audiences pay for advice here — people about to stop earning, and people
+ * whose children have not started. Naming both, and sending each to the number
+ * that answers them, does more than a paragraph explaining that we serve both.
+ */
+function Situation() {
+  const doors = [
+    {
+      icon: 'hourglass_bottom',
+      eyebrow: 'Retiring soon',
+      title: 'Will the money last?',
+      to: '/calculators/retirement-drawdown',
+      cta: 'See the year it runs out',
+    },
+    {
+      icon: 'school',
+      eyebrow: 'Children to educate',
+      title: 'What will it cost?',
+      to: '/calculators/education-goal',
+      cta: 'See the bill in that year',
+    },
+    {
+      icon: 'shield_with_heart',
+      eyebrow: 'Something to protect',
+      title: 'Is the cover enough?',
+      to: '/calculators/human-life-value',
+      cta: 'See the gap',
+    },
+  ];
+
+  return (
+    <section style={{ padding: '76px 0 12px' }}>
+      <div className="container stack stack-lg">
+        <SectionHead eyebrow="Where you are" title="Start with the question you actually have." />
+        <div className="grid grid-3">
+          {doors.map((door, index) => (
+            <Reveal key={door.to} delay={index * 90}>
+              <Card
+                as={Link}
+                to={door.to}
+                className="card-link card-gold stack stack-sm"
+                style={{ height: '100%', padding: 28 }}
+              >
+                <span className="medallion medallion-solid" style={{ width: 50, height: 50 }}>
+                  <Icon name={door.icon} size={24} />
+                </span>
+                <span className="tiny caps" style={{ color: 'var(--gold-ink)', letterSpacing: '0.14em' }}>
+                  {door.eyebrow}
+                </span>
+                <h3 style={{ fontSize: 24 }}>{door.title}</h3>
+                <span className="row small" style={{ gap: 6, color: 'var(--primary)', fontWeight: 600, marginTop: 'auto' }}>
+                  {door.cta} <Icon name="arrow_forward" size={16} />
+                </span>
+              </Card>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/**
  * The tools, high on the page: the thing a visitor can use before they trust
  * anyone, and the best reason to come back.
  */
 function Tools() {
-  const featured = ['human-life-value', 'sip', 'home-loan-emi', 'income-tax', 'nps', 'ppf']
+  const featured = ['education-goal', 'nps', 'human-life-value', 'sip', 'income-tax', 'ppf']
     .map((slug) => CALCULATORS.find((calculator) => calculator.slug === slug))
     .filter(Boolean);
 
   return (
-    <section id="tools" style={{ padding: '88px 0' }}>
+    <section id="tools" style={{ padding: '40px 0 88px' }}>
       <div className="container stack stack-lg">
         <SectionHead
           eyebrow="Start here"
           title="Run your own numbers first."
-          lede="Eleven of them, free, with nothing behind a signup and nothing stored."
+          lede={`${CALCULATORS.length} of them, free, with nothing behind a signup and nothing stored.`}
         />
 
         <div className="grid grid-3">
@@ -360,7 +427,7 @@ function Tools() {
 
         <Reveal className="row wrap" style={{ gap: 12, justifyContent: 'center' }}>
           <Link to="/calculators" className="btn btn-secondary">
-            All eleven calculators <Icon name="arrow_forward" size={18} />
+            All {CALCULATORS.length} calculators <Icon name="arrow_forward" size={18} />
           </Link>
           <Link to="/preparedness-check" className="btn">Take the preparedness check</Link>
         </Reveal>

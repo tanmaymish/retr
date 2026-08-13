@@ -55,7 +55,7 @@ const ROUTES = [
     file: 'calculators.html',
     title: 'Calculators — Akshayvriddhi',
     description:
-      'Free calculators for Indian households: SIP, step-up SIP, lumpsum, home loan EMI and prepayment, income tax old versus new, NPS, human life value, EPF, Sukanya Samriddhi and PPF.',
+      'Free calculators for Indian households: retirement drawdown, education goal, NPS, EPF, SIP and step-up SIP, home loan EMI and prepayment, income tax old versus new, human life value, Sukanya Samriddhi and PPF.',
     priority: '0.9',
     heading: 'Run the numbers yourself.',
     body: 'SIP, step-up SIP, lumpsum, home loan EMI, EMI prepayment, income tax old versus new, NPS, human life value, EPF, Sukanya Samriddhi and PPF. Nothing you enter is sent anywhere or stored.',

@@ -298,3 +298,80 @@ export function ppf({ yearly, years = 15, ratePct = 7.1 }) {
   for (let year = 0; year < years; year++) corpus = (corpus + yearly) * (1 + i);
   return { deposited: rupees(yearly * years), maturity: rupees(corpus), interest: rupees(corpus - yearly * years) };
 }
+
+/* ── Drawing down ────────────────────────────────────────────────────────── */
+
+/**
+ * The question a retiree actually has: how long does the corpus last?
+ *
+ * Withdrawals rise with inflation, the remaining corpus earns a return, and the
+ * balance is walked year by year until it is gone or the horizon is reached.
+ * The year it runs out is the answer; the yearly series is what makes it real.
+ */
+export function drawdown({ corpus, monthlySpend, returnPct = 7, inflationPct = 6, currentAge = 60, until = 95 }) {
+  const years = Math.max(1, until - currentAge);
+  const r = returnPct / 100;
+  const i = inflationPct / 100;
+
+  let balance = corpus;
+  let withdrawal = monthlySpend * 12;
+  let lastFunded = 0;
+  let ranOutAt = null;
+  const series = [];
+
+  /* Every entry is the balance at the *end* of the year, so it is stamped with
+     the age reached — one entry per age, never two, because the chart keys on
+     it. The years after the money is gone are kept rather than dropped: an
+     unfunded retirement is the answer, and a chart that stops at the last
+     funded year hides exactly the part that matters. */
+  for (let year = 0; year < years; year++) {
+    const age = currentAge + year;
+
+    if (ranOutAt === null) {
+      if (balance < withdrawal) {
+        ranOutAt = age;
+        balance = 0;
+      } else {
+        balance = (balance - withdrawal) * (1 + r);
+        lastFunded = withdrawal;
+      }
+    }
+
+    series.push({ age: age + 1, balance: rupees(balance), withdrawal: rupees(withdrawal) });
+    withdrawal *= 1 + i;
+  }
+
+  const lasts = ranOutAt === null ? years : ranOutAt - currentAge;
+  return {
+    lastsYears: lasts,
+    ranOutAt,
+    survivesTo: ranOutAt === null ? until : ranOutAt,
+    endingBalance: rupees(balance),
+    firstYearWithdrawal: rupees(monthlySpend * 12),
+    lastWithdrawal: rupees(ranOutAt === null ? withdrawal / (1 + i) : lastFunded),
+    series,
+  };
+}
+
+/**
+ * A dated, costed education goal: what a course will cost in the year it is
+ * needed, and the monthly amount that funds it from today.
+ */
+export function educationGoal({ costToday, yearsAway, feeInflationPct = 8, returnPct = 10, saved = 0 }) {
+  const futureCost = costToday * Math.pow(1 + feeInflationPct / 100, yearsAway);
+  const savedGrowsTo = saved * Math.pow(1 + returnPct / 100, yearsAway);
+  const shortfall = Math.max(0, futureCost - savedGrowsTo);
+
+  const n = Math.round(yearsAway * 12);
+  const m = returnPct / 100 / 12;
+  const monthly = n <= 0 ? shortfall : m === 0 ? shortfall / n : shortfall / (((Math.pow(1 + m, n) - 1) / m) * (1 + m));
+
+  return {
+    futureCost: rupees(futureCost),
+    costToday: rupees(costToday),
+    savedGrowsTo: rupees(savedGrowsTo),
+    shortfall: rupees(shortfall),
+    monthly: rupees(monthly),
+    multiple: Number((futureCost / costToday).toFixed(2)),
+  };
+}

@@ -330,6 +330,91 @@ select.input { appearance: none; background-image: none; cursor: pointer; paddin
   font-style: normal;
 }
 
+/* The calculator's slider panel follows the reader down the answer beside it.
+   Only where there is room for two columns and where the reader has not asked
+   for stillness. */
+@media (min-width: 861px) and (prefers-reduced-motion: no-preference) {
+  .calc-controls { position: sticky; top: 96px; }
+}
+
+/* The landing page's interactive: controls beside the figure, stacked once
+   there is no room for two columns. */
+.drawdown-split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+}
+.drawdown-figure {
+  background: var(--surface-container);
+  border-left: 1px solid var(--gold-line);
+}
+@media (max-width: 860px) {
+  .drawdown-split { grid-template-columns: 1fr; }
+  .drawdown-figure { border-left: 0; border-top: 1px solid var(--gold-line); }
+}
+
+/* ── The column chart ─────────────────────────────────────────────────────
+   Bars grow from a baseline on first paint, so the shape draws itself once
+   rather than simply appearing. Colours come from Chart.jsx, where the
+   data-viz validation that chose them is documented. */
+.chart-plot {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  padding-top: 8px;
+  border-bottom: 1px solid var(--outline);
+}
+.chart-bar {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 3px;
+  border-radius: 3px 3px 0 0;
+  transform-origin: bottom;
+  animation: chartRise 620ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+.chart-bar.is-empty { min-height: 4px; border-radius: 2px; opacity: 0.85; }
+.chart-bar.is-marked { box-shadow: 0 0 0 1px var(--surface-lowest); }
+.chart-bar:hover { filter: brightness(1.12); }
+@keyframes chartRise {
+  from { transform: scaleY(0.02); }
+  to { transform: scaleY(1); }
+}
+
+/* The value, on hover and on keyboard focus of the card — a tooltip that costs
+   nothing when it is not wanted. */
+.chart-tip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 9px;
+  border-radius: var(--radius-sm);
+  background: var(--wine);
+  color: #fff;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 140ms ease;
+  z-index: 2;
+}
+.chart-bar:hover .chart-tip { opacity: 1; }
+
+.chart-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--on-surface-variant);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart-bar { animation: none; }
+}
+
 /* The live dot on the news strip: it pulses because the strip is fetched, and
    stops for anyone who has asked motion to stop. */
 .live-dot {
