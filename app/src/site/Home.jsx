@@ -7,6 +7,7 @@ import { Photo } from '../components/Photo';
 import { CATEGORY_LIST } from '../lib/categories';
 import { faqSchema, organizationSchema, useSeo } from '../lib/seo';
 import { requestCallback } from './CallbackPopup';
+import { Crest, Reveal, SectionHead } from './Section';
 import { assurances, brand, faqs, founders, howItWorks, problems, site, stages } from './content';
 
 export default function Home() {
@@ -50,16 +51,16 @@ function TrustBar() {
   ];
 
   return (
-    <section style={{ borderTop: '1px solid var(--outline-variant)', borderBottom: '1px solid var(--outline-variant)' }}>
-      <div className="container grid grid-4" style={{ padding: '32px 20px' }}>
-        {facts.map((fact) => (
-          <div key={fact.label} className="stack" style={{ gap: 2 }}>
+    <section style={{ background: 'var(--surface-lowest)', borderBottom: '1px solid var(--outline-variant)' }}>
+      <div className="container grid grid-4" style={{ padding: '40px 20px', textAlign: 'center' }}>
+        {facts.map((fact, index) => (
+          <Reveal key={fact.label} className="stack" delay={index * 80} style={{ gap: 4, alignItems: 'center' }}>
             <strong style={{ fontFamily: 'var(--font-heading)', fontSize: 26, color: 'var(--primary)' }}>
               {fact.value}
             </strong>
             <span className="small">{fact.label}</span>
             <span className="tiny muted">{fact.note}</span>
-          </div>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -68,52 +69,80 @@ function TrustBar() {
 
 function Hero({ user }) {
   return (
-    <section style={{ padding: '88px 0 80px' }}>
-      <div
-        className="container grid hero-grid"
-        style={{ gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 1fr)', alignItems: 'center', gap: 48 }}
-      >
-        <div className="stack stack-md enter">
-          <span style={{ alignSelf: 'flex-start' }}>
-            <Badge tone="primary" icon="verified">{brand.tagline}</Badge>
-          </span>
-          <h1>
-            What you build
-            <br />
-            deserves to continue.
-          </h1>
-          <p style={{ fontSize: 19, lineHeight: 1.65, color: 'var(--on-surface-variant)', maxWidth: 620 }}>
-            You spend years creating a life — a career, a family, a home, wealth, aspirations and a
-            legacy. Akshayvriddhi exists to help ensure that what you create today has the strength
-            to continue tomorrow.
-          </p>
-          <div className="row wrap" style={{ gap: 12, marginTop: 8 }}>
-            <Link to="/preparedness-check" className="btn">
-              Take the preparedness check
-              <Icon name="arrow_forward" size={18} />
-            </Link>
-            {user ? (
-              <Link to="/vault" className="btn btn-secondary">Open my vault</Link>
-            ) : site.vaultLaunched ? (
-              <Link to="/create-vault" className="btn btn-secondary">Create your vault</Link>
-            ) : (
-              <button type="button" className="btn btn-secondary" onClick={requestCallback}>
-                Talk to a founder
-              </button>
-            )}
-          </div>
-          <p className="tiny muted" style={{ marginTop: 6 }}>{brand.stages}</p>
-        </div>
-
-        {/* The four directions the brand is organised around, in one image. */}
+    <section className="hero-band" style={{ padding: '120px 0 108px' }}>
+      <div className="hero-media" aria-hidden="true">
         <Photo
           name="four-directions"
-          alt="A walker at a mountain path pausing at a signpost pointing towards clarity, protection, prosperity and legacy."
+          alt=""
           width={1400}
           height={933}
           priority
-          sizes="(max-width: 900px) 100vw, 620px"
+          radius="0"
+          sizes="100vw"
         />
+      </div>
+
+      <div className="container stack" style={{ alignItems: 'center', gap: 22, textAlign: 'center' }}>
+        <Crest />
+        <Reveal
+          as="span"
+          className="eyebrow"
+          delay={60}
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 11.5,
+            fontWeight: 600,
+            letterSpacing: '0.24em',
+            textTransform: 'uppercase',
+            color: 'var(--band-accent)',
+          }}
+        >
+          {brand.tagline}
+        </Reveal>
+
+        <Reveal as="h1" delay={120} style={{ color: 'var(--on-band)', maxWidth: '16ch' }}>
+          What you build deserves to continue.
+        </Reveal>
+
+        <Reveal
+          as="p"
+          delay={180}
+          style={{
+            fontSize: 19,
+            lineHeight: 1.7,
+            color: 'color-mix(in srgb, var(--on-band) 82%, transparent)',
+            maxWidth: '62ch',
+          }}
+        >
+          You spend years creating a life — a career, a family, a home, wealth, aspirations and a
+          legacy. Akshayvriddhi exists to help ensure that what you create today has the strength
+          to continue tomorrow.
+        </Reveal>
+
+        <Reveal className="row wrap" delay={240} style={{ gap: 14, justifyContent: 'center', marginTop: 10 }}>
+          <Link to="/preparedness-check" className="btn btn-gold btn-sheen">
+            Take the preparedness check
+            <Icon name="arrow_forward" size={18} />
+          </Link>
+          {user ? (
+            <Link to="/vault" className="btn btn-on-band">Open my vault</Link>
+          ) : site.vaultLaunched ? (
+            <Link to="/create-vault" className="btn btn-on-band">Create your vault</Link>
+          ) : (
+            <button type="button" className="btn btn-on-band" onClick={requestCallback}>
+              Talk to a founder
+            </button>
+          )}
+        </Reveal>
+
+        <Reveal
+          as="p"
+          delay={300}
+          className="tiny"
+          style={{ color: 'color-mix(in srgb, var(--on-band) 62%, transparent)', marginTop: 4, letterSpacing: '0.1em' }}
+        >
+          {brand.stages}
+        </Reveal>
       </div>
     </section>
   );
@@ -122,43 +151,54 @@ function Hero({ user }) {
 /** Creation → Continuation → Consumption → Distribution, the spine of the brand. */
 function Stages() {
   return (
-    <section style={{ background: 'var(--band)', color: 'var(--on-band)', padding: '80px 0' }}>
+    <section className="band" style={{ padding: '96px 0' }}>
       <div className="container stack stack-lg">
-        <div className="stack" style={{ gap: 20 }}>
-          {/* The four words under the logo, set the way the logo sets them. */}
-          <div className="rule-gold lead on-dark" role="separator" style={{ maxWidth: 720 }}>
-            <span>Creation · Continuation · Consumption · Distribution</span>
-          </div>
-          <h2 style={{ maxWidth: 620, color: 'var(--on-band)' }}>
-            Financial planning should accompany the whole journey — not appear only when a policy
-            needs to be bought.
-          </h2>
-        </div>
+        <SectionHead
+          onBand
+          eyebrow="Creation · Continuation · Consumption · Distribution"
+          title="Financial planning should accompany the whole journey — not appear only when a policy needs to be bought."
+        />
         <div className="grid grid-4">
           {stages.map((stage, index) => (
-            <div
+            <Reveal
               key={stage.key}
               className="stack stack-sm"
+              delay={index * 90}
               style={{
-                padding: 24,
+                padding: 26,
                 borderRadius: 'var(--radius-lg)',
-                background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.12)',
+                background: 'color-mix(in srgb, var(--on-band) 6%, transparent)',
+                border: '1px solid var(--gold-line)',
               }}
             >
               <div className="row-between">
                 <Icon name={stage.icon} size={24} style={{ color: 'var(--band-accent)' }} />
-                <span className="tiny" style={{ color: 'rgba(255,255,255,0.5)' }}>0{index + 1}</span>
+                <span
+                  className="tiny"
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    letterSpacing: '0.14em',
+                    color: 'color-mix(in srgb, var(--on-band) 50%, transparent)',
+                  }}
+                >
+                  0{index + 1}
+                </span>
               </div>
               <h4 style={{ color: 'var(--on-band)' }}>{stage.label}</h4>
-              <p className="small" style={{ color: 'rgba(255,255,255,0.75)' }}>{stage.lead}</p>
-            </div>
+              <p className="small" style={{ color: 'color-mix(in srgb, var(--on-band) 76%, transparent)' }}>
+                {stage.lead}
+              </p>
+            </Reveal>
           ))}
         </div>
-        <p className="small" style={{ color: 'rgba(255,255,255,0.7)', maxWidth: 620 }}>
+        <Reveal
+          as="p"
+          className="small center"
+          style={{ color: 'color-mix(in srgb, var(--on-band) 72%, transparent)', maxWidth: '62ch', margin: '0 auto' }}
+        >
           These aren’t simply four financial stages. They are four stages of life — and Akshayvriddhi
           intends to stand beside its clients through each one.
-        </p>
+        </Reveal>
       </div>
     </section>
   );
@@ -168,31 +208,22 @@ function Problems() {
   return (
     <section style={{ padding: '80px 0' }}>
       <div className="container stack stack-lg">
-        <div className="center" style={{ maxWidth: 640, margin: '0 auto' }}>
-          <h2>Important things shouldn’t be this hard to find.</h2>
-          <p className="muted" style={{ marginTop: 12 }}>
-            Protection only works if the paperwork behind it can be found by the people who need it.
-          </p>
-        </div>
+        <SectionHead
+          eyebrow="The problem"
+          title="Important things shouldn’t be this hard to find."
+          lede="Protection only works if the paperwork behind it can be found by the people who need it."
+        />
         <div className="grid grid-3">
-          {problems.map((item) => (
-            <Card key={item.title} className="stack stack-sm center" style={{ alignItems: 'center' }}>
-              <span
-                style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: 'var(--radius-full)',
-                  background: 'var(--primary-fixed)',
-                  color: 'var(--primary)',
-                  display: 'grid',
-                  placeItems: 'center',
-                }}
-              >
+          {problems.map((item, index) => (
+            <Reveal key={item.title} delay={index * 90}>
+            <Card className="stack stack-sm center card-gold" style={{ alignItems: 'center', height: '100%' }}>
+              <span className="medallion" style={{ width: 52, height: 52 }}>
                 <Icon name={item.icon} size={24} />
               </span>
               <h4>{item.title}</h4>
               <p className="small muted">{item.body}</p>
             </Card>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -203,18 +234,19 @@ function Problems() {
 function VaultIntro() {
   return (
     <section id="vault" style={{ background: 'var(--surface-container)', padding: '88px 0' }}>
-      <div className="container stack stack-md" style={{ maxWidth: 760 }}>
-        <div className="row wrap" style={{ gap: 12 }}>
-          <span className="caps" style={{ color: 'var(--primary)' }}>The Akshayvriddhi vault</span>
-          {!site.vaultLaunched && <Badge tone="gold" icon="schedule">In private preview</Badge>}
-        </div>
-        <h2>A place where what you have protected can actually be found.</h2>
-        <p className="muted" style={{ fontSize: 17, lineHeight: 1.7 }}>
-          Behind every policy is a responsibility. Behind every nomination is someone important. The
-          vault is where those records live — encrypted, organised, and reachable by the people you
-          choose, at the moment they need them.
-        </p>
-        <div className="row wrap" style={{ gap: 12, marginTop: 8 }}>
+      <div className="container stack stack-md">
+        <SectionHead
+          eyebrow="The Akshayvriddhi vault"
+          title="A place where what you have protected can actually be found."
+          lede="Behind every policy is a responsibility. Behind every nomination is someone important. The vault is where those records live — encrypted, organised, and reachable by the people you choose, at the moment they need them."
+        >
+          {!site.vaultLaunched && (
+            <Reveal delay={240}>
+              <Badge tone="gold" icon="schedule">In private preview</Badge>
+            </Reveal>
+          )}
+        </SectionHead>
+        <Reveal className="row wrap" delay={300} style={{ gap: 12, justifyContent: 'center' }}>
           {site.vaultLaunched ? (
             <Link to="/create-vault" className="btn">Create your vault</Link>
           ) : (
@@ -223,7 +255,7 @@ function VaultIntro() {
             </button>
           )}
           <a href="#how" className="btn btn-secondary">See how it works</a>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -233,31 +265,22 @@ function Categories() {
   return (
     <section style={{ padding: '80px 0' }}>
       <div className="container stack stack-lg">
-        <div style={{ maxWidth: 520 }}>
-          <h2>One place for everything that matters.</h2>
-          <p className="muted" style={{ marginTop: 12 }}>
-            Nine categories, each one shaped around what a family actually goes looking for.
-          </p>
-        </div>
+        <SectionHead
+          eyebrow="What it holds"
+          title="One place for everything that matters."
+          lede="Nine categories, each one shaped around what a family actually goes looking for."
+        />
         <div className="grid grid-4">
-          {CATEGORY_LIST.map((category) => (
-            <Card key={category.key} flat className="stack stack-sm">
-              <span
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 'var(--radius-full)',
-                  background: 'var(--primary-fixed)',
-                  color: 'var(--primary)',
-                  display: 'grid',
-                  placeItems: 'center',
-                }}
-              >
+          {CATEGORY_LIST.map((category, index) => (
+            <Reveal key={category.key} delay={(index % 5) * 70}>
+            <Card flat className="stack stack-sm" style={{ height: '100%' }}>
+              <span className="medallion" style={{ width: 42, height: 42 }}>
                 <Icon name={category.icon} size={20} />
               </span>
               <h4>{category.label}</h4>
               <p className="small muted">{category.blurb}</p>
             </Card>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -269,37 +292,38 @@ function HowItWorks() {
   return (
     <section id="how" style={{ background: 'var(--surface-low)', padding: '88px 0' }}>
       <div className="container stack stack-lg">
-        <div style={{ maxWidth: 560 }}>
-          <span className="caps" style={{ color: 'var(--primary)' }}>How it works</span>
-          <h2 style={{ marginTop: 12 }}>Five things happen, and none of them need you to be technical.</h2>
-        </div>
-        <ol className="stack stack-md" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+        <SectionHead
+          eyebrow="How it works"
+          title="Five things happen, and none of them need you to be technical."
+        />
+        <ol className="stack stack-md" style={{ listStyle: 'none', margin: 0, padding: 0, maxWidth: 860, width: '100%', marginInline: 'auto' }}>
           {howItWorks.map((step, index) => (
-            <li key={step.title}>
-              <Card className="row" style={{ alignItems: 'flex-start', gap: 20 }}>
+            <Reveal as="li" key={step.title} delay={index * 70}>
+              <Card className="row card-gold" style={{ alignItems: 'flex-start', gap: 20 }}>
                 <span
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 'var(--radius-md)',
-                    background: 'var(--primary)',
-                    color: 'var(--on-primary)',
-                    display: 'grid',
-                    placeItems: 'center',
-                    flex: 'none',
-                  }}
+                  className="medallion medallion-solid"
+                  style={{ width: 46, height: 46, borderRadius: 'var(--radius-md)' }}
                 >
                   <Icon name={step.icon} size={22} />
                 </span>
                 <div className="stack" style={{ gap: 6 }}>
                   <div className="row" style={{ gap: 10 }}>
-                    <span className="tiny muted">STEP {index + 1}</span>
+                    <span
+                      className="tiny"
+                      style={{
+                        fontFamily: 'var(--font-display)',
+                        letterSpacing: '0.16em',
+                        color: 'var(--gold-ink)',
+                      }}
+                    >
+                      STEP {index + 1}
+                    </span>
                     <h4>{step.title}</h4>
                   </div>
                   <p className="muted small">{step.body}</p>
                 </div>
               </Card>
-            </li>
+            </Reveal>
           ))}
         </ol>
       </div>
@@ -311,15 +335,11 @@ function FoundersTeaser() {
   return (
     <section style={{ padding: '88px 0' }}>
       <div className="container stack stack-lg">
-        <div style={{ maxWidth: 640 }}>
-          <span className="caps" style={{ color: 'var(--primary)' }}>The people behind it</span>
-          <h2 style={{ marginTop: 12 }}>From experience to perspective. From perspective to purpose.</h2>
-          <p className="muted" style={{ marginTop: 12 }}>
-            After decades inside the insurance industry — building businesses, developing people and
-            helping protection reach thousands of families — our founders arrived at a different
-            question: what can everything we have learned now do for others?
-          </p>
-        </div>
+        <SectionHead
+          eyebrow="The people behind it"
+          title="From experience to perspective. From perspective to purpose."
+          lede="After decades inside the insurance industry — building businesses, developing people and helping protection reach thousands of families — our founders arrived at a different question: what can everything we have learned now do for others?"
+        />
         <Photo
           name="founders-at-work"
           alt="Shiv Maheshwari and Vikram Rajput at a table, working through the founders’ vision beneath a wall showing the four stages: create, continue, consume, distribute."
@@ -328,14 +348,16 @@ function FoundersTeaser() {
           sizes="(max-width: 900px) 100vw, 1120px"
         />
 
-        <div className="grid grid-2">
+        <div className="grid grid-2" style={{ maxWidth: 1040, width: '100%', marginInline: 'auto' }}>
           {founders.map((founder) => (
             <FounderCard key={founder.id} founder={founder} compact />
           ))}
         </div>
-        <Link to="/about#founders" className="btn btn-secondary" style={{ alignSelf: 'flex-start' }}>
-          Read their full story <Icon name="arrow_forward" size={18} />
-        </Link>
+        <Reveal className="row" style={{ justifyContent: 'center' }}>
+          <Link to="/about#founders" className="btn btn-secondary">
+            Read their full story <Icon name="arrow_forward" size={18} />
+          </Link>
+        </Reveal>
       </div>
     </section>
   );
@@ -345,17 +367,23 @@ function Assurances() {
   return (
     <section id="security" style={{ background: 'var(--surface-container)', padding: '88px 0' }}>
       <div className="container stack stack-lg">
-        <div style={{ maxWidth: 560 }}>
-          <span className="caps" style={{ color: 'var(--primary)' }}>Security</span>
-          <h2 style={{ marginTop: 12 }}>The protections are specific, so you can check them.</h2>
-        </div>
-        <div className="grid grid-2">
-          {assurances.map((item) => (
-            <Card key={item.title} className="stack stack-sm">
+        <SectionHead
+          eyebrow="Security"
+          title="The protections are specific, so you can check them."
+        />
+        {/* Four cards, so two by two rather than three and a stray. */}
+        <div
+          className="grid"
+          style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', maxWidth: 940, width: '100%', marginInline: 'auto' }}
+        >
+          {assurances.map((item, index) => (
+            <Reveal key={item.title} delay={(index % 2) * 90}>
+            <Card className="stack stack-sm card-gold" style={{ height: '100%' }}>
               <Icon name={item.icon} size={24} style={{ color: 'var(--primary)' }} />
               <h4>{item.title}</h4>
               <p className="small muted">{item.body}</p>
             </Card>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -367,7 +395,7 @@ function Faqs() {
   return (
     <section id="faq" style={{ padding: '88px 0' }}>
       <div className="container stack stack-lg" style={{ maxWidth: 820 }}>
-        <h2>Questions people actually ask.</h2>
+        <SectionHead eyebrow="Questions" title="Questions people actually ask." />
         <div className="stack stack-sm">
           {faqs.map((faq) => (
             <details
@@ -396,22 +424,24 @@ function Faqs() {
 
 function ClosingCta() {
   return (
-    <section style={{ background: 'var(--surface-lowest)', padding: '96px 0' }}>
-      <div className="container center stack stack-md" style={{ maxWidth: 660 }}>
-        <h2>Because someday, someone you love may need it.</h2>
-        <p className="muted" style={{ fontSize: 17 }}>
-          Insurance details. Property papers. Identity documents. Keep the things your family may
-          need somewhere they can actually find them.
-        </p>
-        <div className="row" style={{ justifyContent: 'center', marginTop: 8 }}>
-          {site.vaultLaunched ? (
-            <Link to="/create-vault" className="btn">Start securing your legacy</Link>
-          ) : (
-            <button type="button" className="btn" onClick={requestCallback}>
-              Request a call
-            </button>
-          )}
-        </div>
+    <section className="band" style={{ padding: '104px 0' }}>
+      <div className="container stack stack-md">
+        <SectionHead
+          onBand
+          eyebrow={brand.stages}
+          title="Because someday, someone you love may need it."
+          lede="Insurance details. Property papers. Identity documents. Keep the things your family may need somewhere they can actually find them."
+        >
+          <Reveal className="row" delay={260} style={{ justifyContent: 'center', marginTop: 10 }}>
+            {site.vaultLaunched ? (
+              <Link to="/create-vault" className="btn btn-gold btn-sheen">Start securing your legacy</Link>
+            ) : (
+              <button type="button" className="btn btn-gold btn-sheen" onClick={requestCallback}>
+                Request a call
+              </button>
+            )}
+          </Reveal>
+        </SectionHead>
       </div>
     </section>
   );

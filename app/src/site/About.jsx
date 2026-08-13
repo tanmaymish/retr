@@ -339,16 +339,8 @@ function StandsFor() {
           {stages.map((stage) => (
             <Card key={stage.key} className="row" style={{ gap: 18, alignItems: 'flex-start' }}>
               <span
-                style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: 'var(--radius-md)',
-                  background: 'var(--primary)',
-                  color: 'var(--on-primary)',
-                  display: 'grid',
-                  placeItems: 'center',
-                  flex: 'none',
-                }}
+                className="medallion medallion-solid"
+                style={{ width: 50, height: 50, borderRadius: 'var(--radius-md)' }}
               >
                 <Icon name={stage.icon} size={22} />
               </span>
