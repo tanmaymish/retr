@@ -166,9 +166,18 @@ export function SiteFooter() {
         <div className="rule-gold" role="separator">
           <span className="diamond" aria-hidden="true">✦</span>
         </div>
-        <p className="tiny muted">
-          © {new Date().getFullYear()} {brand.name}. {brand.tagline}.
-        </p>
+        <div className="stack" style={{ gap: 6 }}>
+          {/* The lockup reads "IMF". Spelled out here, because the abbreviation
+              is also the International Monetary Fund, and a regulated firm
+              cannot leave that ambiguous. */}
+          <p className="tiny muted">
+            Akshayvriddhi IMF — an Insurance Marketing Firm. Insurance distribution in India is
+            regulated by the IRDAI. Registration number to be stated here.
+          </p>
+          <p className="tiny muted">
+            © {new Date().getFullYear()} {brand.name}. {brand.tagline}.
+          </p>
+        </div>
       </div>
     </footer>
   );
