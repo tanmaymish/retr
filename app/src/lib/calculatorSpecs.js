@@ -44,7 +44,7 @@ export const CALCULATORS = [
     title: 'SIP calculator',
     blurb: 'What a monthly investment becomes.',
     intro:
-      'A fixed amount invested every month, compounded monthly at an assumed rate. The rate is an assumption you are choosing, not a return anyone can promise.',
+      'The rate is an assumption you are choosing, not a return anyone can promise.',
     cta: 'Ask what this should be invested in',
     inputs: [
       { key: 'monthly', label: 'Monthly investment', min: 500, max: 200000, step: 500, value: 10000, format: money },
@@ -71,7 +71,7 @@ export const CALCULATORS = [
     title: 'Step-up SIP',
     blurb: 'What raising the amount every year does.',
     intro:
-      'The same SIP, increased by a fixed percentage every year — usually in step with a salary. The difference against a flat SIP is almost always larger than people expect.',
+      'The same SIP, raised each year in step with a salary. The difference is larger than people expect.',
     cta: 'Set a step-up that matches my income',
     inputs: [
       { key: 'monthly', label: 'Starting monthly amount', min: 500, max: 200000, step: 500, value: 10000, format: money },
@@ -100,7 +100,7 @@ export const CALCULATORS = [
     icon: 'payments',
     title: 'Lumpsum return',
     blurb: 'One amount, left to compound.',
-    intro: 'A single investment compounded annually. Useful for a bonus, a maturity or a sale.',
+    intro: 'One amount, compounded annually. For a bonus, a maturity or a sale.',
     cta: 'Ask where a lump sum should go',
     inputs: [
       { key: 'amount', label: 'Amount invested', min: 10000, max: 20000000, step: 10000, value: 500000, format: money },
@@ -126,7 +126,7 @@ export const CALCULATORS = [
     title: 'Home loan EMI',
     blurb: 'The instalment, and what the loan really costs.',
     intro:
-      'A reducing-balance EMI. The figure worth looking at is not the instalment but the total interest — on a long tenure it can approach the amount borrowed.',
+      'The number that matters is not the instalment. It is the total interest.',
     cta: 'Ask how this fits the rest of the plan',
     inputs: [
       { key: 'principal', label: 'Loan amount', min: 100000, max: 50000000, step: 100000, value: 5000000, format: money },
@@ -145,7 +145,7 @@ export const CALCULATORS = [
         split: { a: { label: 'Principal', value: v.principal }, b: { label: 'Interest', value: r.totalInterest } },
         note:
           r.totalInterest > v.principal
-            ? 'Over this tenure the interest exceeds the amount borrowed. Shortening the tenure changes that faster than any rate negotiation will.'
+            ? 'The interest exceeds the loan. Shortening the tenure fixes that faster than any rate negotiation.'
             : null,
       };
     },
@@ -157,7 +157,7 @@ export const CALCULATORS = [
     title: 'EMI prepayment',
     blurb: 'What paying extra actually buys.',
     intro:
-      'The instalment is held where it is, so paying extra shortens the loan rather than shrinking the payment. That is the version most people are never shown.',
+      'The instalment stays put, so paying extra shortens the loan instead.',
     cta: 'Ask whether to prepay or invest instead',
     inputs: [
       { key: 'principal', label: 'Loan amount', min: 100000, max: 50000000, step: 100000, value: 5000000, format: money },
@@ -188,7 +188,7 @@ export const CALCULATORS = [
     title: 'Income tax: old vs new',
     blurb: 'Which regime costs you less.',
     intro:
-      'A salaried comparison for the current year. Deductions are what you would actually claim under the old regime — 80C, 80D, HRA, home-loan interest — since the new regime allows almost none of them.',
+      'Deductions are what you would claim under the old regime — 80C, 80D, HRA, home-loan interest.',
     cta: 'Ask what else is deductible',
     inputs: [
       { key: 'grossSalary', label: 'Gross annual salary', min: 300000, max: 10000000, step: 25000, value: 1500000, format: money },
@@ -209,7 +209,7 @@ export const CALCULATORS = [
           { label: 'Computed for', value: r.year },
         ],
         note:
-          'Includes the standard deduction and 4% cess. Surcharge on incomes above ₹50 lakh, capital gains and marginal relief are not modelled. Slabs change every year — check the current Finance Act before filing.',
+          'Standard deduction and 4% cess included. Surcharge, capital gains and marginal relief are not. Slabs change yearly.',
       };
     },
   },
@@ -220,7 +220,7 @@ export const CALCULATORS = [
     title: 'NPS calculator',
     blurb: 'The corpus, and the pension it buys.',
     intro:
-      'At retirement at least 40% of an NPS corpus must be used to buy an annuity; the rest can be withdrawn. Both parts are shown, because the pension is the part that has to last.',
+      'At least 40% must buy an annuity. The pension is the part that has to last.',
     cta: 'Ask how NPS fits my retirement',
     inputs: [
       { key: 'monthly', label: 'Monthly contribution', min: 500, max: 150000, step: 500, value: 10000, format: money },
@@ -240,7 +240,7 @@ export const CALCULATORS = [
           { label: 'Monthly pension (at 6%)', value: formatMoney(r.monthlyPension) },
           { label: 'Years of contribution', value: `${r.years}` },
         ],
-        note: 'The annuity rate is assumed at 6%. The rate you are actually offered at retirement will differ.',
+        note: 'Annuity assumed at 6%. What you are offered at retirement will differ.',
       };
     },
   },
@@ -251,7 +251,7 @@ export const CALCULATORS = [
     title: 'Human life value',
     blurb: 'The cover gap, in a number.',
     intro:
-      'What it would cost to replace the income you bring in until you would have retired, plus what is owed, less what is already set aside and already covered. This is the single most important number on this page.',
+      'The income to replace, plus what is owed, less what is already covered.',
     cta: 'Ask how to close this gap',
     inputs: [
       { key: 'annualIncome', label: 'Your annual income', min: 200000, max: 20000000, step: 50000, value: 1500000, format: money },
@@ -279,7 +279,7 @@ export const CALCULATORS = [
           { label: 'Years of income counted', value: `${r.years}` },
         ],
         note:
-          'Income is discounted at 6% and assumed to grow at 5%. A term plan is the usual instrument for a gap of this shape — but the number is the starting point of a conversation, not a recommendation.',
+          'Discounted at 6%, growing at 5%. A starting point for a conversation, not a recommendation.',
       };
     },
   },
@@ -290,7 +290,7 @@ export const CALCULATORS = [
     title: 'EPF projection',
     blurb: 'What the provident fund reaches.',
     intro:
-      'Your 12% and the 3.67% of the employer’s share that goes to EPF rather than to the pension scheme, compounded at the declared rate, with the basic rising each year.',
+      'Your 12% plus the 3.67% of the employer’s share that reaches EPF, at the declared rate.',
     cta: 'Ask what this covers, and what it does not',
     inputs: [
       { key: 'basicMonthly', label: 'Monthly basic pay', min: 10000, max: 500000, step: 1000, value: 50000, format: money },
@@ -309,7 +309,7 @@ export const CALCULATORS = [
           { label: 'Years to run', value: `${r.years}` },
         ],
         split: { a: { label: 'Contributed', value: r.contributed }, b: { label: 'Interest', value: r.interest } },
-        note: 'At the 8.25% rate declared for recent years. The rate is notified annually and is not guaranteed.',
+        note: 'At 8.25%. Notified annually, not guaranteed.',
       };
     },
   },
@@ -320,7 +320,7 @@ export const CALCULATORS = [
     title: 'Sukanya Samriddhi',
     blurb: 'The scheme for a daughter, to maturity.',
     intro:
-      'Deposits run for fifteen years from opening; the account matures twenty-one years after opening, compounding untouched in between. Opened before the girl turns ten.',
+      'Fifteen years of deposits, maturing twenty-one years after opening.',
     cta: 'Ask how this fits an education goal',
     inputs: [
       { key: 'yearly', label: 'Deposited each year', min: 250, max: 150000, step: 250, value: 50000, format: money },
@@ -335,7 +335,7 @@ export const CALCULATORS = [
           { label: 'She will be', value: `${r.maturesAtGirlAge} years old` },
         ],
         split: { a: { label: 'Deposited', value: r.deposited }, b: { label: 'Interest', value: r.interest } },
-        note: 'At 8.2%, the rate notified for recent quarters. The rate is revised quarterly. The maximum deposit is ₹1.5 lakh a year.',
+        note: 'At 8.2%, revised quarterly. Maximum ₹1.5 lakh a year.',
       };
     },
   },
@@ -346,7 +346,7 @@ export const CALCULATORS = [
     title: 'PPF calculator',
     blurb: 'Fifteen years, tax-free at maturity.',
     intro:
-      'A deposit each year for fifteen years, extendable in blocks of five. Interest is compounded annually and is exempt at maturity.',
+      'Fifteen years, extendable in blocks of five. Tax-free at maturity.',
     cta: 'Ask where PPF fits against other options',
     inputs: [
       { key: 'yearly', label: 'Deposited each year', min: 500, max: 150000, step: 500, value: 150000, format: money },
@@ -361,7 +361,7 @@ export const CALCULATORS = [
           { label: 'Term', value: `${v.years} years` },
         ],
         split: { a: { label: 'Deposited', value: r.deposited }, b: { label: 'Interest', value: r.interest } },
-        note: 'At 7.1%, the rate notified for recent quarters. The rate is revised quarterly. The maximum deposit is ₹1.5 lakh a year.',
+        note: 'At 7.1%, revised quarterly. Maximum ₹1.5 lakh a year.',
       };
     },
   },

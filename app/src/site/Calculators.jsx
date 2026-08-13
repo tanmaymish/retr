@@ -38,7 +38,7 @@ export function CalculatorsHub() {
             as="h1"
             eyebrow="Tools"
             title="Run the numbers yourself."
-            lede="The same arithmetic we use in a review, with nothing hidden behind a signup. Nothing you type here is sent anywhere or stored."
+            lede="The same arithmetic we use in a review. Nothing you type is stored."
           />
         </div>
       </section>
@@ -78,9 +78,7 @@ export function CalculatorsHub() {
               <Crest />
               <h3>A number is not a plan.</h3>
               <p className="small muted" style={{ maxWidth: '58ch' }}>
-                These are indicative calculations on the assumptions you enter. What they cannot tell
-                you is which of them matters most in your household this year — that is the
-                conversation.
+                Which of these matters most in your household this year is the conversation.
               </p>
               <button type="button" className="btn" onClick={requestCallback}>Talk it through</button>
             </Card>
@@ -204,8 +202,7 @@ function CalculatorRunner({ calc }) {
               <Slider key={input.key} input={input} value={values[input.key]} onChange={(v) => set(input.key, v)} />
             ))}
             <p className="tiny muted" style={{ lineHeight: 1.7 }}>
-              Indicative only, on the assumptions above. Not financial, insurance or tax advice, and
-              not a recommendation of any product. Returns are assumed, not promised.
+              Indicative only. Not advice, and not a recommendation. Returns are assumed, not promised.
             </p>
           </Card>
         </div>

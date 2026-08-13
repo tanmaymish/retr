@@ -27,7 +27,7 @@ export function InsightsIndex() {
             as="h1"
             eyebrow="Insights"
             title="What we would tell you in the meeting."
-            lede="No product names, no forecasts, no jargon that exists to make the writer sound expert. Just the things worth understanding before a decision."
+            lede="No product names, no forecasts. The things worth understanding before a decision."
           />
         </div>
       </section>
@@ -118,9 +118,8 @@ export function InsightPost() {
 
             <hr className="divider" style={{ marginTop: 12 }} />
             <p className="tiny muted" style={{ lineHeight: 1.7 }}>
-              General information about how these products work, not financial, insurance or tax
-              advice, and not a recommendation of any product. Rules and rates change; anything you
-              are about to act on should be checked against your own situation first.
+              General information, not advice. Rules and rates change — check anything you are about
+              to act on against your own situation.
             </p>
           </div>
         </section>
@@ -131,8 +130,7 @@ export function InsightPost() {
               <Crest />
               <h3>Reading about it only gets you so far.</h3>
               <p className="small muted" style={{ maxWidth: '54ch' }}>
-                What this article cannot tell you is which part applies to your household this year.
-                That takes one conversation, and it costs nothing.
+                Which part applies to your household takes one conversation. It costs nothing.
               </p>
               <button type="button" className="btn btn-sheen" onClick={requestCallback}>Request a call</button>
             </Card>
