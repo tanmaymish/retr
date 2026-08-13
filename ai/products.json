@@ -1,0 +1,66 @@
+{
+  "need": "Term life cover to close a protection gap",
+  "gap_inr": 12000000,
+  "products": [
+    {
+      "id": "A",
+      "label": "Provider A — Term Shield",
+      "fit_score": 94,
+      "tag": "BEST MATCH",
+      "cover_inr": 12500000,
+      "monthly_premium_inr": 1842,
+      "term_years": 22,
+      "claim_settlement_pct": 99.1,
+      "waiting_period_months": 12,
+      "critical_illness_rider": true,
+      "commission": true,
+      "exclusions": ["Suicide exclusion in the first 12 months", "Medical test required before final premium"],
+      "premium_verified": "2 days ago"
+    },
+    {
+      "id": "B",
+      "label": "Provider B",
+      "fit_score": 88,
+      "tag": "CHEAPER",
+      "cover_inr": 12500000,
+      "monthly_premium_inr": 1610,
+      "term_years": 22,
+      "claim_settlement_pct": 97.4,
+      "waiting_period_months": 12,
+      "critical_illness_rider": false,
+      "commission": false,
+      "exclusions": ["No critical illness rider offered"],
+      "premium_verified": "today"
+    },
+    {
+      "id": "C",
+      "label": "Provider C",
+      "fit_score": 87,
+      "tag": "MORE COVER",
+      "cover_inr": 15000000,
+      "monthly_premium_inr": null,
+      "term_years": 22,
+      "claim_settlement_pct": 98.6,
+      "waiting_period_months": 12,
+      "critical_illness_rider": true,
+      "commission": true,
+      "exclusions": ["Rate feed has been down 6 hours — premium unverified, unbuyable"],
+      "premium_verified": null
+    },
+    {
+      "id": "D",
+      "label": "Provider D",
+      "fit_score": 85,
+      "tag": "FEATURES",
+      "cover_inr": 12500000,
+      "monthly_premium_inr": 2240,
+      "term_years": 22,
+      "claim_settlement_pct": 98.9,
+      "waiting_period_months": 6,
+      "critical_illness_rider": true,
+      "commission": false,
+      "exclusions": ["Premium last confirmed 41 days ago — shown greyed until re-verified"],
+      "premium_verified": "41 days ago (stale)"
+    }
+  ]
+}

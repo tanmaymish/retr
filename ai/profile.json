@@ -1,0 +1,47 @@
+{
+  "name": "Rohan Prasad",
+  "age": 38,
+  "city": "Pune",
+  "marital_status": "married",
+  "spouse": { "name": "Meera Prasad", "role": "spouse" },
+  "dependents": [
+    { "name": "Ananya", "relation": "daughter", "age": 6 },
+    { "name": "Arjun", "relation": "son", "age": 13 }
+  ],
+  "income_annual_inr": 2500000,
+  "monthly_income_after_tax_inr": 208000,
+  "monthly_expenses_inr": 137000,
+  "monthly_surplus_inr": 71000,
+  "savings_rate_pct": 34,
+  "home_loan": {
+    "outstanding_inr": 6200000,
+    "years_remaining": 19
+  },
+  "existing_life_cover": [
+    { "provider": "LIC", "amount_inr": 5000000, "note": "personal policy" },
+    { "provider": "Employer group cover", "amount_inr": 10000000, "note": "ends when employment ends" }
+  ],
+  "liquid_assets_inr": 10300000,
+  "required_life_cover_inr": 27000000,
+  "protection_gap_inr": 12000000,
+  "resilience_score": { "current": 61, "last_month": 57 },
+  "emergency_reserve": { "held_months": 4.2, "target_months": 6 },
+  "retirement": {
+    "target_age": 58,
+    "target_corpus_inr": 60000000,
+    "on_track_corpus_inr": 31000000,
+    "monthly_contribution_inr": 58000
+  },
+  "goals": [
+    { "name": "Ananya's education", "target_year": 2042, "target_inr": 7500000, "funded_pct": 64 },
+    { "name": "House down payment", "target_inr": 4000000, "funded_pct": 3 }
+  ],
+  "health_cover_inr": 500000,
+  "health_cover_holders": 4,
+  "life_event": {
+    "type": "new_dependent",
+    "months_ago": 3,
+    "description": "A third dependent was added to the household."
+  },
+  "notes": "Baseline demo persona used consistently across the Akshayvridhi wireframe screens (3a-3b, 4a, 4c). The AI pipeline must not contradict these figures — it explains and narrates them, it does not invent new ones."
+}
