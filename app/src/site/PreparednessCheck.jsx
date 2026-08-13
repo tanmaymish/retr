@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Badge, Button, Card, EmptyState, Icon, Meter, Spinner } from '../components/ui';
 import { SitePage } from './SiteChrome';
 import { useApi } from '../lib/useApi';
-import { api } from '../lib/api';
+import { isStatic, localQuestions, scoreCheck } from '../lib/backend';
 import { useSeo } from '../lib/seo';
 import { track } from '../lib/analytics';
 import { LeadForm } from './LeadForm';
@@ -23,7 +23,11 @@ export default function PreparednessCheck() {
     path: '/preparedness-check',
   });
 
-  const { data, loading, error } = useApi('/preparedness/questions');
+  // A static build has the questions compiled in; a served build fetches them.
+  const remote = useApi('/preparedness/questions', { skip: isStatic });
+  const { data, loading, error } = isStatic
+    ? { data: localQuestions(), loading: false, error: null }
+    : remote;
   const [answers, setAnswers] = useState({});
   const [step, setStep] = useState(0);
   const [result, setResult] = useState(null);
@@ -46,7 +50,7 @@ export default function PreparednessCheck() {
     setScoring(true);
     setFailure(null);
     try {
-      const scored = await api.post('/preparedness/score', next);
+      const scored = await scoreCheck(next);
       setResult(scored);
       track('preparedness_completed', { score: scored.score, band: scored.band });
     } catch (err) {

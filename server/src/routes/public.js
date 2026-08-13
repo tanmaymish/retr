@@ -5,7 +5,7 @@ import { newId } from '../lib/crypto.js';
 import { notFound } from '../lib/errors.js';
 import { requireAuth, requireRole } from '../middleware/auth.js';
 import { validateBody, validateQuery } from '../middleware/validate.js';
-import { QUESTIONS, scorePreparedness } from '../engine/preparedness.js';
+import { QUESTIONS, scorePreparedness } from '../../../shared/preparedness.js';
 import { leadPatchSchema, leadQuerySchema, leadSchema, preparednessSchema } from '../schemas.js';
 
 /**

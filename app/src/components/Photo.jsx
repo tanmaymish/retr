@@ -1,3 +1,5 @@
+import { asset } from '../lib/asset';
+
 /**
  * A photograph, served as WebP with a JPEG fallback and a smaller file on
  * narrow screens.
@@ -21,13 +23,13 @@ export function Photo({
     <picture>
       <source
         media="(max-width: 760px)"
-        srcSet={`/images/${name}-sm.webp`}
+        srcSet={asset(`images/${name}-sm.webp`)}
         type="image/webp"
       />
-      <source srcSet={`/images/${name}.webp`} type="image/webp" sizes={sizes} />
-      <source media="(max-width: 760px)" srcSet={`/images/${name}-sm.jpg`} type="image/jpeg" />
+      <source srcSet={asset(`images/${name}.webp`)} type="image/webp" sizes={sizes} />
+      <source media="(max-width: 760px)" srcSet={asset(`images/${name}-sm.jpg`)} type="image/jpeg" />
       <img
-        src={`/images/${name}.jpg`}
+        src={asset(`images/${name}.jpg`)}
         alt={alt}
         width={width}
         height={height}
@@ -53,9 +55,9 @@ export function Photo({
 export function Portrait({ name, alt, size = 96, onError }) {
   return (
     <picture>
-      <source srcSet={`/founders/${name}.webp`} type="image/webp" />
+      <source srcSet={asset(`founders/${name}.webp`)} type="image/webp" />
       <img
-        src={`/founders/${name}.jpg`}
+        src={asset(`founders/${name}.jpg`)}
         alt={alt}
         width={size}
         height={size}

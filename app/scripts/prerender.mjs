@@ -116,8 +116,9 @@ for (const route of ROUTES) {
       /<meta\s+property="og:description"[^>]*>/,
       `<meta property="og:description" content="${escapeHtml(route.description)}" />`,
     )
-    // Crawlers resolve og:image against nothing, so it has to be absolute.
-    .replace(/content="\/brand\/og\.png"/g, `content="${SITE}/brand/og.png"`);
+    // Crawlers resolve og:image against nothing, so it has to be absolute. The
+    // path in the built HTML already carries whatever base the build used.
+    .replace(/content="[^"]*\/brand\/og\.png"/g, `content="${SITE}/brand/og.png"`);
 
   html = html.replace(
     '</head>',
@@ -138,6 +139,13 @@ for (const route of ROUTES) {
 
   writeFileSync(join(dist, route.file), html);
 }
+
+// GitHub Pages has no rewrite rules: an unknown path falls through to 404.html,
+// which boots the same single-page app and routes client-side. Pages also runs
+// Jekyll unless told not to, and Jekyll drops files beginning with an
+// underscore.
+writeFileSync(join(dist, '404.html'), readFileSync(join(dist, 'index.html')));
+writeFileSync(join(dist, '.nojekyll'), '');
 
 writeFileSync(
   join(dist, 'sitemap.xml'),

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { after, before, describe, it } from 'node:test';
 import { signUp, startTestServer } from './helpers.js';
-import { scorePreparedness } from '../src/engine/preparedness.js';
+import { scorePreparedness } from '../../shared/preparedness.js';
 
 const WELL_PREPARED = {
   dependants: 'children',

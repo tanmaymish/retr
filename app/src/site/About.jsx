@@ -232,10 +232,10 @@ function Founders() {
 
 function TwoJourneys() {
   return (
-    <section style={{ background: 'var(--primary)', color: 'var(--on-primary)', padding: '88px 0' }}>
+    <section style={{ background: 'var(--band)', color: 'var(--on-band)', padding: '88px 0' }}>
       <div className="container stack stack-lg">
         <div style={{ maxWidth: 720 }} className="stack stack-sm">
-          <h2 style={{ color: 'var(--on-primary)' }}>Strategy with empathy. Experience with accessibility.</h2>
+          <h2 style={{ color: 'var(--on-band)' }}>Strategy with empathy. Experience with accessibility.</h2>
           <p style={{ color: 'rgba(255,255,255,0.78)', lineHeight: 1.75 }}>
             Their professional journeys have been different. One has spent decades looking at
             insurance through the lenses of strategy, transformation, distribution and organisational
@@ -261,7 +261,7 @@ function TwoJourneys() {
                 border: '1px solid rgba(255,255,255,0.12)',
               }}
             >
-              <Icon name={item.icon} size={24} style={{ color: 'var(--primary-fixed-dim)' }} />
+              <Icon name={item.icon} size={24} style={{ color: 'var(--band-accent)' }} />
               <strong style={{ fontFamily: 'var(--font-heading)' }}>{item.label}</strong>
             </div>
           ))}

@@ -122,14 +122,14 @@ function Hero({ user }) {
 /** Creation → Continuation → Consumption → Distribution, the spine of the brand. */
 function Stages() {
   return (
-    <section style={{ background: 'var(--primary)', color: 'var(--on-primary)', padding: '80px 0' }}>
+    <section style={{ background: 'var(--band)', color: 'var(--on-band)', padding: '80px 0' }}>
       <div className="container stack stack-lg">
         <div className="stack" style={{ gap: 20 }}>
           {/* The four words under the logo, set the way the logo sets them. */}
           <div className="rule-gold lead on-dark" role="separator" style={{ maxWidth: 720 }}>
             <span>Creation · Continuation · Consumption · Distribution</span>
           </div>
-          <h2 style={{ maxWidth: 620, color: 'var(--on-primary)' }}>
+          <h2 style={{ maxWidth: 620, color: 'var(--on-band)' }}>
             Financial planning should accompany the whole journey — not appear only when a policy
             needs to be bought.
           </h2>
@@ -147,10 +147,10 @@ function Stages() {
               }}
             >
               <div className="row-between">
-                <Icon name={stage.icon} size={24} style={{ color: 'var(--primary-fixed-dim)' }} />
+                <Icon name={stage.icon} size={24} style={{ color: 'var(--band-accent)' }} />
                 <span className="tiny" style={{ color: 'rgba(255,255,255,0.5)' }}>0{index + 1}</span>
               </div>
-              <h4 style={{ color: 'var(--on-primary)' }}>{stage.label}</h4>
+              <h4 style={{ color: 'var(--on-band)' }}>{stage.label}</h4>
               <p className="small" style={{ color: 'rgba(255,255,255,0.75)' }}>{stage.lead}</p>
             </div>
           ))}

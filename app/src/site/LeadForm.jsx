@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Card, Field, Icon, Input } from '../components/ui';
-import { api } from '../lib/api';
+import { canSubmitLeads, submitLead } from '../lib/backend';
 import { track } from '../lib/analytics';
 
 export const INTERESTS = [
@@ -44,7 +44,7 @@ export function LeadForm({ source = 'contact', checkScore = null, compact = fals
     setState('submitting');
     setError(null);
     try {
-      const result = await api.post('/leads', {
+      const result = await submitLead({
         name: form.name,
         email: form.email,
         phone: form.phone || null,
@@ -76,6 +76,8 @@ export function LeadForm({ source = 'contact', checkScore = null, compact = fals
       </Card>
     );
   }
+
+  if (!canSubmitLeads) return <NoInbox />;
 
   return (
     <form className="stack stack-sm" onSubmit={submit} noValidate>
@@ -153,5 +155,25 @@ export function LeadForm({ source = 'contact', checkScore = null, compact = fals
         We use these details to contact you about your enquiry and nothing else.
       </p>
     </form>
+  );
+}
+
+/**
+ * A static build with no enquiry endpoint configured. Saying so is the only
+ * honest option: a form that silently drops what someone typed is worse than
+ * no form.
+ */
+export function NoInbox() {
+  return (
+    <Card flat className="stack stack-sm">
+      <div className="row" style={{ gap: 10 }}>
+        <Icon name="info" size={20} style={{ color: 'var(--gold-ink)' }} />
+        <strong>The enquiry form is not connected yet.</strong>
+      </div>
+      <p className="small muted">
+        This build has no inbox behind it, so nothing typed here would reach anyone. Please use the
+        founders' LinkedIn profiles on the About page until it is wired up.
+      </p>
+    </Card>
   );
 }

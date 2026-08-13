@@ -23,7 +23,7 @@ export function FounderCard({ founder, compact = false }) {
           <span className="tiny muted">{founder.strapline}</span>
           {founder.experience && (
             <span style={{ marginTop: 4 }}>
-              <Badge tone="verified" icon="workspace_premium" wrap>{founder.experience}</Badge>
+              <Badge tone="gold" icon="workspace_premium" wrap>{founder.experience}</Badge>
             </span>
           )}
         </div>
@@ -53,21 +53,9 @@ export function FounderCard({ founder, compact = false }) {
       )}
 
       {!compact && (
-        <blockquote
-          style={{
-            margin: 0,
-            padding: '18px 22px',
-            background: 'var(--surface-low)',
-            borderLeft: '3px solid var(--primary)',
-            borderRadius: 'var(--radius)',
-          }}
-        >
-          <p style={{ fontFamily: 'var(--font-heading)', fontSize: 17, lineHeight: 1.6 }}>
-            “{founder.quote}”
-          </p>
-          <footer className="tiny muted" style={{ marginTop: 10 }}>
-            {founder.name}, {founder.role}
-          </footer>
+        <blockquote className="pullquote">
+          <p>“{founder.quote}”</p>
+          <footer>{founder.name} · {founder.role}</footer>
         </blockquote>
       )}
 

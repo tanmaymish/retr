@@ -9,8 +9,12 @@
    Cinzel carries the wordmark; Manrope carries structure and Plus Jakarta Sans
    carries everything a person actually reads.
 
-   This is a single, committed light theme. There is no dark variant, and the
-   background is always painted explicitly. */
+   There is a dark counterpart further down. It is not an inversion: a maroon
+   brand has nowhere to go on a neutral black, which reads as any other dark
+   site. Instead the ground becomes deep wine — the crescent's colour taken
+   down rather than a grey taken up — and the gold leads, as it does in the
+   logo. Every colour is defined as a token, so components never reach for a
+   literal that only works in one theme. */
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
@@ -87,6 +91,151 @@
   --elev-hover: 0 2px 24px rgba(74, 13, 26, 0.12);
 
   --spring: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* The full-bleed maroon sections. `--primary` cannot serve here: in dark it
+     is the gold, and a gold band would shout. */
+  --band: #661426;
+  --on-band: #fffaf3;
+  --band-accent: #d9a95f;
+
+  --surface-veil: rgba(251, 246, 236, 0.9);
+  --card-border: rgba(74, 13, 26, 0.06);
+  --focus-ring: rgba(102, 20, 38, 0.14);
+
+  /* A wash of warmth behind the page, so the ground is never a flat fill. */
+  --ambient:
+    radial-gradient(1200px 620px at 78% -8%, rgba(184, 134, 63, 0.10), transparent 62%),
+    radial-gradient(900px 520px at 4% 0%, rgba(102, 20, 38, 0.06), transparent 60%);
+}
+
+/* Dark: the crescent's maroon taken down to a ground, with the gold leading.
+   Only tokens change here — nothing below this block knows which theme it is
+   painting. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) { color-scheme: dark; }
+}
+:root[data-theme='dark'] { color-scheme: dark; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --surface: #24101a;
+    --surface-dim: #180a11;
+    --surface-lowest: #2c1420;
+    --surface-low: #301622;
+    --surface-container: #371a28;
+    --surface-high: #40202f;
+    --surface-highest: #4a2637;
+
+    --on-surface: #fbeade;
+    --on-surface-variant: #d3b6ae;
+    --outline: #a08279;
+    --outline-variant: #543040;
+
+    --primary: #e8b871;
+    --on-primary: #2a1206;
+    --primary-container: #f2ca8c;
+    --on-primary-container: #3a1a0a;
+    --primary-fixed: #45202f;
+    --primary-fixed-dim: #e8b871;
+    --on-primary-fixed-variant: #f0c68a;
+
+    --secondary: #c9ada2;
+    --secondary-container: #3d1e2b;
+
+    --gold: #e8b871;
+    --gold-ink: #f0cd97;
+    --gold-surface: #45301f;
+
+    --tertiary: #cfe6c9;
+    --tertiary-container: #24401f;
+    --on-tertiary-container: #b9dcb2;
+    --sage: #9ad38f;
+    --sage-surface: #24361f;
+
+    --amber: #f0cd97;
+    --amber-surface: #45301f;
+
+    --error: #ff9d8f;
+    --on-error: #4a0d05;
+    --error-container: #5c1a12;
+    --on-error-container: #ffd6cf;
+
+    --band: #3c1220;
+    --on-band: #fbeade;
+    --band-accent: #e8b871;
+
+    --surface-veil: rgba(36, 16, 26, 0.88);
+    --card-border: rgba(232, 184, 113, 0.10);
+    --focus-ring: rgba(232, 184, 113, 0.28);
+
+    --elev-1: 0 4px 20px rgba(0, 0, 0, 0.35);
+    --elev-2: 0 16px 46px rgba(0, 0, 0, 0.5);
+    --elev-hover: 0 6px 30px rgba(0, 0, 0, 0.45);
+
+    --ambient:
+      radial-gradient(1200px 620px at 78% -8%, rgba(232, 184, 113, 0.13), transparent 60%),
+      radial-gradient(900px 560px at 2% 2%, rgba(140, 32, 55, 0.30), transparent 62%);
+  }
+}
+
+:root[data-theme='dark'] {
+  --surface: #24101a;
+  --surface-dim: #180a11;
+  --surface-lowest: #2c1420;
+  --surface-low: #301622;
+  --surface-container: #371a28;
+  --surface-high: #40202f;
+  --surface-highest: #4a2637;
+
+  --on-surface: #fbeade;
+  --on-surface-variant: #d3b6ae;
+  --outline: #a08279;
+  --outline-variant: #543040;
+
+  --primary: #e8b871;
+  --on-primary: #2a1206;
+  --primary-container: #f2ca8c;
+  --on-primary-container: #3a1a0a;
+  --primary-fixed: #45202f;
+  --primary-fixed-dim: #e8b871;
+  --on-primary-fixed-variant: #f0c68a;
+
+  --secondary: #c9ada2;
+  --secondary-container: #3d1e2b;
+
+  --gold: #e8b871;
+  --gold-ink: #f0cd97;
+  --gold-surface: #45301f;
+
+  --tertiary: #cfe6c9;
+  --tertiary-container: #24401f;
+  --on-tertiary-container: #b9dcb2;
+  --sage: #9ad38f;
+  --sage-surface: #24361f;
+
+  --amber: #f0cd97;
+  --amber-surface: #45301f;
+
+  --error: #ff9d8f;
+  --on-error: #4a0d05;
+  --error-container: #5c1a12;
+  --on-error-container: #ffd6cf;
+
+  --band: #3c1220;
+  --on-band: #fbeade;
+  --band-accent: #e8b871;
+
+  --surface-veil: rgba(36, 16, 26, 0.88);
+  --card-border: rgba(232, 184, 113, 0.10);
+  --focus-ring: rgba(232, 184, 113, 0.28);
+
+  --elev-1: 0 4px 20px rgba(0, 0, 0, 0.35);
+  --elev-2: 0 16px 46px rgba(0, 0, 0, 0.5);
+  --elev-hover: 0 6px 30px rgba(0, 0, 0, 0.45);
+
+  --ambient:
+    radial-gradient(1200px 620px at 78% -8%, rgba(232, 184, 113, 0.13), transparent 60%),
+    radial-gradient(900px 560px at 2% 2%, rgba(140, 32, 55, 0.30), transparent 62%);
 }
 
 * { box-sizing: border-box; }
@@ -95,7 +244,9 @@ html, body, #root { height: 100%; }
 
 body {
   margin: 0;
-  background: var(--surface);
+  background-color: var(--surface);
+  background-image: var(--ambient);
+  background-attachment: fixed;
   color: var(--on-surface);
   font-family: var(--font-body);
   font-size: 16px;
@@ -172,7 +323,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   border-radius: var(--radius-lg);
   padding: 24px;
   box-shadow: var(--elev-1);
-  border: 1px solid rgba(74, 13, 26, 0.06);
+  border: 1px solid var(--card-border);
 }
 .card-flat { background: var(--surface-low); box-shadow: none; }
 .card-link { display: block; color: inherit; transition: box-shadow 0.25s var(--spring), transform 0.25s var(--spring); }
@@ -224,7 +375,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(102, 20, 38, 0.14);
+  box-shadow: 0 0 0 3px var(--focus-ring);
 }
 .input[aria-invalid='true'] { border-color: var(--error); }
 textarea.input { min-height: 96px; resize: vertical; }
@@ -300,8 +451,34 @@ select.input { appearance: none; background-image: none; cursor: pointer; paddin
    heading below it. */
 .rule-gold.lead::before { display: none; }
 .rule-gold.on-dark,
-.rule-gold.on-dark > span { color: var(--primary-fixed-dim); }
+.rule-gold.on-dark > span { color: var(--band-accent); }
 .diamond { color: var(--gold); font-size: 10px; line-height: 1; }
+
+/* A founder's own words, set as a pull quote: gold rule, serif attribution,
+   and room to breathe. */
+.pullquote {
+  margin: 0;
+  padding: 22px 26px;
+  background: var(--surface-low);
+  border-left: 3px solid var(--gold);
+  border-radius: var(--radius);
+  position: relative;
+}
+.pullquote p {
+  font-family: var(--font-heading);
+  font-size: 17.5px;
+  line-height: 1.65;
+  letter-spacing: -0.005em;
+}
+.pullquote footer {
+  margin-top: 12px;
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-ink);
+}
 
 /* Wide serif capitals, as the lockup sets the name. */
 .wordmark-type {

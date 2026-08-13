@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, Field, Icon, Input, Meter, Select } from '../components/ui';
 import { SitePage } from './SiteChrome';
-import { api } from '../lib/api';
+import { submitLead } from '../lib/backend';
 import { useSeo } from '../lib/seo';
 import { track } from '../lib/analytics';
 import { HOUSEHOLDS, INTERESTS, TIMEFRAMES } from './LeadForm';
@@ -60,7 +60,7 @@ export default function Contact() {
     setState('submitting');
     setError(null);
     try {
-      const result = await api.post('/leads', {
+      const result = await submitLead({
         name: form.name,
         email: form.email,
         phone: form.phone || null,

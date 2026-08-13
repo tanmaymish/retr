@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button, Field, Icon, Input, Modal } from '../components/ui';
-import { api } from '../lib/api';
+import { canSubmitLeads, submitLead } from '../lib/backend';
 import { track } from '../lib/analytics';
 import { useAuth } from '../state/AuthContext';
 import { brand } from './content';
@@ -63,7 +63,8 @@ export function CallbackPopup() {
   const armed = useRef(false);
   const answered = useRef(null);
 
-  const suppressed = Boolean(user) || SKIP_PATHS.includes(pathname);
+  // Never ask for details there is nowhere to send.
+  const suppressed = Boolean(user) || SKIP_PATHS.includes(pathname) || !canSubmitLeads;
 
   const show = useCallback(() => {
     if (armed.current) return;
@@ -151,7 +152,7 @@ function CallbackForm({ onDone, onDismiss }) {
     setState('submitting');
     setError(null);
     try {
-      const result = await api.post('/leads', {
+      const result = await submitLead({
         name: form.name,
         email: form.email,
         phone: form.phone,

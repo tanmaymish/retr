@@ -1,0 +1,91 @@
+name: Publish the site
+
+# The portfolio site, built as a static bundle and published to GitHub Pages.
+#
+# This publishes the marketing site only. There is no API behind Pages, so the
+# build runs with VITE_STATIC=true: the preparedness check scores in the
+# browser using the same shared/preparedness.js the server uses, and the doors
+# into the vault are left off rather than left broken.
+#
+# Enquiries need somewhere to go. Set the repository variable LEADS_ENDPOINT to
+# a URL that accepts a JSON POST — a form service, or the firm's own API — and
+# the callback popup and contact form post to it. With nothing configured the
+# forms say plainly that they are not connected rather than dropping what
+# someone typed.
+#
+# Turn it on once in Settings → Pages → Source: GitHub Actions.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One publish at a time, and never cancel one half-done.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build the static site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install workspaces
+        run: npm ci
+
+      - uses: actions/configure-pages@v5
+        id: pages
+
+      # configure-pages reports the path the site will live under: empty or "/"
+      # for a user page or a custom domain, "/<repo>" for a project page. Vite
+      # wants exactly one trailing slash either way.
+      - name: Work out the base path
+        run: |
+          base='${{ steps.pages.outputs.base_path }}'
+          [ -z "$base" ] && base='/'
+          case "$base" in */) ;; *) base="$base/" ;; esac
+          echo "VITE_BASE=$base" >> "$GITHUB_ENV"
+          echo "building for base $base"
+
+      - name: Build
+        env:
+          VITE_STATIC: 'true'
+          VITE_LEADS_ENDPOINT: ${{ vars.LEADS_ENDPOINT }}
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
+        run: npm run build
+
+      - name: Check what will be published
+        run: |
+          for file in index.html 404.html about.html preparedness-check.html sitemap.xml robots.txt brand/logo.png; do
+            test -s "app/dist/$file" || { echo "missing or empty: app/dist/$file"; exit 1; }
+          done
+          test -f app/dist/.nojekyll || { echo "missing .nojekyll"; exit 1; }
+          echo "site looks complete"
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: app/dist
+
+  deploy:
+    name: Publish
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -13,7 +13,8 @@ initAnalytics();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    {/* The router has to know it may be mounted under /<repo>/ on Pages. */}
+    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <ToastProvider>
         <AuthProvider>
           <App />

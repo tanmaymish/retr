@@ -121,6 +121,7 @@ app/                 React client (Vite)
   src/site/          Marketing site — home, about, founders, brand copy
   src/auth/          Sign in, sign up, MFA, onboarding, invitation acceptance
   src/app/           The vault itself
+shared/              Pure logic both sides import — the preparedness scoring
 server/
   src/engine/        Pure functions: readiness, reminders, timeline, extraction
   src/routes/        HTTP surface
@@ -155,6 +156,35 @@ Photographs live in `app/public/images` (scene) and `app/public/founders`
 screens. They were optimised once and committed; no image tooling runs at build
 time.
 
+## Publishing the portfolio site on its own
+
+The marketing site can be published without the API at all — GitHub Pages, or
+any host that serves files. `.github/workflows/pages.yml` does it on every push
+to `main`; turn it on once in **Settings → Pages → Source: GitHub Actions**.
+
+A static build sets `VITE_STATIC=true`, and two things change:
+
+- **The preparedness check scores in the browser.** Its scoring is a pure
+  function in [`shared/preparedness.js`](shared/preparedness.js), imported by
+  the server and, in a static build, by the client. The same file, not a copy,
+  so the two can never drift apart.
+- **Enquiries need somewhere to go.** Set the repository variable
+  `LEADS_ENDPOINT` (Settings → Secrets and variables → Actions → Variables) to a
+  URL that accepts a JSON `POST` — a form service, or the firm's own API — and
+  the callback popup and contact form post to it. **With nothing configured the
+  forms say plainly that they are not connected**, and the popup does not appear
+  at all: a form that silently drops what someone typed is worse than no form.
+
+The doors into the vault (`Sign in`, `Create your vault`) are left out of a
+static build rather than left broken, and `404.html` boots the same app so a
+deep link still resolves.
+
+Run it locally the same way:
+
+```
+VITE_STATIC=true npm run build && npx serve app/dist
+```
+
 ## The brand
 
 The palette is not a taste decision — every colour is sampled from the founders'
@@ -172,4 +202,9 @@ lockup for use at small sizes and as the favicon. The lockup sets the name in
 wide serif capitals, so Cinzel carries the wordmark while Manrope and Plus
 Jakarta Sans carry the rest.
 
-It is a single committed light theme. There is no dark variant.
+There is a dark counterpart, and it is not an inversion. A maroon brand has
+nowhere to go on a neutral black — it reads as any other dark site — so the
+ground becomes deep wine, the crescent's own colour taken down rather than a
+grey taken up, and the gold leads the way it leads in the logo. Both themes are
+defined only as tokens: no component reaches for a colour that works in one and
+fails in the other.

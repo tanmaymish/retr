@@ -3,6 +3,8 @@ import { Link, NavLink } from 'react-router-dom';
 import { Icon } from '../components/ui';
 import { useAuth } from '../state/AuthContext';
 import { CallbackPopup, requestCallback } from './CallbackPopup';
+import { asset } from '../lib/asset';
+import { isStatic } from '../lib/backend';
 import { brand, site } from './content';
 
 /**
@@ -13,7 +15,7 @@ import { brand, site } from './content';
 export function Mark({ size = 36, alt = '' }) {
   return (
     <img
-      src="/brand/mark.png"
+      src={asset("brand/mark.png")}
       alt={alt}
       width={Math.round(size * 0.859)}
       height={size}
@@ -26,7 +28,7 @@ export function Mark({ size = 36, alt = '' }) {
 export function Lockup({ width = 260 }) {
   return (
     <img
-      src="/brand/logo.png"
+      src={asset("brand/logo.png")}
       alt={`${brand.name} — ${brand.tagline}`}
       style={{ width, maxWidth: '100%', height: 'auto', display: 'block' }}
     />
@@ -63,7 +65,7 @@ export function SiteHeader() {
         position: 'sticky',
         top: 0,
         zIndex: 40,
-        background: 'rgba(251, 246, 236, 0.9)',
+        background: 'var(--surface-veil)',
         backdropFilter: 'blur(12px)',
         borderBottom: '1px solid var(--outline-variant)',
       }}
@@ -115,7 +117,7 @@ export function SiteHeader() {
           {LINKS.map((link) => (
             <Link key={link.label} to={link.to} onClick={() => setOpen(false)}>{link.label}</Link>
           ))}
-          {!user && <Link to="/sign-in" onClick={() => setOpen(false)}>Sign in</Link>}
+          {!user && !isStatic && <Link to="/sign-in" onClick={() => setOpen(false)}>Sign in</Link>}
         </div>
       )}
     </header>
@@ -160,11 +162,17 @@ export function SiteFooter() {
               <Link to="/#faq">Questions</Link>
             </div>
             <div className="stack" style={{ gap: 8 }}>
-              <span className="tiny caps muted">Account</span>
-              <Link to="/sign-in">Sign in</Link>
-              <Link to="/create-vault">
-                {site.vaultLaunched ? 'Create your vault' : 'Create a vault (preview)'}
-              </Link>
+              <span className="tiny caps muted">{isStatic ? 'Legal' : 'Account'}</span>
+              {/* A static build has no API behind it, so the doors into the
+                  application are left off rather than left broken. */}
+              {!isStatic && (
+                <>
+                  <Link to="/sign-in">Sign in</Link>
+                  <Link to="/create-vault">
+                    {site.vaultLaunched ? 'Create your vault' : 'Create a vault (preview)'}
+                  </Link>
+                </>
+              )}
               <Link to="/privacy">Privacy</Link>
               <Link to="/terms">Terms</Link>
             </div>
