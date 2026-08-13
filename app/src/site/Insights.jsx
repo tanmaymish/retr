@@ -24,6 +24,7 @@ export function InsightsIndex() {
       <section style={{ padding: '72px 0 40px' }}>
         <div className="container">
           <SectionHead
+            as="h1"
             eyebrow="Insights"
             title="What we would tell you in the meeting."
             lede="No product names, no forecasts, no jargon that exists to make the writer sound expert. Just the things worth understanding before a decision."

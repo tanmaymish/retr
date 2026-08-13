@@ -62,8 +62,11 @@ export function Crest({ className = '' }) {
 /**
  * A section's opening: crest, eyebrow, heading, standfirst — always centred,
  * always to the same measure.
+ *
+ * `as` exists because a page whose only heading is this one needs it to be the
+ * h1: a document with no h1 is a document a screen reader cannot summarise.
  */
-export function SectionHead({ eyebrow, title, lede, onBand = false, children }) {
+export function SectionHead({ eyebrow, title, lede, onBand = false, as = 'h2', children }) {
   return (
     <div className={`section-head${onBand ? ' on-band' : ''}`}>
       <Crest />
@@ -72,7 +75,7 @@ export function SectionHead({ eyebrow, title, lede, onBand = false, children }) 
           {eyebrow}
         </Reveal>
       )}
-      <Reveal as="h2" delay={120} style={{ color: onBand ? 'var(--on-band)' : undefined }}>
+      <Reveal as={as} delay={120} style={{ color: onBand ? 'var(--on-band)' : undefined }}>
         {title}
       </Reveal>
       {lede && (

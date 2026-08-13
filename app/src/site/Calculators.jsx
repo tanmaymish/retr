@@ -35,6 +35,7 @@ export function CalculatorsHub() {
       <section style={{ padding: '72px 0 48px' }}>
         <div className="container">
           <SectionHead
+            as="h1"
             eyebrow="Tools"
             title="Run the numbers yourself."
             lede="The same arithmetic we use in a review, with nothing hidden behind a signup. Nothing you type here is sent anywhere or stored."
