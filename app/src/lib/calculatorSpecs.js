@@ -58,9 +58,9 @@ export const CALCULATORS = [
         rows: [
           { label: 'Total invested', value: formatMoney(r.invested) },
           { label: 'Growth on it', value: formatMoney(r.gain) },
-          { label: 'Final value', value: formatMoney(r.value) },
           { label: 'Instalments paid', value: `${Math.round(v.years * 12)}` },
         ],
+        split: { a: { label: 'Invested', value: r.invested }, b: { label: 'Growth', value: r.gain } },
       };
     },
   },
@@ -140,9 +140,9 @@ export const CALCULATORS = [
         rows: [
           { label: 'Total interest', value: formatMoney(r.totalInterest) },
           { label: 'Total repaid', value: formatMoney(r.totalPaid) },
-          { label: 'Interest as a share of the loan', value: `${Math.round((r.totalInterest / v.principal) * 100)}%` },
           { label: 'Instalments', value: `${r.months}` },
         ],
+        split: { a: { label: 'Principal', value: v.principal }, b: { label: 'Interest', value: r.totalInterest } },
         note:
           r.totalInterest > v.principal
             ? 'Over this tenure the interest exceeds the amount borrowed. Shortening the tenure changes that faster than any rate negotiation will.'
@@ -305,10 +305,10 @@ export const CALCULATORS = [
         headline: { label: 'Balance at retirement', value: money(r.corpus) },
         rows: [
           { label: 'Contributed over the years', value: formatMoney(r.contributed) },
-          { label: 'Interest earned', value: formatMoney(r.interest) },
           { label: 'Starting balance', value: formatMoney(v.balance) },
           { label: 'Years to run', value: `${r.years}` },
         ],
+        split: { a: { label: 'Contributed', value: r.contributed }, b: { label: 'Interest', value: r.interest } },
         note: 'At the 8.25% rate declared for recent years. The rate is notified annually and is not guaranteed.',
       };
     },
@@ -332,9 +332,9 @@ export const CALCULATORS = [
         headline: { label: 'Maturity amount', value: money(r.maturity) },
         rows: [
           { label: 'Deposited over 15 years', value: formatMoney(r.deposited) },
-          { label: 'Interest earned', value: formatMoney(r.interest) },
           { label: 'She will be', value: `${r.maturesAtGirlAge} years old` },
         ],
+        split: { a: { label: 'Deposited', value: r.deposited }, b: { label: 'Interest', value: r.interest } },
         note: 'At 8.2%, the rate notified for recent quarters. The rate is revised quarterly. The maximum deposit is ₹1.5 lakh a year.',
       };
     },
@@ -358,9 +358,9 @@ export const CALCULATORS = [
         headline: { label: 'Maturity amount', value: money(r.maturity) },
         rows: [
           { label: 'Deposited', value: formatMoney(r.deposited) },
-          { label: 'Interest earned', value: formatMoney(r.interest) },
           { label: 'Term', value: `${v.years} years` },
         ],
+        split: { a: { label: 'Deposited', value: r.deposited }, b: { label: 'Interest', value: r.interest } },
         note: 'At 7.1%, the rate notified for recent quarters. The rate is revised quarterly. The maximum deposit is ₹1.5 lakh a year.',
       };
     },

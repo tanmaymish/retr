@@ -130,9 +130,8 @@ function Hero() {
             maxWidth: '62ch',
           }}
         >
-          You spend years creating a life — a career, a family, a home, wealth, aspirations and a
-          legacy. Akshayvriddhi exists to help ensure that what you create today has the strength
-          to continue tomorrow.
+          Protection, retirement and the planning around them — from two founders with two
+          decades each in life insurance.
         </Reveal>
 
         <Reveal className="row wrap" delay={240} style={{ gap: 14, justifyContent: 'center', marginTop: 10 }}>
@@ -206,8 +205,7 @@ function Stages() {
           className="small center"
           style={{ color: 'color-mix(in srgb, var(--on-band) 72%, transparent)', maxWidth: '62ch', margin: '0 auto' }}
         >
-          These aren’t simply four financial stages. They are four stages of life — and Akshayvriddhi
-          intends to stand beside its clients through each one.
+          Four stages of life, not four products.
         </Reveal>
       </div>
     </section>
@@ -221,7 +219,7 @@ function Problems() {
         <SectionHead
           eyebrow="Why people come to us"
           title="Most households are not underinsured. They are unreviewed."
-          lede="Nothing here is a failure of discipline. It is what happens when decisions taken years apart are never read together."
+          lede="What happens when decisions taken years apart are never read together."
         />
         <div className="grid grid-3">
           {problems.map((item, index) => (
@@ -273,7 +271,7 @@ function Services() {
         <SectionHead
           eyebrow="What we do"
           title="Advice across the whole of a financial life, not one product at a time."
-          lede="Four conversations, which are really one conversation held over the years it takes to build something and the years it has to last."
+          lede="Four conversations, held over the years it takes to build something and the years it has to last."
         />
         {/* Four services, so two by two rather than three and a stray. */}
         <div
@@ -336,7 +334,7 @@ function Tools() {
         <SectionHead
           eyebrow="Start here"
           title="Run your own numbers first."
-          lede="Eleven calculators, free, with nothing behind a signup and nothing stored. Most people find the answer they came for in about a minute."
+          lede="Eleven of them, free, with nothing behind a signup and nothing stored."
         />
 
         <div className="grid grid-3">
@@ -410,7 +408,7 @@ function HowItWorks() {
         <SectionHead
           eyebrow="How we work"
           title="How an engagement actually runs."
-          lede="In this order, every time. The first meeting names no product, because a recommendation made before the situation is understood is a guess with a premium attached."
+          lede="In this order, every time. The first meeting names no product."
         />
         <ol className="stack stack-md" style={{ listStyle: 'none', margin: 0, padding: 0, maxWidth: 860, width: '100%', marginInline: 'auto' }}>
           {howItWorks.map((step, index) => (

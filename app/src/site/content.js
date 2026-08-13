@@ -159,17 +159,17 @@ export const problems = [
   {
     icon: 'inventory',
     title: 'Sold once, never reviewed',
-    body: 'A policy taken years ago through someone who knew the family, for a salary and a household that have both changed since. Nobody has read it back to you since the day it was signed.',
+    body: 'Taken years ago through someone who knew the family. Nobody has read it back to you since.',
   },
   {
     icon: 'storefront',
     title: 'The business and the household are the same money',
-    body: 'For most people who build something in a smaller city, the shop, the land and the family run off one account. Protection built for a salary slip does not fit that life.',
+    body: 'The shop, the land and the family run off one account. Cover built for a salary slip does not fit that.',
   },
   {
     icon: 'hourglass_top',
     title: 'Retirement left to the last decade',
-    body: 'The years that compound hardest are the early ones. Most households start in the decade when compounding has the least left to give — and there is nobody nearby whose job it is to say so sooner.',
+    body: 'The years that compound hardest are the early ones — and nobody nearby whose job it is to say so.',
   },
 ];
 
@@ -184,27 +184,27 @@ export const audience = {
   eyebrow: 'Who we work with',
   title: 'Advice that comes to the cities the advice usually skips.',
   lede:
-    'Serious financial advice has stayed close to the metros. The households building the most — first-generation businesses, salaried families supporting parents, people whose wealth is newer than their responsibilities — are the ones with the least access to it.',
+    'Serious advice has stayed close to the metros. The households building the most are elsewhere.',
   groups: [
     {
       icon: 'store',
       title: 'Business and shop owners',
-      body: 'Income that varies by season, capital tied up in stock or land, and a family whose security is not separate from the business’s.',
+      body: 'Seasonal income, capital tied up in stock — and a family whose security is the business’s.',
     },
     {
       icon: 'badge',
       title: 'Salaried professionals',
-      body: 'A steady income, a home loan, and cover that was bought once — usually as an investment rather than as protection.',
+      body: 'A home loan, and cover bought once — usually as an investment rather than as protection.',
     },
     {
       icon: 'diversity_1',
       title: 'Households supporting parents',
-      body: 'Two generations depending on one earner, where a health event is the single largest financial risk in the house.',
+      body: 'Two generations, one earner. A health event is the largest risk in the house.',
     },
     {
       icon: 'auto_stories',
       title: 'First-generation wealth',
-      body: 'Nobody in the family has done this before, so there is no inherited playbook — and no relative who can be asked what a term plan actually does.',
+      body: 'No inherited playbook, and no relative to ask what a term plan actually does.',
     },
   ],
 };
@@ -225,7 +225,7 @@ export const services = [
     icon: 'shield_with_heart',
     title: 'Protection review',
     lead: 'What would actually happen to the household income.',
-    body: 'Life, health and general cover, read against what the household earns, owes and expects — so the sum assured is a number with a reason behind it rather than a number someone once suggested.',
+    body: 'Read against what the household earns and owes, so the sum assured has a reason behind it.',
     points: ['Existing policies read and explained', 'Gaps and overlaps identified', 'Nominations and riders checked'],
   },
   {
@@ -233,7 +233,7 @@ export const services = [
     icon: 'elderly',
     title: 'Retirement planning',
     lead: 'An income that continues when the salary stops.',
-    body: 'Working backwards from the life you intend to be living, to what has to be set aside now — including the years nobody plans for, when the earning has stopped and the spending has not.',
+    body: 'Working back from the life you intend to live, including the years after the earning stops.',
     points: ['Target corpus and the years to build it', 'Where the income comes from, in order', 'Reviewed as the plan meets reality'],
   },
   {
@@ -241,7 +241,7 @@ export const services = [
     icon: 'savings',
     title: 'Goal and wealth planning',
     lead: 'Every rupee given a job to do.',
-    body: 'Education, a home, a business, a sabbatical — dated, costed and funded, so saving stops being a leftover and becomes a decision. Distributed through licensed Financial Services Executives, as the regulations require.',
+    body: 'Education, a home, a business — dated, costed and funded, so saving becomes a decision.',
     points: ['Goals dated and costed', 'Reserves before returns', 'Reviewed against inflation, not hope'],
   },
   {
@@ -249,7 +249,7 @@ export const services = [
     icon: 'diversity_3',
     title: 'Continuity and legacy',
     lead: 'What you built, reaching who you meant it to reach.',
-    body: 'Nominations, documentation and intentions brought into one place, so what has been protected can actually be claimed — and so the family is not learning about any of it for the first time on the worst day.',
+    body: 'Nominations and intentions in one place, so the family is not learning any of it on the worst day.',
     points: ['Nominations reviewed across every policy', 'The family briefed while you are here', 'Intentions written down, not assumed'],
   },
 ];
@@ -259,27 +259,27 @@ export const howItWorks = [
   {
     icon: 'hearing',
     title: 'We listen first',
-    body: 'A conversation about the household, not a product pitch. What you earn, what you owe, who depends on it, and what you are trying to protect. No recommendation is made in this meeting.',
+    body: 'What you earn, what you owe, who depends on it. No recommendation is made in this meeting.',
   },
   {
     icon: 'fact_check',
     title: 'We read what you already have',
-    body: 'Existing policies, existing investments, existing nominations. Most people are carrying something that already works, and something that stopped working years ago. You should know which is which.',
+    body: 'Most people carry something that works and something that stopped years ago. You should know which.',
   },
   {
     icon: 'insights',
     title: 'We map the gap',
-    body: 'What is covered, what is exposed, and what each gap would actually cost if the year went badly. Written down, in numbers you can check, before anything is recommended.',
+    body: 'What each gap would cost if the year went badly — written down, in numbers you can check.',
   },
   {
     icon: 'balance',
     title: 'We recommend, and explain the alternative',
-    body: 'Every recommendation comes with what it costs, what it does not do, and what you could do instead — including doing nothing. If the honest answer is that you are adequately covered, that is the answer you get.',
+    body: 'What it costs, what it does not do, and what you could do instead — including nothing.',
   },
   {
     icon: 'event_repeat',
     title: 'We review it as life changes',
-    body: 'A marriage, a child, a business, a move, a raise. A plan written once is a plan that will be wrong within three years, so this is a relationship rather than a transaction.',
+    body: 'A plan written once is wrong within three years. This is a relationship, not a transaction.',
   },
 ];
 
@@ -288,22 +288,22 @@ export const assurances = [
   {
     icon: 'record_voice_over',
     title: 'Advice before product',
-    body: 'No product is named in the first conversation. If we cannot explain why something is needed in terms of your household, it should not be bought.',
+    body: 'No product is named in the first conversation.',
   },
   {
     icon: 'currency_rupee',
     title: 'You will be told what we earn',
-    body: 'Distribution is commission-based, and you are entitled to know that when you are being advised. Ask, and you will be told before you sign anything.',
+    body: 'Distribution is commission-based. Ask what we earn and you are told before you sign.',
   },
   {
     icon: 'description',
     title: 'It is written down',
-    body: 'The gap, the recommendation and the reasoning are given to you on paper. A plan that lives only in an adviser’s memory is not a plan.',
+    body: 'On paper. A plan that lives only in an adviser’s memory is not a plan.',
   },
   {
     icon: 'handshake',
     title: 'The relationship outlasts the sale',
-    body: 'Renewals, claims and reviews are part of the engagement. The measure of this work is whether it holds up in the year it is finally needed.',
+    body: 'Renewals, claims and reviews are part of it. The measure is the year it is finally needed.',
   },
 ];
 

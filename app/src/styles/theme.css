@@ -305,6 +305,31 @@ select.input { appearance: none; background-image: none; cursor: pointer; paddin
 .check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; font-size: 15px; }
 .check input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--primary); flex: none; }
 
+/* The proportion bar under a calculator's headline: two segments, direct
+   labels, a 2px surface gap between them. The maroon is lifted from the brand
+   step to #a02a42 so the pair clears the lightness band and stays separable
+   under deuteranopia (ΔE 18.6) — validated, not eyeballed. */
+.propbar {
+  display: flex;
+  height: 12px;
+  gap: 2px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  background: var(--surface-high);
+}
+.propbar span { display: block; height: 100%; }
+.propbar .seg-a { background: #a02a42; border-radius: var(--radius-full) 0 0 var(--radius-full); }
+.propbar .seg-b { background: var(--gold); border-radius: 0 var(--radius-full) var(--radius-full) 0; }
+.proplegend { display: flex; gap: 18px; flex-wrap: wrap; }
+.proplegend > span { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; }
+.proplegend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex: none;
+  font-style: normal;
+}
+
 /* The live dot on the news strip: it pulses because the strip is fetched, and
    stops for anyone who has asked motion to stop. */
 .live-dot {

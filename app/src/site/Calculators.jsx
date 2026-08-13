@@ -188,6 +188,8 @@ function CalculatorRunner({ calc }) {
               ))}
             </dl>
 
+            {result.split && <Proportion split={result.split} />}
+
             {result.note && <p className="tiny muted" style={{ lineHeight: 1.7 }}>{result.note}</p>}
 
             <button type="button" className="btn btn-sheen" onClick={() => { track('calculator_cta', { calculator: calc.slug }); requestCallback(); }}>
@@ -209,6 +211,33 @@ function CalculatorRunner({ calc }) {
         </div>
       </section>
     </>
+  );
+}
+
+/**
+ * Two quantities that make a whole, as a bar rather than another row of digits.
+ * Both segments are labelled, so identity never rests on colour alone.
+ */
+function Proportion({ split }) {
+  const total = split.a.value + split.b.value;
+  if (!(total > 0)) return null;
+  const share = (split.a.value / total) * 100;
+
+  return (
+    <div className="stack" style={{ gap: 10 }}>
+      <div
+        className="propbar"
+        role="img"
+        aria-label={`${split.a.label} ${Math.round(share)}%, ${split.b.label} ${Math.round(100 - share)}%`}
+      >
+        <span className="seg-a" style={{ width: `${share}%` }} />
+        <span className="seg-b" style={{ width: `${100 - share}%` }} />
+      </div>
+      <div className="proplegend">
+        <span><i style={{ background: '#a02a42' }} />{split.a.label} · <strong>{Math.round(share)}%</strong></span>
+        <span><i style={{ background: 'var(--gold)' }} />{split.b.label} · <strong>{Math.round(100 - share)}%</strong></span>
+      </div>
+    </div>
   );
 }
 
