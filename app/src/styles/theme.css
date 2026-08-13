@@ -9,14 +9,14 @@
    Cinzel carries the wordmark; Manrope carries structure and Plus Jakarta Sans
    carries everything a person actually reads.
 
-   There is a dark counterpart further down. It is not an inversion: a maroon
-   brand has nowhere to go on a neutral black, which reads as any other dark
-   site. Instead the ground becomes deep wine — the crescent's colour taken
-   down rather than a grey taken up — and the gold leads, as it does in the
-   logo. Every colour is defined as a token, so components never reach for a
-   literal that only works in one theme. */
+   This is a single, committed light theme — ivory, wine and gold, the way a
+   certificate or a share letter is printed. There is deliberately no dark
+   variant: the brand's own ground is the cream the logo is drawn on, and the
+   depth comes from the wine bands rather than from inverting the page. Every
+   colour is still a token, and the background is always painted explicitly. */
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
 
 :root {
@@ -78,6 +78,10 @@
   --error-container: #f9d5cd;
   --on-error-container: #7d160e;
 
+  /* Headlines are set in a book serif. An advisory practice is closer to a
+     printed letter than to a product page, and the sans that carried the vault
+     read as software. Manrope stays for the small structural type. */
+  --font-serif: 'Cormorant Garamond', 'Times New Roman', serif;
   --font-heading: 'Manrope', system-ui, sans-serif;
   --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-display: 'Cinzel', 'Times New Roman', serif;
@@ -118,148 +122,6 @@
     radial-gradient(900px 520px at 4% 0%, rgba(102, 20, 38, 0.06), transparent 60%);
 }
 
-/* Dark: the crescent's maroon taken down to a ground, with the gold leading.
-   Only tokens change here — nothing below this block knows which theme it is
-   painting. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) { color-scheme: dark; }
-}
-:root[data-theme='dark'] { color-scheme: dark; }
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --surface: #24101a;
-    --surface-dim: #180a11;
-    --surface-lowest: #2c1420;
-    --surface-low: #301622;
-    --surface-container: #371a28;
-    --surface-high: #40202f;
-    --surface-highest: #4a2637;
-
-    --on-surface: #fbeade;
-    --on-surface-variant: #d3b6ae;
-    --outline: #a08279;
-    --outline-variant: #543040;
-
-    --primary: #e8b871;
-    --on-primary: #2a1206;
-    --primary-container: #f2ca8c;
-    --on-primary-container: #3a1a0a;
-    --primary-fixed: #45202f;
-    --primary-fixed-dim: #e8b871;
-    --on-primary-fixed-variant: #f0c68a;
-
-    --secondary: #c9ada2;
-    --secondary-container: #3d1e2b;
-
-    --wine: #3c1220;
-    --wine-deep: #24101a;
-    --burgundy: #8a2338;
-
-    --gold: #e8b871;
-    --gold-ink: #f0cd97;
-    --gold-surface: #45301f;
-    --gold-line: rgba(232, 184, 113, 0.42);
-    --gold-leaf: linear-gradient(120deg, #a3752f 0%, #e8c07a 32%, #f7e6bd 50%, #e8c07a 68%, #a3752f 100%);
-
-    --tertiary: #cfe6c9;
-    --tertiary-container: #24401f;
-    --on-tertiary-container: #b9dcb2;
-    --sage: #9ad38f;
-    --sage-surface: #24361f;
-
-    --amber: #f0cd97;
-    --amber-surface: #45301f;
-
-    --error: #ff9d8f;
-    --on-error: #4a0d05;
-    --error-container: #5c1a12;
-    --on-error-container: #ffd6cf;
-
-    --band: #3c1220;
-    --on-band: #fbeade;
-    --band-accent: #e8b871;
-
-    --surface-veil: rgba(36, 16, 26, 0.88);
-    --card-border: rgba(232, 184, 113, 0.10);
-    --focus-ring: rgba(232, 184, 113, 0.28);
-
-    --elev-1: 0 4px 20px rgba(0, 0, 0, 0.35);
-    --elev-2: 0 16px 46px rgba(0, 0, 0, 0.5);
-    --elev-hover: 0 6px 30px rgba(0, 0, 0, 0.45);
-
-    --ambient:
-      radial-gradient(1200px 620px at 78% -8%, rgba(232, 184, 113, 0.13), transparent 60%),
-      radial-gradient(900px 560px at 2% 2%, rgba(140, 32, 55, 0.30), transparent 62%);
-  }
-}
-
-:root[data-theme='dark'] {
-  --surface: #24101a;
-  --surface-dim: #180a11;
-  --surface-lowest: #2c1420;
-  --surface-low: #301622;
-  --surface-container: #371a28;
-  --surface-high: #40202f;
-  --surface-highest: #4a2637;
-
-  --on-surface: #fbeade;
-  --on-surface-variant: #d3b6ae;
-  --outline: #a08279;
-  --outline-variant: #543040;
-
-  --primary: #e8b871;
-  --on-primary: #2a1206;
-  --primary-container: #f2ca8c;
-  --on-primary-container: #3a1a0a;
-  --primary-fixed: #45202f;
-  --primary-fixed-dim: #e8b871;
-  --on-primary-fixed-variant: #f0c68a;
-
-  --secondary: #c9ada2;
-  --secondary-container: #3d1e2b;
-
-  --wine: #3c1220;
-  --wine-deep: #24101a;
-  --burgundy: #8a2338;
-
-  --gold: #e8b871;
-  --gold-ink: #f0cd97;
-  --gold-surface: #45301f;
-  --gold-line: rgba(232, 184, 113, 0.42);
-  --gold-leaf: linear-gradient(120deg, #a3752f 0%, #e8c07a 32%, #f7e6bd 50%, #e8c07a 68%, #a3752f 100%);
-
-  --tertiary: #cfe6c9;
-  --tertiary-container: #24401f;
-  --on-tertiary-container: #b9dcb2;
-  --sage: #9ad38f;
-  --sage-surface: #24361f;
-
-  --amber: #f0cd97;
-  --amber-surface: #45301f;
-
-  --error: #ff9d8f;
-  --on-error: #4a0d05;
-  --error-container: #5c1a12;
-  --on-error-container: #ffd6cf;
-
-  --band: #3c1220;
-  --on-band: #fbeade;
-  --band-accent: #e8b871;
-
-  --surface-veil: rgba(36, 16, 26, 0.88);
-  --card-border: rgba(232, 184, 113, 0.10);
-  --focus-ring: rgba(232, 184, 113, 0.28);
-
-  --elev-1: 0 4px 20px rgba(0, 0, 0, 0.35);
-  --elev-2: 0 16px 46px rgba(0, 0, 0, 0.5);
-  --elev-hover: 0 6px 30px rgba(0, 0, 0, 0.45);
-
-  --ambient:
-    radial-gradient(1200px 620px at 78% -8%, rgba(232, 184, 113, 0.13), transparent 60%),
-    radial-gradient(900px 560px at 2% 2%, rgba(140, 32, 55, 0.30), transparent 62%);
-}
-
 * { box-sizing: border-box; }
 
 html, body, #root { height: 100%; }
@@ -277,17 +139,31 @@ body {
 }
 
 h1, h2, h3, h4, h5 {
-  font-family: var(--font-heading);
-  font-weight: 700;
   margin: 0;
-  letter-spacing: -0.01em;
   line-height: 1.2;
 }
 
-h1 { font-size: clamp(32px, 5vw, 48px); letter-spacing: -0.02em; line-height: 1.14; }
-h2 { font-size: clamp(24px, 3.2vw, 32px); }
-h3 { font-size: 20px; font-weight: 600; }
-h4 { font-size: 17px; font-weight: 600; }
+/* The two display sizes are the serif; below that the sans keeps its job, so
+   labels and card titles stay crisp at small sizes. */
+h1, h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+h1 { font-size: clamp(40px, 6.2vw, 68px); line-height: 1.06; }
+h2 { font-size: clamp(30px, 4.2vw, 44px); line-height: 1.12; }
+h3 {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+h4 {
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
 
 p { margin: 0; }
 a { color: var(--primary); text-decoration: none; }
@@ -688,7 +564,7 @@ select.input { appearance: none; background-image: none; cursor: pointer; paddin
   text-transform: uppercase;
   color: var(--gold-ink);
 }
-.section-head .lede { color: var(--on-surface-variant); font-size: 17px; line-height: 1.7; }
+.section-head .lede { color: var(--on-surface-variant); font-size: 17.5px; line-height: 1.75; }
 .section-head.on-band .eyebrow { color: var(--band-accent); }
 .section-head.on-band .lede { color: color-mix(in srgb, var(--on-band) 78%, transparent); }
 

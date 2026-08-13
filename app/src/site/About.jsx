@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Card, Icon } from '../components/ui';
 import { SitePage } from './SiteChrome';
 import { breadcrumbSchema, useSeo } from '../lib/seo';
@@ -13,7 +13,6 @@ import {
   fourQuestions,
   mission,
   promise,
-  site,
   stages,
   vision,
 } from './content';
@@ -410,13 +409,9 @@ function Signature() {
           {brand.stages}
         </p>
         <div className="row" style={{ justifyContent: 'center', marginTop: 8 }}>
-          {site.vaultLaunched ? (
-            <Link to="/create-vault" className="btn">Create your vault</Link>
-          ) : (
-            <button type="button" className="btn" onClick={requestCallback}>
-              Request a call
-            </button>
-          )}
+          <button type="button" className="btn btn-sheen" onClick={requestCallback}>
+            Request a call
+          </button>
         </div>
       </div>
     </section>

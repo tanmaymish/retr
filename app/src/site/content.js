@@ -20,19 +20,21 @@ export const brand = {
   tagline: 'Prosperity with Purpose',
   promise: 'What you build deserves to continue.',
   stages: 'Create. Continue. Live. Leave a Legacy.',
+  /* Who the firm is for. Stated plainly, because it is the thing that makes
+     the rest of the copy specific rather than generic. */
+  audience: 'Families and business owners in India’s smaller cities.',
 };
 
 /**
- * What the site is currently for.
+ * What the site is for.
  *
- * The vault is built, tested and runs — but until it is launched the site is
- * here to introduce the firm and start conversations, so the calls to action
- * ask for a call rather than for a signup. Set `vaultLaunched` to true and the
- * signup buttons come back everywhere; nothing else needs changing, and the
- * vault stays reachable at /sign-in and /create-vault either way.
+ * Akshayvriddhi is a financial advisory: protection, retirement and the
+ * planning around them. The document vault is built and still runs behind
+ * /sign-in, but it is not what the firm is selling, so the site does not
+ * market it. Set `showVault` to true to bring its sections and links back.
  */
 export const site = {
-  vaultLaunched: false,
+  showVault: false,
 };
 
 export const founders = [
@@ -149,92 +151,201 @@ export const foundersMessage = [
 
 /* ── The vault product ──────────────────────────────────────────────────── */
 
+/**
+ * What people come to an adviser with. Written as the situation, not as a
+ * product — nobody wakes up wanting to buy a rider.
+ */
 export const problems = [
-  { icon: 'chat', title: 'Lost in group chats', body: 'The policy number someone sent in 2019, buried under four hundred messages.' },
-  { icon: 'mail', title: 'Buried in inboxes', body: 'A renewal notice that arrived while you were away, and was never seen again.' },
-  { icon: 'folder_open', title: 'Scattered in drawers', body: 'The deed is somewhere in the house. Probably. Nobody else knows where.' },
+  {
+    icon: 'inventory',
+    title: 'Sold once, never reviewed',
+    body: 'A policy taken years ago through someone who knew the family, for a salary and a household that have both changed since. Nobody has read it back to you since the day it was signed.',
+  },
+  {
+    icon: 'storefront',
+    title: 'The business and the household are the same money',
+    body: 'For most people who build something in a smaller city, the shop, the land and the family run off one account. Protection built for a salary slip does not fit that life.',
+  },
+  {
+    icon: 'hourglass_top',
+    title: 'Retirement left to the last decade',
+    body: 'The years that compound hardest are the early ones. Most households start in the decade when compounding has the least left to give — and there is nobody nearby whose job it is to say so sooner.',
+  },
 ];
 
+/**
+ * Who the firm is for, and why the distance matters.
+ *
+ * Nothing here claims a branch, a city list or a language. Those are
+ * operational facts only the founders can state, and they should be added here
+ * before this is published.
+ */
+export const audience = {
+  eyebrow: 'Who we work with',
+  title: 'Advice that comes to the cities the advice usually skips.',
+  lede:
+    'Serious financial advice has stayed close to the metros. The households building the most — first-generation businesses, salaried families supporting parents, people whose wealth is newer than their responsibilities — are the ones with the least access to it.',
+  groups: [
+    {
+      icon: 'store',
+      title: 'Business and shop owners',
+      body: 'Income that varies by season, capital tied up in stock or land, and a family whose security is not separate from the business’s.',
+    },
+    {
+      icon: 'badge',
+      title: 'Salaried professionals',
+      body: 'A steady income, a home loan, and cover that was bought once — usually as an investment rather than as protection.',
+    },
+    {
+      icon: 'diversity_1',
+      title: 'Households supporting parents',
+      body: 'Two generations depending on one earner, where a health event is the single largest financial risk in the house.',
+    },
+    {
+      icon: 'auto_stories',
+      title: 'First-generation wealth',
+      body: 'Nobody in the family has done this before, so there is no inherited playbook — and no relative who can be asked what a term plan actually does.',
+    },
+  ],
+};
+
+/**
+ * The advice itself.
+ *
+ * The scope here follows what an IRDAI-registered Insurance Marketing Firm is
+ * permitted to do: solicit insurance from a limited panel of insurers, service
+ * those policies, and distribute other financial products through
+ * appropriately licensed Financial Services Executives. Nothing below claims a
+ * specific insurer, registration or qualification — those belong to the
+ * founders to state, and must be filled in before this is published.
+ */
+export const services = [
+  {
+    key: 'protection',
+    icon: 'shield_with_heart',
+    title: 'Protection review',
+    lead: 'What would actually happen to the household income.',
+    body: 'Life, health and general cover, read against what the household earns, owes and expects — so the sum assured is a number with a reason behind it rather than a number someone once suggested.',
+    points: ['Existing policies read and explained', 'Gaps and overlaps identified', 'Nominations and riders checked'],
+  },
+  {
+    key: 'retirement',
+    icon: 'elderly',
+    title: 'Retirement planning',
+    lead: 'An income that continues when the salary stops.',
+    body: 'Working backwards from the life you intend to be living, to what has to be set aside now — including the years nobody plans for, when the earning has stopped and the spending has not.',
+    points: ['Target corpus and the years to build it', 'Where the income comes from, in order', 'Reviewed as the plan meets reality'],
+  },
+  {
+    key: 'goals',
+    icon: 'savings',
+    title: 'Goal and wealth planning',
+    lead: 'Every rupee given a job to do.',
+    body: 'Education, a home, a business, a sabbatical — dated, costed and funded, so saving stops being a leftover and becomes a decision. Distributed through licensed Financial Services Executives, as the regulations require.',
+    points: ['Goals dated and costed', 'Reserves before returns', 'Reviewed against inflation, not hope'],
+  },
+  {
+    key: 'legacy',
+    icon: 'diversity_3',
+    title: 'Continuity and legacy',
+    lead: 'What you built, reaching who you meant it to reach.',
+    body: 'Nominations, documentation and intentions brought into one place, so what has been protected can actually be claimed — and so the family is not learning about any of it for the first time on the worst day.',
+    points: ['Nominations reviewed across every policy', 'The family briefed while you are here', 'Intentions written down, not assumed'],
+  },
+];
+
+/** How an engagement runs, in the order it runs. */
 export const howItWorks = [
   {
-    icon: 'upload_file',
-    title: 'Add a document',
-    body: 'Drop in a PDF or a photo. We read the details out of it — provider, holder, dates — and show you what we found before anything is saved.',
+    icon: 'hearing',
+    title: 'We listen first',
+    body: 'A conversation about the household, not a product pitch. What you earn, what you owe, who depends on it, and what you are trying to protect. No recommendation is made in this meeting.',
   },
   {
-    icon: 'lock',
-    title: 'It is encrypted before it lands',
-    body: 'Every file gets its own key and is encrypted with AES-256-GCM before it touches disk. Nothing readable is ever written down.',
+    icon: 'fact_check',
+    title: 'We read what you already have',
+    body: 'Existing policies, existing investments, existing nominations. Most people are carrying something that already works, and something that stopped working years ago. You should know which is which.',
   },
   {
-    icon: 'notifications_active',
-    title: 'Deadlines find you',
-    body: 'Expiry and renewal dates become reminders with enough lead time to actually act — six months for a passport, not six days.',
+    icon: 'insights',
+    title: 'We map the gap',
+    body: 'What is covered, what is exposed, and what each gap would actually cost if the year went badly. Written down, in numbers you can check, before anything is recommended.',
   },
   {
-    icon: 'family_restroom',
-    title: 'The right people can reach it',
-    body: 'Share one document or a whole category. Every grant is visible, every access is logged, and anything can be revoked in one click.',
+    icon: 'balance',
+    title: 'We recommend, and explain the alternative',
+    body: 'Every recommendation comes with what it costs, what it does not do, and what you could do instead — including doing nothing. If the honest answer is that you are adequately covered, that is the answer you get.',
   },
   {
-    icon: 'gavel',
-    title: 'A trustee holds the spare key',
-    body: 'Name someone you trust. They cannot open anything today — only request access, which you can deny for fourteen days before it opens.',
+    icon: 'event_repeat',
+    title: 'We review it as life changes',
+    body: 'A marriage, a child, a business, a move, a raise. A plan written once is a plan that will be wrong within three years, so this is a relationship rather than a transaction.',
   },
 ];
 
+/** What a client can hold us to. Each of these is a commitment, not a claim. */
 export const assurances = [
   {
-    icon: 'enhanced_encryption',
-    title: 'Encrypted per document',
-    body: 'Each file is sealed with its own key, derived from a master key the database never contains. A stolen database row decrypts nothing.',
+    icon: 'record_voice_over',
+    title: 'Advice before product',
+    body: 'No product is named in the first conversation. If we cannot explain why something is needed in terms of your household, it should not be bought.',
   },
   {
-    icon: 'visibility',
-    title: 'Every access is logged',
-    body: 'When a trustee or family member opens something, it appears in your activity log with their name on it. Including reads.',
+    icon: 'currency_rupee',
+    title: 'You will be told what we earn',
+    body: 'Distribution is commission-based, and you are entitled to know that when you are being advised. Ask, and you will be told before you sign anything.',
   },
   {
-    icon: 'schedule',
-    title: 'Time is the safeguard',
-    body: 'Emergency access takes fourteen days by default and notifies you the whole way through. A stolen invitation cannot be used the day it is taken.',
+    icon: 'description',
+    title: 'It is written down',
+    body: 'The gap, the recommendation and the reasoning are given to you on paper. A plan that lives only in an adviser’s memory is not a plan.',
   },
   {
-    icon: 'key_off',
-    title: 'Revocation is immediate',
-    body: 'Access is resolved fresh on every single read. Nothing is cached, so taking a permission away takes effect on the next click, not the next login.',
+    icon: 'handshake',
+    title: 'The relationship outlasts the sale',
+    body: 'Renewals, claims and reviews are part of the engagement. The measure of this work is whether it holds up in the year it is finally needed.',
   },
 ];
 
 export const faqs = [
   {
-    question: 'What happens if I am not around?',
+    question: 'Is this advice, or are you selling insurance?',
     answer:
-      'A trustee you have designated can start the emergency access protocol. You are notified across every channel, and you have the full waiting period — fourteen days by default — to deny it. If you cannot respond, access opens automatically, limited to the categories you designated for that trustee.',
+      'Both, stated plainly. Distribution is how the firm is paid, and advice is what it is paid for. That is why no product is named in the first conversation — the recommendation has to come out of your situation, not out of a target. Ask what we earn on anything recommended and you will be told before you sign.',
   },
   {
-    question: 'Is this a vault, or financial advice?',
+    question: 'What does the first meeting cost?',
     answer:
-      'The vault is where your records live. The advice is the relationship around it. Akshayvriddhi exists to help you decide what to protect and why — the vault makes sure the paperwork behind those decisions is findable when it matters.',
+      'Nothing. It is a conversation about your household and what you are trying to protect. You leave it with a view of where you stand whether or not you go any further.',
   },
   {
-    question: 'Can Akshayvriddhi staff read my documents?',
+    question: 'I already have policies. Is there any point?',
     answer:
-      'Documents are encrypted with a key derived from the deployment’s master secret, so the ciphertext on disk is useless without it. Whoever operates the deployment holds that secret.',
+      'Usually more than for someone with none. Most households are carrying cover taken for a salary, a family or a loan that has since changed. Reading what you already hold is the first thing we do, and finding that you are adequately covered is a legitimate outcome.',
   },
   {
-    question: 'What can a trustee see before an emergency?',
+    question: 'How early should retirement planning start?',
     answer:
-      'Nothing. A trustee holds a key to a request procedure, not to your vault. Until a request completes they see only that they are a trustee, and for which categories.',
+      'Earlier than feels urgent. The years that compound hardest are the first ones, and they are the years most people spend on everything else. Starting late is not a reason to skip it — it changes what the plan has to do, not whether you need one.',
   },
   {
-    question: 'How do you extract details from a document?',
+    question: 'What is the preparedness check?',
     answer:
-      'We read the text layer of the file on our own server — no third-party service — and pull out dates, providers and reference numbers. Every field comes back marked with how confident we are, and nothing is saved until you have reviewed it. If a file is a scan with no text, we say so rather than guessing.',
+      'Six questions about cover, reserves and whether your family could find what they need. It is scored, it is free, it stores nothing, and it asks for no money figures. It is an indicative self-assessment and a starting point for a conversation — not advice, and not a recommendation of any product.',
   },
   {
-    question: 'What if I want to leave?',
+    question: 'Do you only work in the big cities?',
     answer:
-      'Delete your account and every document and its ciphertext is removed in the same transaction. There is no soft-delete holding pen.',
+      'The opposite. Akshayvriddhi exists because serious advice has stayed close to the metros while the households building the most are elsewhere. Smaller cities are who this firm is for, not an afterthought once the metros are covered.',
   },
-];
+  {
+    question: 'My uncle already sold me a policy. Isn’t this the same thing?',
+    answer:
+      'It is the same industry and a different job. A policy sold by someone you trust may well be a good policy — but it was chosen for the year it was sold, and nobody has read it against your household since. We start by reading what you already hold, and telling you where it stands, including when the honest answer is that it is fine.',
+  },
+  {
+    question: 'Who regulates this?',
+    answer:
+      'Insurance distribution in India is regulated by the IRDAI. Any distribution of mutual funds or pension products runs through appropriately licensed Financial Services Executives under the relevant regulator. Registration details are stated in full on our documentation.',
+  },
+]

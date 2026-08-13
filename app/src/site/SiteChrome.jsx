@@ -4,8 +4,7 @@ import { Icon } from '../components/ui';
 import { useAuth } from '../state/AuthContext';
 import { CallbackPopup, requestCallback } from './CallbackPopup';
 import { asset } from '../lib/asset';
-import { isStatic } from '../lib/backend';
-import { brand, site } from './content';
+import { brand } from './content';
 
 /**
  * The emblem from the logo: the crescent, the figure, the rising arrow and the
@@ -50,7 +49,8 @@ export function Wordmark({ size = 44, subtitle }) {
 const LINKS = [
   { to: '/about', label: 'About' },
   { to: '/about#founders', label: 'Founders' },
-  { to: '/#vault', label: 'The vault' },
+  { to: '/#who', label: 'Who we help' },
+  { to: '/#services', label: 'What we do' },
   { to: '/preparedness-check', label: 'Preparedness check' },
   { to: '/contact', label: 'Contact' },
 ];
@@ -93,15 +93,8 @@ export function SiteHeader() {
         <div className="row" style={{ gap: 10 }}>
           {user ? (
             <Link to="/vault" className="btn btn-sm">Open my vault</Link>
-          ) : site.vaultLaunched ? (
-            <>
-              <Link to="/sign-in" className="small hide-mobile" style={{ color: 'var(--on-surface)' }}>
-                Sign in
-              </Link>
-              <Link to="/create-vault" className="btn btn-sm">Create your vault</Link>
-            </>
           ) : (
-            <button type="button" className="btn btn-sm" onClick={requestCallback}>
+            <button type="button" className="btn btn-sm btn-sheen" onClick={requestCallback}>
               <Icon name="call" size={18} />
               Request a call
             </button>
@@ -117,7 +110,6 @@ export function SiteHeader() {
           {LINKS.map((link) => (
             <Link key={link.label} to={link.to} onClick={() => setOpen(false)}>{link.label}</Link>
           ))}
-          {!user && !isStatic && <Link to="/sign-in" onClick={() => setOpen(false)}>Sign in</Link>}
         </div>
       )}
     </header>
@@ -144,6 +136,7 @@ export function SiteFooter() {
           <div className="stack" style={{ gap: 12, maxWidth: 340 }}>
             <Lockup width={260} />
             <p className="small muted">{brand.promise}</p>
+            <p className="small muted">{brand.audience}</p>
             <p className="tiny muted">{brand.stages}</p>
           </div>
           <div className="row wrap small" style={{ gap: 40, alignItems: 'flex-start' }}>
@@ -155,24 +148,14 @@ export function SiteFooter() {
               <Link to="/contact">Contact</Link>
             </div>
             <div className="stack" style={{ gap: 8 }}>
-              <span className="tiny caps muted">The vault</span>
-              <Link to="/#how">How it works</Link>
-              <Link to="/#security">Security</Link>
+              <span className="tiny caps muted">Advice</span>
+              <Link to="/#services">What we do</Link>
+              <Link to="/#how">How we work</Link>
               <Link to="/preparedness-check">Preparedness check</Link>
               <Link to="/#faq">Questions</Link>
             </div>
             <div className="stack" style={{ gap: 8 }}>
-              <span className="tiny caps muted">{isStatic ? 'Legal' : 'Account'}</span>
-              {/* A static build has no API behind it, so the doors into the
-                  application are left off rather than left broken. */}
-              {!isStatic && (
-                <>
-                  <Link to="/sign-in">Sign in</Link>
-                  <Link to="/create-vault">
-                    {site.vaultLaunched ? 'Create your vault' : 'Create a vault (preview)'}
-                  </Link>
-                </>
-              )}
+              <span className="tiny caps muted">Legal</span>
               <Link to="/privacy">Privacy</Link>
               <Link to="/terms">Terms</Link>
             </div>

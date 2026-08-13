@@ -1,34 +1,32 @@
 import { Link } from 'react-router-dom';
-import { Badge, Card, Icon } from '../components/ui';
-import { useAuth } from '../state/AuthContext';
+import { Card, Icon } from '../components/ui';
 import { SitePage } from './SiteChrome';
 import { FounderCard } from './Founders';
 import { Photo } from '../components/Photo';
-import { CATEGORY_LIST } from '../lib/categories';
 import { faqSchema, organizationSchema, useSeo } from '../lib/seo';
 import { requestCallback } from './CallbackPopup';
 import { Crest, Reveal, SectionHead } from './Section';
-import { assurances, brand, faqs, founders, howItWorks, problems, site, stages } from './content';
+import { assurances, audience, brand, faqs, founders, howItWorks, problems, services, stages } from './content';
 
 export default function Home() {
-  const { user } = useAuth();
   useSeo({
     title: null,
     description:
-      'Akshayvriddhi — prosperity with purpose. Protection advice grounded in two decades of insurance experience, and a secure family vault for the documents your family may need.',
+      'Akshayvriddhi — prosperity with purpose. Protection, retirement and financial planning advice from two founders with two decades each in life insurance. We listen before we advise.',
     path: '/',
     jsonLd: { '@context': 'https://schema.org', '@graph': [organizationSchema, faqSchema(faqs)] },
   });
 
   return (
     <SitePage>
-      <Hero user={user} />
+      <Hero />
       <TrustBar />
       <Stages />
       <Problems />
-      <VaultIntro />
-      <Categories />
+      <Audience />
+      <Services />
       <HowItWorks />
+      <Check />
       <FoundersTeaser />
       <Assurances />
       <Faqs />
@@ -45,9 +43,9 @@ export default function Home() {
 function TrustBar() {
   const facts = [
     { value: 'Two decades', label: 'each, in life insurance', note: 'Shiv Maheshwari and Vikram Rajput' },
-    { value: 'AES-256-GCM', label: 'per document', note: 'Its own key, before it touches disk' },
-    { value: '14 days', label: 'trustee waiting period', note: 'And you can stop it at any point' },
-    { value: '9', label: 'categories covered', note: 'Identity through to legacy' },
+    { value: 'Smaller cities', label: 'are who we are for', note: 'Not an afterthought after the metros' },
+    { value: 'No cost', label: 'for the first conversation', note: 'And no product named in it' },
+    { value: 'Six questions', label: 'to see where you stand', note: 'Scored, and stored nowhere' },
   ];
 
   return (
@@ -67,7 +65,7 @@ function TrustBar() {
   );
 }
 
-function Hero({ user }) {
+function Hero() {
   return (
     <section className="hero-band" style={{ padding: '120px 0 108px' }}>
       <div className="hero-media" aria-hidden="true">
@@ -100,8 +98,21 @@ function Hero({ user }) {
           {brand.tagline}
         </Reveal>
 
-        <Reveal as="h1" delay={120} style={{ color: 'var(--on-band)', maxWidth: '16ch' }}>
+        <Reveal as="h1" delay={120} style={{ color: 'var(--on-band)', maxWidth: '21ch' }}>
           What you build deserves to continue.
+        </Reveal>
+
+        <Reveal
+          as="p"
+          delay={150}
+          style={{
+            fontFamily: 'var(--font-serif)',
+            fontStyle: 'italic',
+            fontSize: 21,
+            color: 'var(--band-accent)',
+          }}
+        >
+          {brand.audience}
         </Reveal>
 
         <Reveal
@@ -124,15 +135,9 @@ function Hero({ user }) {
             Take the preparedness check
             <Icon name="arrow_forward" size={18} />
           </Link>
-          {user ? (
-            <Link to="/vault" className="btn btn-on-band">Open my vault</Link>
-          ) : site.vaultLaunched ? (
-            <Link to="/create-vault" className="btn btn-on-band">Create your vault</Link>
-          ) : (
-            <button type="button" className="btn btn-on-band" onClick={requestCallback}>
-              Talk to a founder
-            </button>
-          )}
+          <button type="button" className="btn btn-on-band" onClick={requestCallback}>
+            Talk to a founder
+          </button>
         </Reveal>
 
         <Reveal
@@ -209,9 +214,9 @@ function Problems() {
     <section style={{ padding: '80px 0' }}>
       <div className="container stack stack-lg">
         <SectionHead
-          eyebrow="The problem"
-          title="Important things shouldn’t be this hard to find."
-          lede="Protection only works if the paperwork behind it can be found by the people who need it."
+          eyebrow="Why people come to us"
+          title="Most households are not underinsured. They are unreviewed."
+          lede="Nothing here is a failure of discipline. It is what happens when decisions taken years apart are never read together."
         />
         <div className="grid grid-3">
           {problems.map((item, index) => (
@@ -231,58 +236,110 @@ function Problems() {
   );
 }
 
-function VaultIntro() {
+/** Who this is for. The reason the rest of the copy is specific. */
+function Audience() {
   return (
-    <section id="vault" style={{ background: 'var(--surface-container)', padding: '88px 0' }}>
-      <div className="container stack stack-md">
-        <SectionHead
-          eyebrow="The Akshayvriddhi vault"
-          title="A place where what you have protected can actually be found."
-          lede="Behind every policy is a responsibility. Behind every nomination is someone important. The vault is where those records live — encrypted, organised, and reachable by the people you choose, at the moment they need them."
-        >
-          {!site.vaultLaunched && (
-            <Reveal delay={240}>
-              <Badge tone="gold" icon="schedule">In private preview</Badge>
+    <section id="who" style={{ padding: '20px 0 92px' }}>
+      <div className="container stack stack-lg">
+        <SectionHead eyebrow={audience.eyebrow} title={audience.title} lede={audience.lede} />
+        <div className="grid grid-4">
+          {audience.groups.map((group, index) => (
+            <Reveal key={group.title} delay={index * 80}>
+              <Card flat className="stack stack-sm" style={{ height: '100%' }}>
+                <span className="medallion" style={{ width: 44, height: 44 }}>
+                  <Icon name={group.icon} size={21} />
+                </span>
+                <h4>{group.title}</h4>
+                <p className="small muted" style={{ lineHeight: 1.7 }}>{group.body}</p>
+              </Card>
             </Reveal>
-          )}
-        </SectionHead>
-        <Reveal className="row wrap" delay={300} style={{ gap: 12, justifyContent: 'center' }}>
-          {site.vaultLaunched ? (
-            <Link to="/create-vault" className="btn">Create your vault</Link>
-          ) : (
-            <button type="button" className="btn" onClick={requestCallback}>
-              Ask for early access
-            </button>
-          )}
-          <a href="#how" className="btn btn-secondary">See how it works</a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** What the firm actually does. */
+function Services() {
+  return (
+    <section id="services" style={{ background: 'var(--surface-container)', padding: '96px 0' }}>
+      <div className="container stack stack-lg">
+        <SectionHead
+          eyebrow="What we do"
+          title="Advice across the whole of a financial life, not one product at a time."
+          lede="Four conversations, which are really one conversation held over the years it takes to build something and the years it has to last."
+        />
+        {/* Four services, so two by two rather than three and a stray. */}
+        <div
+          className="grid"
+          style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', maxWidth: 980, width: '100%', marginInline: 'auto' }}
+        >
+          {services.map((service, index) => (
+            <Reveal key={service.key} delay={(index % 2) * 90}>
+              <Card className="stack stack-sm card-gold" style={{ height: '100%' }}>
+                <span className="medallion" style={{ width: 52, height: 52 }}>
+                  <Icon name={service.icon} size={24} />
+                </span>
+                <h3 style={{ marginTop: 4 }}>{service.title}</h3>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-serif)',
+                    fontStyle: 'italic',
+                    fontSize: 18,
+                    lineHeight: 1.45,
+                    color: 'var(--gold-ink)',
+                  }}
+                >
+                  {service.lead}
+                </p>
+                <p className="small muted" style={{ lineHeight: 1.75 }}>{service.body}</p>
+                <ul className="stack" style={{ gap: 8, margin: '4px 0 0', padding: 0, listStyle: 'none' }}>
+                  {service.points.map((point) => (
+                    <li key={point} className="row small" style={{ alignItems: 'flex-start', gap: 9 }}>
+                      <Icon name="check" size={16} style={{ color: 'var(--gold)', marginTop: 3, flex: 'none' }} />
+                      <span className="muted">{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal className="row" style={{ justifyContent: 'center' }}>
+          <button type="button" className="btn" onClick={requestCallback}>
+            Talk through your situation
+          </button>
         </Reveal>
       </div>
     </section>
   );
 }
 
-function Categories() {
+/** The check, given its own moment rather than buried in the navigation. */
+function Check() {
   return (
-    <section style={{ padding: '80px 0' }}>
-      <div className="container stack stack-lg">
-        <SectionHead
-          eyebrow="What it holds"
-          title="One place for everything that matters."
-          lede="Nine categories, each one shaped around what a family actually goes looking for."
-        />
-        <div className="grid grid-4">
-          {CATEGORY_LIST.map((category, index) => (
-            <Reveal key={category.key} delay={(index % 5) * 70}>
-            <Card flat className="stack stack-sm" style={{ height: '100%' }}>
-              <span className="medallion" style={{ width: 42, height: 42 }}>
-                <Icon name={category.icon} size={20} />
-              </span>
-              <h4>{category.label}</h4>
-              <p className="small muted">{category.blurb}</p>
-            </Card>
-            </Reveal>
-          ))}
-        </div>
+    <section style={{ padding: '96px 0' }}>
+      <div className="container">
+        <Reveal>
+          <Card className="stack stack-md card-gold" style={{ padding: 44, textAlign: 'center', alignItems: 'center' }}>
+            <Crest />
+            <h2 style={{ maxWidth: '20ch' }}>Where would your family stand tomorrow?</h2>
+            <p className="muted" style={{ maxWidth: '58ch', fontSize: 17, lineHeight: 1.75 }}>
+              Six questions about cover, reserves and whether the people who depend on you could
+              find what they need. No signup, no money figures, nothing stored — and a score with
+              the reasoning behind it at the end.
+            </p>
+            <Link to="/preparedness-check" className="btn btn-sheen">
+              Take the preparedness check
+              <Icon name="arrow_forward" size={18} />
+            </Link>
+            <p className="tiny muted" style={{ maxWidth: '54ch' }}>
+              An indicative self-assessment. Not financial or insurance advice, and not a
+              recommendation of any product.
+            </p>
+          </Card>
+        </Reveal>
       </div>
     </section>
   );
@@ -293,8 +350,9 @@ function HowItWorks() {
     <section id="how" style={{ background: 'var(--surface-low)', padding: '88px 0' }}>
       <div className="container stack stack-lg">
         <SectionHead
-          eyebrow="How it works"
-          title="Five things happen, and none of them need you to be technical."
+          eyebrow="How we work"
+          title="How an engagement actually runs."
+          lede="In this order, every time. The first meeting names no product, because a recommendation made before the situation is understood is a guess with a premium attached."
         />
         <ol className="stack stack-md" style={{ listStyle: 'none', margin: 0, padding: 0, maxWidth: 860, width: '100%', marginInline: 'auto' }}>
           {howItWorks.map((step, index) => (
@@ -368,8 +426,8 @@ function Assurances() {
     <section id="security" style={{ background: 'var(--surface-container)', padding: '88px 0' }}>
       <div className="container stack stack-lg">
         <SectionHead
-          eyebrow="Security"
-          title="The protections are specific, so you can check them."
+          eyebrow="What you can hold us to"
+          title="Four commitments, each one specific enough to be broken."
         />
         {/* Four cards, so two by two rather than three and a stray. */}
         <div
@@ -433,13 +491,9 @@ function ClosingCta() {
           lede="Insurance details. Property papers. Identity documents. Keep the things your family may need somewhere they can actually find them."
         >
           <Reveal className="row" delay={260} style={{ justifyContent: 'center', marginTop: 10 }}>
-            {site.vaultLaunched ? (
-              <Link to="/create-vault" className="btn btn-gold btn-sheen">Start securing your legacy</Link>
-            ) : (
-              <button type="button" className="btn btn-gold btn-sheen" onClick={requestCallback}>
-                Request a call
-              </button>
-            )}
+            <button type="button" className="btn btn-gold btn-sheen" onClick={requestCallback}>
+              Request a call
+            </button>
           </Reveal>
         </SectionHead>
       </div>
