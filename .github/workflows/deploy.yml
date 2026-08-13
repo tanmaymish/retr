@@ -27,14 +27,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # A snapshot of the 8-page website (before the full feature-parity
       # expansion) is kept live at /v1/ alongside the current site, at the
-      # user's request — nothing on main was reverted for this.
-      - uses: actions/checkout@v4
-        with:
-          ref: 5e350fa
-          path: old-version
+      # user's request — nothing on main was reverted for this. Uses a
+      # worktree off the already-checked-out history rather than a second
+      # network checkout.
+      - name: Checkout v1 snapshot into a worktree
+        run: git worktree add old-version 5e350fa
 
       - uses: actions/setup-node@v4
         with:
