@@ -28,6 +28,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # A snapshot of the 8-page website (before the full feature-parity
+      # expansion) is kept live at /v1/ alongside the current site, at the
+      # user's request — nothing on main was reverted for this.
+      - uses: actions/checkout@v4
+        with:
+          ref: 5e350fa
+          path: old-version
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -44,8 +52,25 @@ jobs:
           VITE_BASE_PATH: /${{ github.event.repository.name }}/
         run: npm run build
 
+      - name: Install (v1 snapshot)
+        working-directory: old-version/app
+        run: npm ci
+
+      - name: Build (v1 snapshot)
+        working-directory: old-version/app
+        env:
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/v1/
+        run: npm run build
+
+      - name: Merge v1 snapshot into dist
+        run: |
+          mkdir -p app/dist/v1
+          cp -r old-version/app/dist/. app/dist/v1/
+
       - name: SPA fallback for deep links
-        run: cp app/dist/index.html app/dist/404.html
+        run: |
+          cp app/dist/index.html app/dist/404.html
+          cp app/dist/v1/index.html app/dist/v1/404.html
 
       - uses: actions/configure-pages@v5
 
