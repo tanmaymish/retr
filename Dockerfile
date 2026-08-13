@@ -21,6 +21,9 @@ COPY server/package.json ./server/
 FROM base AS client
 RUN npm ci
 COPY app ./app
+# The preparedness scoring is shared: the client imports it for a static build,
+# the server imports it to serve /api/preparedness.
+COPY shared ./shared
 RUN npm run build
 
 # ── Runtime dependencies ─────────────────────────────────────────────────────
@@ -45,6 +48,7 @@ COPY package.json ./
 COPY server/package.json ./server/
 COPY server/src ./server/src
 COPY server/scripts ./server/scripts
+COPY shared ./shared
 COPY --from=client /build/app/dist ./app/dist
 
 # The database and encrypted documents live on a volume.
