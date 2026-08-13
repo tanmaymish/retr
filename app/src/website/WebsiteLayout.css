@@ -81,6 +81,11 @@
     flex-direction: row;
     gap: 4px;
   }
+  .site-nav-group {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+  }
   .site-nav-group-label {
     display: none;
   }
