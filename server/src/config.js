@@ -77,6 +77,17 @@ export function loadConfig(env = process.env) {
     documentDir: resolve(dataDir, 'documents'),
     sessionSecret,
     documentKeySource,
+    // Public RSS feeds behind /api/news, as "Name|url" pairs separated by
+    // commas. Left unset, the route falls back to its own defaults.
+    newsFeeds: (env.NEWS_FEEDS || '')
+      .split(',')
+      .map((entry) => entry.trim())
+      .filter(Boolean)
+      .map((entry) => {
+        const [name, url] = entry.split('|');
+        return { name: (name || 'News').trim(), url: (url || '').trim() };
+      })
+      .filter((feed) => feed.url.startsWith('https://')),
     // Where the browser app is served from. Same-origin in production (the API
     // serves the built SPA), so CORS stays off unless explicitly configured.
     corsOrigins: list(env.CORS_ORIGINS, isProduction ? [] : ['http://localhost:5173']),

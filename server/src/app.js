@@ -21,6 +21,7 @@ import { documentRoutes } from './routes/documents.js';
 import { familyRoutes, inviteRoutes } from './routes/family.js';
 import { emergencyRoutes } from './routes/emergency.js';
 import { overviewRoutes } from './routes/overview.js';
+import { newsRoutes } from './routes/news.js';
 import { publicRoutes } from './routes/public.js';
 import { CATEGORIES } from './engine/categories.js';
 
@@ -73,6 +74,7 @@ export function createApp(options = {}) {
   // The marketing surface: public endpoints, plus the admin-only lead inbox
   // which guards itself.
   api.use('/', publicRoutes(ctx));
+  api.use('/', newsRoutes(ctx));
 
   // Past this point a session must have cleared its MFA challenge. A
   // half-authenticated session can reach the auth routes above and nothing else.

@@ -305,6 +305,23 @@ select.input { appearance: none; background-image: none; cursor: pointer; paddin
 .check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; font-size: 15px; }
 .check input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--primary); flex: none; }
 
+/* The live dot on the news strip: it pulses because the strip is fetched, and
+   stops for anyone who has asked motion to stop. */
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--sage);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--sage) 60%, transparent);
+  animation: livePulse 2.4s ease-out infinite;
+  flex: none;
+}
+@keyframes livePulse {
+  70% { box-shadow: 0 0 0 7px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+@media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
+
 /* Sliders: the only input the calculators use. A gold track behind a maroon
    fill, so the control belongs to the same page as everything else. */
 .slider {

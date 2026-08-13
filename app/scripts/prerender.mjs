@@ -61,6 +61,16 @@ const ROUTES = [
     body: 'SIP, step-up SIP, lumpsum, home loan EMI, EMI prepayment, income tax old versus new, NPS, human life value, EPF, Sukanya Samriddhi and PPF. Nothing you enter is sent anywhere or stored.',
   },
   {
+    path: '/insights',
+    file: 'insights.html',
+    title: 'Insights — Akshayvriddhi',
+    description:
+      'Plain explanations of protection, retirement and planning for Indian households — what to check, what it costs, and what nobody tells you.',
+    priority: '0.8',
+    heading: 'What we would tell you in the meeting.',
+    body: 'Term cover versus investment, why retirement maths punishes late starters, what changes when the business and the household are the same money, and how to read a policy you already own.',
+  },
+  {
     path: '/contact',
     file: 'contact.html',
     title: 'Start a conversation — Akshayvriddhi',

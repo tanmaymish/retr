@@ -6,6 +6,9 @@ import { Photo } from '../components/Photo';
 import { faqSchema, organizationSchema, useSeo } from '../lib/seo';
 import { requestCallback } from './CallbackPopup';
 import { Crest, Reveal, SectionHead } from './Section';
+import { NewsStrip } from './NewsStrip';
+import { CALCULATORS } from '../lib/calculatorSpecs';
+import { insights } from './insights';
 import { assurances, audience, brand, faqs, founders, howItWorks, problems, services, stages } from './content';
 
 export default function Home() {
@@ -19,14 +22,16 @@ export default function Home() {
 
   return (
     <SitePage>
+      <NewsStrip />
       <Hero />
       <TrustBar />
+      <Tools />
       <Stages />
       <Problems />
       <Audience />
       <Services />
       <HowItWorks />
-      <Check />
+      <Reading />
       <FoundersTeaser />
       <Assurances />
       <Faqs />
@@ -310,6 +315,250 @@ function Services() {
           <button type="button" className="btn" onClick={requestCallback}>
             Talk through your situation
           </button>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * The tools, high on the page: the thing a visitor can use before they trust
+ * anyone, and the best reason to come back.
+ */
+function Tools() {
+  const featured = ['human-life-value', 'sip', 'home-loan-emi', 'income-tax', 'nps', 'ppf']
+    .map((slug) => CALCULATORS.find((calculator) => calculator.slug === slug))
+    .filter(Boolean);
+
+  return (
+    <section id="tools" style={{ padding: '88px 0' }}>
+      <div className="container stack stack-lg">
+        <SectionHead
+          eyebrow="Start here"
+          title="Run your own numbers first."
+          lede="Eleven calculators, free, with nothing behind a signup and nothing stored. Most people find the answer they came for in about a minute."
+        />
+
+        <div className="grid grid-3">
+          {featured.map((calculator, index) => (
+            <Reveal key={calculator.slug} delay={(index % 3) * 70}>
+              <Card
+                as={Link}
+                to={`/calculators/${calculator.slug}`}
+                className="card-link card-gold row"
+                style={{ gap: 16, alignItems: 'flex-start', height: '100%' }}
+              >
+                <span className="medallion" style={{ width: 44, height: 44 }}>
+                  <Icon name={calculator.icon} size={21} />
+                </span>
+                <span className="stack" style={{ gap: 4 }}>
+                  <strong style={{ fontFamily: 'var(--font-heading)', fontSize: 16 }}>{calculator.title}</strong>
+                  <span className="small muted">{calculator.blurb}</span>
+                </span>
+              </Card>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal className="row wrap" style={{ gap: 12, justifyContent: 'center' }}>
+          <Link to="/calculators" className="btn btn-secondary">
+            All eleven calculators <Icon name="arrow_forward" size={18} />
+          </Link>
+          <Link to="/preparedness-check" className="btn">Take the preparedness check</Link>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/** The writing, linked from the landing page rather than hidden in a menu. */
+function Reading() {
+  return (
+    <section style={{ background: 'var(--surface-container)', padding: '92px 0' }}>
+      <div className="container stack stack-lg">
+        <SectionHead
+          eyebrow="Insights"
+          title="What we would tell you in the meeting."
+          lede="Written plainly, with no product names and no forecasts."
+        />
+        <div className="grid grid-3">
+          {insights.slice(0, 3).map((post, index) => (
+            <Reveal key={post.slug} delay={(index % 3) * 80}>
+              <Card as={Link} to={`/insights/${post.slug}`} className="card-link stack stack-sm" style={{ height: '100%' }}>
+                <span className="badge badge-gold">{post.category}</span>
+                <h4>{post.title}</h4>
+                <p className="small muted" style={{ lineHeight: 1.7 }}>{post.summary}</p>
+                <span className="small" style={{ color: 'var(--primary)', fontWeight: 600 }}>
+                  {post.readingMinutes} min read →
+                </span>
+              </Card>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal className="row" style={{ justifyContent: 'center' }}>
+          <Link to="/insights" className="btn btn-secondary">Everything we have written</Link>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/** Who this is for. The reason the rest of the copy is specific. */
+function Audience() {
+  return (
+    <section id="who" style={{ padding: '20px 0 92px' }}>
+      <div className="container stack stack-lg">
+        <SectionHead eyebrow={audience.eyebrow} title={audience.title} lede={audience.lede} />
+        <div className="grid grid-4">
+          {audience.groups.map((group, index) => (
+            <Reveal key={group.title} delay={index * 80}>
+              <Card flat className="stack stack-sm" style={{ height: '100%' }}>
+                <span className="medallion" style={{ width: 44, height: 44 }}>
+                  <Icon name={group.icon} size={21} />
+                </span>
+                <h4>{group.title}</h4>
+                <p className="small muted" style={{ lineHeight: 1.7 }}>{group.body}</p>
+              </Card>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** What the firm actually does. */
+function Services() {
+  return (
+    <section id="services" style={{ background: 'var(--surface-container)', padding: '96px 0' }}>
+      <div className="container stack stack-lg">
+        <SectionHead
+          eyebrow="What we do"
+          title="Advice across the whole of a financial life, not one product at a time."
+          lede="Four conversations, which are really one conversation held over the years it takes to build something and the years it has to last."
+        />
+        {/* Four services, so two by two rather than three and a stray. */}
+        <div
+          className="grid"
+          style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', maxWidth: 980, width: '100%', marginInline: 'auto' }}
+        >
+          {services.map((service, index) => (
+            <Reveal key={service.key} delay={(index % 2) * 90}>
+              <Card className="stack stack-sm card-gold" style={{ height: '100%' }}>
+                <span className="medallion" style={{ width: 52, height: 52 }}>
+                  <Icon name={service.icon} size={24} />
+                </span>
+                <h3 style={{ marginTop: 4 }}>{service.title}</h3>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-serif)',
+                    fontStyle: 'italic',
+                    fontSize: 18,
+                    lineHeight: 1.45,
+                    color: 'var(--gold-ink)',
+                  }}
+                >
+                  {service.lead}
+                </p>
+                <p className="small muted" style={{ lineHeight: 1.75 }}>{service.body}</p>
+                <ul className="stack" style={{ gap: 8, margin: '4px 0 0', padding: 0, listStyle: 'none' }}>
+                  {service.points.map((point) => (
+                    <li key={point} className="row small" style={{ alignItems: 'flex-start', gap: 9 }}>
+                      <Icon name="check" size={16} style={{ color: 'var(--gold)', marginTop: 3, flex: 'none' }} />
+                      <span className="muted">{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal className="row" style={{ justifyContent: 'center' }}>
+          <button type="button" className="btn" onClick={requestCallback}>
+            Talk through your situation
+          </button>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * The tools, high on the page: the thing a visitor can use before they trust
+ * anyone, and the best reason to come back.
+ */
+function Tools() {
+  const featured = ['human-life-value', 'sip', 'home-loan-emi', 'income-tax', 'nps', 'ppf']
+    .map((slug) => CALCULATORS.find((calculator) => calculator.slug === slug))
+    .filter(Boolean);
+
+  return (
+    <section id="tools" style={{ padding: '88px 0' }}>
+      <div className="container stack stack-lg">
+        <SectionHead
+          eyebrow="Start here"
+          title="Run your own numbers first."
+          lede="Eleven calculators, free, with nothing behind a signup and nothing stored. Most people find the answer they came for in about a minute."
+        />
+
+        <div className="grid grid-3">
+          {featured.map((calculator, index) => (
+            <Reveal key={calculator.slug} delay={(index % 3) * 70}>
+              <Card
+                as={Link}
+                to={`/calculators/${calculator.slug}`}
+                className="card-link card-gold row"
+                style={{ gap: 16, alignItems: 'flex-start', height: '100%' }}
+              >
+                <span className="medallion" style={{ width: 44, height: 44 }}>
+                  <Icon name={calculator.icon} size={21} />
+                </span>
+                <span className="stack" style={{ gap: 4 }}>
+                  <strong style={{ fontFamily: 'var(--font-heading)', fontSize: 16 }}>{calculator.title}</strong>
+                  <span className="small muted">{calculator.blurb}</span>
+                </span>
+              </Card>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal className="row wrap" style={{ gap: 12, justifyContent: 'center' }}>
+          <Link to="/calculators" className="btn btn-secondary">
+            All eleven calculators <Icon name="arrow_forward" size={18} />
+          </Link>
+          <Link to="/preparedness-check" className="btn">Take the preparedness check</Link>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/** The writing, linked from the landing page rather than hidden in a menu. */
+function Reading() {
+  return (
+    <section style={{ background: 'var(--surface-container)', padding: '92px 0' }}>
+      <div className="container stack stack-lg">
+        <SectionHead
+          eyebrow="Insights"
+          title="What we would tell you in the meeting."
+          lede="Written plainly, with no product names and no forecasts."
+        />
+        <div className="grid grid-3">
+          {insights.slice(0, 3).map((post, index) => (
+            <Reveal key={post.slug} delay={(index % 3) * 80}>
+              <Card as={Link} to={`/insights/${post.slug}`} className="card-link stack stack-sm" style={{ height: '100%' }}>
+                <span className="badge badge-gold">{post.category}</span>
+                <h4>{post.title}</h4>
+                <p className="small muted" style={{ lineHeight: 1.7 }}>{post.summary}</p>
+                <span className="small" style={{ color: 'var(--primary)', fontWeight: 600 }}>
+                  {post.readingMinutes} min read →
+                </span>
+              </Card>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal className="row" style={{ justifyContent: 'center' }}>
+          <Link to="/insights" className="btn btn-secondary">Everything we have written</Link>
         </Reveal>
       </div>
     </section>

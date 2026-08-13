@@ -47,12 +47,11 @@ export function Wordmark({ size = 44, subtitle }) {
 }
 
 const LINKS = [
-  { to: '/about', label: 'About' },
-  { to: '/about#founders', label: 'Founders' },
-  { to: '/#who', label: 'Who we help' },
-  { to: '/#services', label: 'What we do' },
   { to: '/calculators', label: 'Calculators' },
   { to: '/preparedness-check', label: 'Preparedness check' },
+  { to: '/insights', label: 'Insights' },
+  { to: '/#services', label: 'What we do' },
+  { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },
 ];
 
@@ -154,6 +153,7 @@ export function SiteFooter() {
               <Link to="/#how">How we work</Link>
               <Link to="/calculators">Calculators</Link>
               <Link to="/preparedness-check">Preparedness check</Link>
+              <Link to="/insights">Insights</Link>
               <Link to="/#faq">Questions</Link>
             </div>
             <div className="stack" style={{ gap: 8 }}>
