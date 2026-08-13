@@ -7,6 +7,7 @@ import Home from './site/Home';
 import About from './site/About';
 import Contact from './site/Contact';
 import PreparednessCheck from './site/PreparednessCheck';
+import { CalculatorPage, CalculatorsHub } from './site/Calculators';
 import { NotFound, Privacy, Terms } from './site/Legal';
 import { MfaChallenge, SignIn, SignUp } from './auth/AuthPages';
 import InviteAccept from './auth/InviteAccept';
@@ -33,6 +34,8 @@ export default function App() {
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/preparedness-check" element={<PreparednessCheck />} />
+      <Route path="/calculators" element={<CalculatorsHub />} />
+      <Route path="/calculators/:slug" element={<CalculatorPage />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/privacy" element={<Privacy />} />
       <Route path="/terms" element={<Terms />} />

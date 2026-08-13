@@ -87,3 +87,25 @@ export function greeting(date = new Date()) {
   if (hour < 17) return 'Good afternoon';
   return 'Good evening';
 }
+
+/**
+ * Rupees, in the Indian numbering system.
+ *
+ * Lakhs and crores, never millions — a number written the way a reader here
+ * actually says it out loud. `compact` gives the short form used on headline
+ * figures; the full form keeps the grouping (12,34,567) that `en-IN` applies.
+ */
+export function formatMoney(value, { compact = false } = {}) {
+  const n = Math.round(Number(value) || 0);
+  if (!compact) return `₹${n.toLocaleString('en-IN')}`;
+
+  const abs = Math.abs(n);
+  if (abs >= 10000000) return `₹${trim(n / 10000000)} Cr`;
+  if (abs >= 100000) return `₹${trim(n / 100000)} L`;
+  if (abs >= 1000) return `₹${trim(n / 1000)}K`;
+  return `₹${n.toLocaleString('en-IN')}`;
+}
+
+function trim(value) {
+  return Number(value.toFixed(2)).toLocaleString('en-IN');
+}
