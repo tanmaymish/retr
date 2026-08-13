@@ -1,0 +1,25 @@
+# Docker does not read .gitignore, so everything that must stay out of the
+# build context is listed here.
+
+# Never ship the database or anyone's encrypted documents into an image.
+server/data/
+
+node_modules/
+*/node_modules/
+app/dist/
+
+.git/
+.github/
+*.log
+.env
+.env.*
+!.env.example
+
+# Design and handoff material: useful in the repository, dead weight in an image.
+design/
+chats/
+project/
+
+.DS_Store
+.vscode/
+.idea/

@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "claude/**"]
+  pull_request:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+# This repository is a single npm workspace. Installing from the root lockfile
+# is the only correct way to install it: running `npm ci` inside app/ or server/
+# still resolves the workspace root above them, so a per-directory install would
+# read the root lockfile anyway and fail the moment the two disagree.
+jobs:
+  verify:
+    name: Lint, test and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install workspaces
+        run: npm ci
+
+      - name: Lint the client
+        run: npm run lint
+
+      - name: Server tests
+        run: npm test
+
+      - name: Build the client
+        run: npm run build
+
+      - name: Check the prerendered routes exist
+        run: |
+          for file in index.html about.html preparedness-check.html contact.html sitemap.xml robots.txt; do
+            test -s "app/dist/$file" || { echo "missing or empty: app/dist/$file"; exit 1; }
+          done
+          echo "prerender output present"
+
+  docker:
+    name: Docker image builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

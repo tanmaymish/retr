@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.env
+.env.local
+
+# The database and every encrypted document live here. Never commit them.
+server/data/
+
+*.log
+.DS_Store
+.vscode/
+.idea/

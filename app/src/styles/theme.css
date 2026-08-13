@@ -1,0 +1,688 @@
+/* Akshayvriddhi — design tokens, taken from the logo.
+   Every colour below was sampled out of the artwork in app/public/brand: the
+   maroon of the crescent and the wordmark, the gold of the rising arrow and
+   the bars, and the cream the whole lockup is drawn on. Maroon carries action
+   and identity, gold is the accent that marks growth and anything asking for
+   attention, cream is the ground.
+
+   Type follows the same source. The lockup is set in wide serif capitals, so
+   Cinzel carries the wordmark; Manrope carries structure and Plus Jakarta Sans
+   carries everything a person actually reads.
+
+   This is a single, committed light theme — ivory, wine and gold, the way a
+   certificate or a share letter is printed. There is deliberately no dark
+   variant: the brand's own ground is the cream the logo is drawn on, and the
+   depth comes from the wine bands rather than from inverting the page. Every
+   colour is still a token, and the background is always painted explicitly. */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
+
+:root {
+  /* The cream the logo sits on, stepped down into surfaces. */
+  --surface: #fbf6ec;
+  --surface-dim: #ded4c0;
+  --surface-lowest: #fffdf7;
+  --surface-low: #f7f1e5;
+  --surface-container: #f2ebdd;
+  --surface-high: #ece4d4;
+  --surface-highest: #e6ddca;
+
+  /* Coffee, not grey and not a pink-tinted black: the ink a letterpressed
+     certificate would be printed in. */
+  --on-surface: #2a1c14;
+  --on-surface-variant: #5d4736;
+  --outline: #8a7259;
+  --outline-variant: #e2d5c1;
+
+  /* Maroon: the crescent and the wordmark. */
+  --primary: #661426;
+  --on-primary: #fffaf3;
+  --primary-container: #4a0d1a;
+  --on-primary-container: #e6b7bf;
+  --primary-fixed: #f6e3e6;
+  /* Gold on the maroon band — the arrow against the crescent. */
+  --primary-fixed-dim: #d9a95f;
+  --on-primary-fixed-variant: #8a2338;
+
+  --secondary: #6b5a4a;
+  --secondary-container: #ece2d2;
+
+  /* The wine range the bands are built from — the crescent, deepened. */
+  --wine: #4a0d1a;
+  --wine-deep: #340811;
+  --burgundy: #7d1a2e;
+
+  /* Gold: the arrow, the bars, the hairline rules. `--gold-leaf` is the
+     metallic version — a gradient, for edges and rules, never for text. */
+  --gold: #b8863f;
+  --gold-ink: #85591d;
+  --gold-surface: #f8eeda;
+  --gold-line: rgba(184, 134, 63, 0.45);
+  --gold-leaf: linear-gradient(120deg, #9c6f2e 0%, #d9b063 32%, #f0dba6 50%, #d9b063 68%, #9c6f2e 100%);
+
+  --tertiary: #14301a;
+  --tertiary-container: #cfe6c9;
+  --on-tertiary-container: #24512c;
+  --sage: #2f6b3a;
+  --sage-surface: #e8f2e2;
+
+  /* Attention is the brand's own gold; it has to read as warning, not error. */
+  --amber: #85591d;
+  --amber-surface: #f8eeda;
+
+  /* Brighter and warmer than the maroon, so an error never reads as branding. */
+  --error: #b3261e;
+  --on-error: #fffaf3;
+  --error-container: #f9d5cd;
+  --on-error-container: #7d160e;
+
+  /* Headlines are set in a book serif. An advisory practice is closer to a
+     printed letter than to a product page, and the sans that carried the vault
+     read as software. Manrope stays for the small structural type. */
+  --font-serif: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-heading: 'Manrope', system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-display: 'Cinzel', 'Times New Roman', serif;
+
+  --radius-sm: 0.25rem;
+  --radius: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  --gutter: 24px;
+  --stack-sm: 12px;
+  --stack-md: 24px;
+  --stack-lg: 48px;
+  --page-max: 1200px;
+
+  /* Tonal layering with maroon-tinted ambient shadows. */
+  --elev-1: 0 4px 20px rgba(74, 13, 26, 0.05);
+  --elev-2: 0 12px 40px rgba(74, 13, 26, 0.10);
+  --elev-hover: 0 2px 24px rgba(74, 13, 26, 0.12);
+
+  --spring: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* The full-bleed maroon sections. `--primary` cannot serve here: in dark it
+     is the gold, and a gold band would shout. */
+  --band: #661426;
+  --on-band: #fffaf3;
+  --band-accent: #d9a95f;
+
+  --surface-veil: rgba(251, 246, 236, 0.9);
+  --card-border: rgba(74, 13, 26, 0.06);
+  --focus-ring: rgba(102, 20, 38, 0.14);
+
+  /* A wash of warmth behind the page, so the ground is never a flat fill. */
+  --ambient:
+    radial-gradient(1200px 620px at 78% -8%, rgba(184, 134, 63, 0.10), transparent 62%),
+    radial-gradient(900px 520px at 4% 0%, rgba(102, 20, 38, 0.06), transparent 60%);
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background-color: var(--surface);
+  background-image: var(--ambient);
+  background-attachment: fixed;
+  color: var(--on-surface);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* The two display sizes are the serif; below that the sans keeps its job, so
+   labels and card titles stay crisp at small sizes. */
+h1, h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+h1 { font-size: clamp(40px, 6.2vw, 68px); line-height: 1.06; }
+h2 { font-size: clamp(30px, 4.2vw, 44px); line-height: 1.12; }
+h3 {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+h4 {
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+p { margin: 0; }
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+::selection { background: var(--primary-fixed); color: var(--primary); }
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.material-symbols-rounded {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  direction: ltr;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  user-select: none;
+}
+
+/* ── Layout helpers ─────────────────────────────────────────────────────── */
+.stack { display: flex; flex-direction: column; }
+.stack-sm { gap: var(--stack-sm); }
+.stack-md { gap: var(--stack-md); }
+.stack-lg { gap: var(--stack-lg); }
+.row { display: flex; align-items: center; gap: 12px; }
+.row-between { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.wrap { flex-wrap: wrap; }
+.grow { flex: 1; min-width: 0; }
+.muted { color: var(--on-surface-variant); }
+.small { font-size: 14px; }
+.tiny { font-size: 12px; letter-spacing: 0.02em; }
+.caps { text-transform: uppercase; letter-spacing: 0.08em; font-size: 12px; font-weight: 600; }
+.center { text-align: center; }
+.container { width: 100%; max-width: var(--page-max); margin: 0 auto; padding: 0 20px; }
+@media (min-width: 1024px) { .container { padding: 0 40px; } }
+
+.grid { display: grid; gap: var(--gutter); }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.grid-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+/* ── Cards ──────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--surface-lowest);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--elev-1);
+  border: 1px solid var(--card-border);
+}
+.card-flat { background: var(--surface-low); box-shadow: none; }
+.card-link { display: block; color: inherit; transition: box-shadow 0.25s var(--spring), transform 0.25s var(--spring); }
+.card-link:hover { box-shadow: var(--elev-hover); transform: translateY(-2px); text-decoration: none; }
+
+/* ── Buttons ────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: var(--radius-lg);
+  border: 1px solid transparent;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform 0.18s var(--spring), background 0.18s ease, box-shadow 0.18s ease;
+  text-decoration: none;
+}
+.btn:hover { background: var(--primary-container); text-decoration: none; }
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+.btn-secondary { background: transparent; color: var(--primary); border-color: var(--outline-variant); }
+.btn-secondary:hover { background: var(--surface-low); }
+/* On the wine band the maroon button disappears into the ground, so the
+   primary action is struck in gold — the arrow against the crescent. */
+.btn-gold {
+  background: var(--gold-leaf);
+  background-size: 200% 100%;
+  background-position: 30% 0;
+  color: #2a1206;
+  border-color: transparent;
+  font-weight: 700;
+  transition: background-position 0.6s var(--spring), transform 0.18s var(--spring);
+}
+.btn-gold:hover { background-position: 70% 0; }
+
+/* On the wine band the secondary action is a gold hairline, not a grey one. */
+.btn-on-band {
+  background: color-mix(in srgb, var(--on-band) 8%, transparent);
+  color: var(--on-band);
+  border-color: var(--gold-line);
+  backdrop-filter: blur(6px);
+}
+.btn-on-band:hover { background: color-mix(in srgb, var(--on-band) 16%, transparent); }
+.btn-ghost { background: transparent; color: var(--on-surface-variant); border-color: transparent; padding: 8px 12px; }
+.btn-ghost:hover { background: var(--surface-container); }
+.btn-danger { background: var(--error); }
+.btn-danger:hover { background: var(--on-error-container); }
+.btn-sm { padding: 8px 16px; font-size: 14px; border-radius: var(--radius-md); }
+.btn-block { width: 100%; }
+.btn .material-symbols-rounded { font-size: 20px; }
+
+/* ── Forms ──────────────────────────────────────────────────────────────── */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field > label { font-size: 14px; font-weight: 600; letter-spacing: 0.02em; }
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--surface-lowest);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-lg);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.input:hover { border-color: var(--outline); }
+.input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+.input[aria-invalid='true'] { border-color: var(--error); }
+textarea.input { min-height: 96px; resize: vertical; }
+select.input { appearance: none; background-image: none; cursor: pointer; padding-right: 38px; }
+.field-error { font-size: 13px; color: var(--error); }
+.field-hint { font-size: 13px; color: var(--on-surface-variant); }
+
+.check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; font-size: 15px; }
+.check input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--primary); flex: none; }
+
+/* The live dot on the news strip: it pulses because the strip is fetched, and
+   stops for anyone who has asked motion to stop. */
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--sage);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--sage) 60%, transparent);
+  animation: livePulse 2.4s ease-out infinite;
+  flex: none;
+}
+@keyframes livePulse {
+  70% { box-shadow: 0 0 0 7px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+@media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
+
+/* Sliders: the only input the calculators use. A gold track behind a maroon
+   fill, so the control belongs to the same page as everything else. */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--surface-highest);
+  outline: none;
+  cursor: pointer;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  border: 2px solid var(--surface-lowest);
+  box-shadow: var(--elev-1);
+  cursor: grab;
+  transition: transform 0.15s var(--spring);
+}
+.slider::-webkit-slider-thumb:active { transform: scale(1.12); cursor: grabbing; }
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  border: 2px solid var(--surface-lowest);
+  box-shadow: var(--elev-1);
+  cursor: grab;
+}
+.slider:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
+
+/* ── Badges ─────────────────────────────────────────────────────────────── */
+/* A hairline and a tint rather than a solid pastel fill: at this size a block
+   of pale colour reads as a notification, and a gold edge reads as a seal. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 13px;
+  border-radius: var(--radius-full);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: color-mix(in srgb, var(--surface-container) 70%, transparent);
+  border: 1px solid var(--outline-variant);
+  color: var(--on-surface-variant);
+  white-space: nowrap;
+}
+.badge .material-symbols-rounded { font-size: 14px; }
+/* A badge carrying a sentence rather than a word has to be allowed to wrap,
+   or it pushes its card off the side of a phone screen. */
+.badge-wrap { white-space: normal; text-align: left; }
+.badge-verified {
+  background: color-mix(in srgb, var(--sage-surface) 70%, transparent);
+  border-color: color-mix(in srgb, var(--sage) 35%, transparent);
+  color: var(--sage);
+}
+.badge-ai {
+  background: color-mix(in srgb, var(--primary-fixed) 70%, transparent);
+  border-color: color-mix(in srgb, var(--primary) 28%, transparent);
+  color: var(--on-primary-fixed-variant);
+}
+.badge-pending {
+  background: color-mix(in srgb, var(--gold-surface) 70%, transparent);
+  border-color: var(--gold-line);
+  color: var(--gold-ink);
+}
+/* In a maroon palette a pale-red pill sits close to the brand's own rose tint,
+   so danger is given an outline as well as a hue: it separates by shape, which
+   also survives colour blindness. */
+.badge-danger {
+  background: color-mix(in srgb, var(--error-container) 75%, transparent);
+  border-color: color-mix(in srgb, var(--error) 45%, transparent);
+  color: var(--on-error-container);
+}
+.badge-primary {
+  background: color-mix(in srgb, var(--primary-fixed) 70%, transparent);
+  border-color: color-mix(in srgb, var(--primary) 26%, transparent);
+  color: var(--primary);
+}
+/* The seal: gold edge, no fill of its own. */
+.badge-gold {
+  background: color-mix(in srgb, var(--gold-surface) 55%, transparent);
+  border-color: var(--gold-line);
+  color: var(--gold-ink);
+}
+
+/* ── Misc ───────────────────────────────────────────────────────────────── */
+.divider { height: 1px; background: var(--outline-variant); opacity: 0.5; border: 0; margin: 0; }
+
+/* ── The royal finish ───────────────────────────────────────────────────── */
+
+/* Full-bleed sections: wine, deepened at the edges, with a gold hairline top
+   and bottom — the edge of a certificate rather than a flat block of colour. */
+.band {
+  position: relative;
+  background:
+    radial-gradient(1100px 480px at 50% 0%, color-mix(in srgb, var(--burgundy) 55%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--wine) 0%, var(--band) 45%, var(--wine-deep) 100%);
+  color: var(--on-band);
+}
+.band::before,
+.band::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--gold-leaf);
+  opacity: 0.55;
+}
+.band::before { top: 0; }
+.band::after { bottom: 0; }
+
+/* The round icon holder: a gold ring on the page's own ground, rather than a
+   disc of pastel. */
+.medallion {
+  display: grid;
+  place-items: center;
+  flex: none;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--gold-surface) 45%, transparent);
+  border: 1px solid var(--gold-line);
+  color: var(--primary);
+}
+.medallion-solid {
+  background: linear-gradient(150deg, var(--band) 0%, var(--wine) 100%);
+  border-color: var(--gold-line);
+  color: var(--band-accent);
+}
+
+/* A card that wants to look struck rather than printed. */
+.card-gold { border-color: var(--gold-line); }
+.card-gold:hover { border-color: color-mix(in srgb, var(--gold) 70%, transparent); }
+
+/* The hero: the photograph carried behind the words, under a wine scrim deep
+   enough that cream type sits on it at full contrast. */
+.hero-band {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--on-band);
+}
+.hero-band > .hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+.hero-band > .hero-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  transform: scale(1.06);
+  animation: heroDrift 22s ease-in-out infinite alternate;
+}
+.hero-band::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--wine-deep) 92%, transparent) 0%, color-mix(in srgb, var(--wine) 82%, transparent) 45%, color-mix(in srgb, var(--wine-deep) 95%, transparent) 100%),
+    radial-gradient(900px 520px at 50% 30%, color-mix(in srgb, var(--burgundy) 45%, transparent), transparent 70%);
+}
+.hero-band > .container { position: relative; }
+
+@keyframes heroDrift {
+  from { transform: scale(1.06) translate3d(0, 0, 0); }
+  to { transform: scale(1.12) translate3d(-1.5%, -1.5%, 0); }
+}
+
+/* ── Motion ─────────────────────────────────────────────────────────────── */
+/* Everything arrives the same way: a short rise as it enters the viewport,
+   staggered by position rather than by a timer, so nothing is waited on. */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s var(--spring),
+    transform 0.7s var(--spring);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-in { opacity: 1; transform: none; }
+
+/* A gold sweep across a rule, once, as it appears. */
+@keyframes sheen { from { background-position: -180% 0; } to { background-position: 280% 0; } }
+
+/* Buttons catch the light on hover, the way foil does. */
+.btn-sheen { position: relative; overflow: hidden; }
+.btn-sheen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.22) 50%, transparent 65%);
+  transform: translateX(-120%);
+  transition: transform 0.7s var(--spring);
+}
+.btn-sheen:hover::after { transform: translateX(120%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .btn-sheen::after { display: none; }
+  .hero-band > .hero-media img { animation: none; transform: scale(1.02); }
+}
+
+/* The lockup's own divider: a gold hairline broken by a diamond. Used to
+   separate sections the way the logo separates the name from the sub-line. */
+.rule-gold {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 0;
+  margin: 0;
+  color: var(--gold);
+}
+.rule-gold::before,
+.rule-gold::after {
+  content: '';
+  height: 1px;
+  flex: 1;
+  background: var(--gold-leaf);
+  background-size: 220% 100%;
+  opacity: 0.7;
+}
+.rule-gold.is-in::before,
+.rule-gold.is-in::after { animation: sheen 1.6s var(--spring) 0.15s both; }
+.rule-gold::marker { content: none; }
+.rule-gold > span {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-ink);
+}
+/* As an eyebrow the rule only trails, so the label stays flush with the
+   heading below it. */
+.rule-gold.lead::before { display: none; }
+.rule-gold.on-dark,
+.rule-gold.on-dark > span { color: var(--band-accent); }
+.diamond { color: var(--gold); font-size: 10px; line-height: 1; }
+
+/* A founder's own words, set as a pull quote: gold rule, serif attribution,
+   and room to breathe. */
+.pullquote {
+  margin: 0;
+  padding: 22px 26px;
+  background: var(--surface-low);
+  border-left: 3px solid var(--gold);
+  border-radius: var(--radius);
+  position: relative;
+}
+.pullquote p {
+  font-family: var(--font-heading);
+  font-size: 17.5px;
+  line-height: 1.65;
+  letter-spacing: -0.005em;
+}
+.pullquote footer {
+  margin-top: 12px;
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-ink);
+}
+
+/* A section opens the same way everywhere: a centred gold rule, the eyebrow,
+   the heading, the standfirst — measured to the same width, so the page has a
+   spine down the middle rather than a ragged left edge. */
+.section-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  max-width: 62ch;
+  margin: 0 auto;
+}
+.section-head .eyebrow {
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold-ink);
+}
+.section-head .lede { color: var(--on-surface-variant); font-size: 17.5px; line-height: 1.75; }
+.section-head.on-band .eyebrow { color: var(--band-accent); }
+.section-head.on-band .lede { color: color-mix(in srgb, var(--on-band) 78%, transparent); }
+
+/* The rule that opens a section: gold, centred, with the lockup's diamond. */
+.crest {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 168px;
+  color: var(--gold);
+}
+.crest::before,
+.crest::after {
+  content: '';
+  height: 1px;
+  flex: 1;
+  background: var(--gold-leaf);
+  background-size: 220% 100%;
+  opacity: 0.75;
+}
+.crest span { font-size: 9px; line-height: 1; }
+.crest.is-in::before,
+.crest.is-in::after { animation: sheen 1.6s var(--spring) 0.1s both; }
+
+/* Wide serif capitals, as the lockup sets the name. */
+.wordmark-type {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 56px 24px;
+  color: var(--on-surface-variant);
+}
+.empty .material-symbols-rounded { font-size: 40px; color: var(--outline); }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-container), var(--surface-high), var(--surface-container));
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: var(--radius);
+}
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+.enter { animation: enter 0.4s var(--spring) both; }
+@keyframes enter { from { opacity: 0; transform: translateY(12px) scale(0.99); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* The home hero is two columns on desktop and stacked on anything narrower,
+   with the photograph following the words rather than pushing them down. */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+}

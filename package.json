@@ -1,0 +1,24 @@
+{
+  "name": "akshayvriddhi",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Akshayvriddhi \u2014 prosperity with purpose. Brand site, preparedness check, and a secure family document vault with trustees and time-locked emergency access.",
+  "workspaces": [
+    "app",
+    "server"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix app run dev",
+    "build": "npm --prefix app run build",
+    "start": "npm --prefix server start",
+    "test": "npm --prefix server test",
+    "lint": "npm --prefix app run lint",
+    "check": "npm run lint && npm test && npm run build"
+  }
+}

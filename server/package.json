@@ -1,0 +1,24 @@
+{
+  "name": "@akshayvriddhi/server",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Akshayvriddhi API \u2014 accounts, the encrypted family vault, trustees and the emergency access protocol.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test --test-concurrency=1 \"test/*.test.js\"",
+    "role": "node scripts/set-role.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.6.0",
+    "cookie-parser": "^1.4.7",
+    "express": "^5.2.0",
+    "multer": "^2.0.2",
+    "zod": "^4.1.14"
+  }
+}
