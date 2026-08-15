@@ -1,4 +1,7 @@
 import {
+  drawdown,
+  readiness,
+  educationGoal,
   emi,
   emiPrepayment,
   epf,
@@ -29,22 +32,211 @@ const money = (v) => formatMoney(v, { compact: true });
 const pct = (v) => `${v}%`;
 const yrs = (v) => `${v} yr`;
 
+/**
+ * The order is the audience. Retirement first, education second — the two
+ * questions this firm exists to answer — and everything else after them.
+ */
 export const GROUPS = [
-  { key: 'wealth', label: 'Wealth and investments' },
+  { key: 'retirement', label: 'Retirement income' },
+  { key: 'education', label: 'Children’s education' },
+  { key: 'wealth', label: 'Growing what you have' },
+  { key: 'cover', label: 'Cover and tax' },
   { key: 'loans', label: 'Loans and liability' },
-  { key: 'tax', label: 'Tax and retirement' },
-  { key: 'schemes', label: 'Provident and government schemes' },
 ];
 
 export const CALCULATORS = [
+  {
+    slug: 'retirement-readiness',
+    group: 'retirement',
+    icon: 'target',
+    title: 'Retirement readiness',
+    blurb: 'Your number, and the distance to it.',
+    intro: 'What the corpus has to be, what it is heading for, and the gap between the two.',
+    cta: 'Book the free readiness call',
+    inputs: [
+      {
+        key: 'currentAge',
+        label: 'Your current age',
+        helper: 'Just the number — we’ll handle the maths.',
+        min: 30, max: 70, step: 1, value: 50, format: yrs,
+      },
+      {
+        key: 'retireAge',
+        label: 'Age you’d like to stop active income',
+        helper: 'Not when you’re allowed to retire — when you actually want to.',
+        min: 45, max: 75, step: 1, value: 60, format: yrs,
+      },
+      {
+        key: 'monthlyExpense',
+        label: 'Your comfortable monthly household expense today',
+        helper: 'Think of a normal month, not a big one-off year with a wedding or a trip in it.',
+        min: 15000, max: 500000, step: 5000, value: 80000, format: money,
+      },
+      {
+        key: 'lifestyle',
+        label: 'Retirement lifestyle you’re planning for',
+        type: 'choice',
+        value: 'same',
+        options: [
+          { value: 'lower', label: 'A modest step-down', note: 'About 20% lower' },
+          { value: 'same', label: 'Same as today', note: 'The default' },
+          { value: 'enhanced', label: 'Enhanced', note: 'More travel, more support for family' },
+        ],
+      },
+      {
+        key: 'saved',
+        label: 'What you’ve already built',
+        helper: 'Provident fund, pension accounts, mutual funds, deposits. Leave out the house you live in — it doesn’t generate income unless you sell it.',
+        min: 0, max: 100000000, step: 500000, value: 8000000, format: money,
+      },
+      {
+        key: 'monthlySaving',
+        label: 'How much you can save monthly, starting now',
+        helper: 'A realistic number. Better a plan around ₹25,000 you will actually save than ₹60,000 you won’t.',
+        min: 0, max: 500000, step: 5000, value: 40000, format: money,
+      },
+    ],
+    run: (v) => {
+      const r = readiness(v);
+
+      /* Three states, three different things to say. The gap state is never
+         written to alarm: the reader arrived anxious, and the job of the copy
+         is to turn that into one specific next action, not to amplify it. */
+      const states = {
+        'on-track': {
+          label: 'On track',
+          value: `Covered to ${r.coveredPct}%`,
+          note: `You’re on pace to reach your number by ${v.retireAge}. The next question is whether it’s invested to actually get there — not just saved.`,
+        },
+        closeable: {
+          label: 'A closeable gap',
+          value: `${money(r.extraMonthly)} a month`,
+          note: `A gap of about ${money(r.gap)}, and it’s closeable — usually with a smaller increase than people expect once the plan is properly structured.`,
+        },
+        meaningful: {
+          label: 'A meaningful gap — let’s talk it through',
+          value: `${money(r.gap)} short`,
+          tone: 'danger',
+          note: 'This isn’t a save-a-bit-more fix. It needs a real conversation about timeline, lifestyle or savings rate — which is exactly what the free call is for.',
+        },
+      };
+
+      return {
+        headline: states[r.state],
+        split: {
+          a: { label: 'On track to have', value: r.projected },
+          b: { label: 'Still to fund', value: r.gap },
+        },
+        rows: [
+          { label: 'Corpus you need at ' + v.retireAge, value: formatMoney(r.corpus) },
+          { label: 'On track to have', value: formatMoney(r.projected) },
+          { label: 'A month, in ' + v.retireAge + '-year-old money', value: formatMoney(r.monthlyAtRetirement) },
+          { label: 'Years the corpus must last', value: `${r.retiredYears}` },
+          { label: 'Saving needed each month', value: formatMoney(r.totalMonthly) },
+        ],
+        note:
+          'Assumes 6% inflation, a life expectancy of 90, 10% on savings while you are still earning, and a retirement portfolio earning about 1.5% above inflation once preservation matters more than growth. Planning assumptions, not promises.',
+      };
+    },
+  },
+  {
+    slug: 'retirement-drawdown',
+    group: 'retirement',
+    icon: 'hourglass_bottom',
+    title: 'How long will it last?',
+    blurb: 'Your corpus, spent down year by year.',
+    intro: 'Spending rises with prices. The corpus does not. This is where the two meet.',
+    cta: 'Ask what to do about this',
+    inputs: [
+      { key: 'corpus', label: 'Corpus at retirement', min: 500000, max: 100000000, step: 500000, value: 15000000, format: money },
+      { key: 'monthlySpend', label: 'Monthly spending', min: 10000, max: 500000, step: 5000, value: 60000, format: money },
+      { key: 'currentAge', label: 'Age at retirement', min: 45, max: 75, step: 1, value: 60, format: yrs },
+      { key: 'returnPct', label: 'Return on the corpus', min: 3, max: 14, step: 0.5, value: 7, format: pct },
+      { key: 'inflationPct', label: 'Inflation on spending', min: 2, max: 12, step: 0.5, value: 6, format: pct },
+    ],
+    run: (v) => {
+      const r = drawdown(v);
+      const survives = r.ranOutAt === null;
+      return {
+        headline: survives
+          ? { label: 'It outlasts you', value: `Still ${money(r.endingBalance)} at 95` }
+          : { label: 'The money runs out at', value: `age ${r.ranOutAt}`, tone: 'danger',
+              note: `That is ${r.lastsYears} years of retirement funded, and the rest not.` },
+        chart: {
+          points: [{ x: v.currentAge, y: v.corpus, label: `Age ${v.currentAge}: ${money(v.corpus)}` }].concat(
+            r.series.map((point) => ({ x: point.age, y: point.balance, label: `Age ${point.age}: ${money(point.balance)}` })),
+          ),
+          markAt: r.ranOutAt,
+          aria: survives
+            ? `Corpus from age ${v.currentAge} to 95, never exhausted.`
+            : `Corpus falling from ${money(v.corpus)} at age ${v.currentAge} to nothing at age ${r.ranOutAt}.`,
+          foot: [`Age ${v.currentAge}`, 'Age 95'],
+          key: { bar: 'Corpus remaining', mark: survives ? null : `Unfunded, from ${r.ranOutAt}` },
+        },
+        rows: [
+          { label: 'Withdrawn in the first year', value: formatMoney(r.firstYearWithdrawal) },
+          { label: 'Withdrawn in the last funded year', value: formatMoney(r.lastWithdrawal) },
+          { label: 'Years funded', value: `${r.lastsYears}` },
+          { label: 'Balance at the end', value: formatMoney(r.endingBalance) },
+        ],
+        note: 'Withdrawn at the start of each year; the rest earns for the year. Taxes and one-off costs are not counted.',
+      };
+    },
+  },
+  {
+    slug: 'education-goal',
+    group: 'education',
+    icon: 'school',
+    title: 'What their course will cost',
+    blurb: 'The fee in the year it falls due.',
+    intro: 'Fees have risen faster than prices for two decades. Plan against the future bill, not today’s.',
+    cta: 'Ask how to fund this',
+    inputs: [
+      { key: 'costToday', label: 'What the course costs today', min: 100000, max: 20000000, step: 50000, value: 2000000, format: money },
+      { key: 'yearsAway', label: 'Years until they start', min: 1, max: 25, step: 1, value: 12, format: yrs },
+      { key: 'feeInflationPct', label: 'Fee inflation', min: 3, max: 15, step: 0.5, value: 8, format: pct },
+      { key: 'saved', label: 'Already set aside', min: 0, max: 20000000, step: 50000, value: 500000, format: money },
+      { key: 'returnPct', label: 'Assumed return', min: 4, max: 16, step: 0.5, value: 10, format: pct },
+    ],
+    run: (v) => {
+      const r = educationGoal(v);
+      const start = new Date().getFullYear() + v.yearsAway;
+      const curve = Array.from({ length: v.yearsAway + 1 }, (_, year) => {
+        const y = v.costToday * Math.pow(1 + v.feeInflationPct / 100, year);
+        return { x: year, y, label: `${new Date().getFullYear() + year}: ${money(y)}` };
+      });
+      return {
+        headline: {
+          label: 'Set aside every month',
+          value: formatMoney(r.monthly),
+          note: `To have ${money(r.futureCost)} ready in ${start}.`,
+        },
+        chart: {
+          points: curve,
+          markAt: v.yearsAway,
+          aria: `Course fee rising from ${money(v.costToday)} today to ${money(r.futureCost)} in ${start}.`,
+          foot: [`${new Date().getFullYear()} · ${money(v.costToday)}`, `${start} · ${money(r.futureCost)}`],
+          key: { bar: 'Fee, if it keeps rising', mark: 'The year you pay it' },
+        },
+        rows: [
+          { label: 'Cost today', value: formatMoney(r.costToday) },
+          { label: `Cost in ${start}`, value: formatMoney(r.futureCost) },
+          { label: 'That is', value: `${r.multiple}× today’s fee` },
+          { label: 'What you have set aside grows to', value: formatMoney(r.savedGrowsTo) },
+          { label: 'Still to fund', value: formatMoney(r.shortfall) },
+        ],
+        note: 'One goal, funded from today. Living costs abroad, and a falling rupee, are not counted here.',
+      };
+    },
+  },
   {
     slug: 'sip',
     group: 'wealth',
     icon: 'trending_up',
     title: 'SIP calculator',
-    blurb: 'What a monthly investment becomes.',
+    blurb: 'A systematic investment plan: what a monthly amount becomes.',
     intro:
-      'A fixed amount invested every month, compounded monthly at an assumed rate. The rate is an assumption you are choosing, not a return anyone can promise.',
+      'The rate is an assumption you are choosing, not a return anyone can promise.',
     cta: 'Ask what this should be invested in',
     inputs: [
       { key: 'monthly', label: 'Monthly investment', min: 500, max: 200000, step: 500, value: 10000, format: money },
@@ -58,9 +250,9 @@ export const CALCULATORS = [
         rows: [
           { label: 'Total invested', value: formatMoney(r.invested) },
           { label: 'Growth on it', value: formatMoney(r.gain) },
-          { label: 'Final value', value: formatMoney(r.value) },
           { label: 'Instalments paid', value: `${Math.round(v.years * 12)}` },
         ],
+        split: { a: { label: 'Invested', value: r.invested }, b: { label: 'Growth', value: r.gain } },
       };
     },
   },
@@ -69,9 +261,9 @@ export const CALCULATORS = [
     group: 'wealth',
     icon: 'stacked_line_chart',
     title: 'Step-up SIP',
-    blurb: 'What raising the amount every year does.',
+    blurb: 'The same monthly plan, raised each year with your salary.',
     intro:
-      'The same SIP, increased by a fixed percentage every year — usually in step with a salary. The difference against a flat SIP is almost always larger than people expect.',
+      'The same SIP, raised each year in step with a salary. The difference is larger than people expect.',
     cta: 'Set a step-up that matches my income',
     inputs: [
       { key: 'monthly', label: 'Starting monthly amount', min: 500, max: 200000, step: 500, value: 10000, format: money },
@@ -100,7 +292,7 @@ export const CALCULATORS = [
     icon: 'payments',
     title: 'Lumpsum return',
     blurb: 'One amount, left to compound.',
-    intro: 'A single investment compounded annually. Useful for a bonus, a maturity or a sale.',
+    intro: 'One amount, compounded annually. For a bonus, a maturity or a sale.',
     cta: 'Ask where a lump sum should go',
     inputs: [
       { key: 'amount', label: 'Amount invested', min: 10000, max: 20000000, step: 10000, value: 500000, format: money },
@@ -124,9 +316,9 @@ export const CALCULATORS = [
     group: 'loans',
     icon: 'account_balance',
     title: 'Home loan EMI',
-    blurb: 'The instalment, and what the loan really costs.',
+    blurb: 'The monthly instalment, and what the loan really costs.',
     intro:
-      'A reducing-balance EMI. The figure worth looking at is not the instalment but the total interest — on a long tenure it can approach the amount borrowed.',
+      'The number that matters is not the instalment. It is the total interest.',
     cta: 'Ask how this fits the rest of the plan',
     inputs: [
       { key: 'principal', label: 'Loan amount', min: 100000, max: 50000000, step: 100000, value: 5000000, format: money },
@@ -140,12 +332,12 @@ export const CALCULATORS = [
         rows: [
           { label: 'Total interest', value: formatMoney(r.totalInterest) },
           { label: 'Total repaid', value: formatMoney(r.totalPaid) },
-          { label: 'Interest as a share of the loan', value: `${Math.round((r.totalInterest / v.principal) * 100)}%` },
           { label: 'Instalments', value: `${r.months}` },
         ],
+        split: { a: { label: 'Principal', value: v.principal }, b: { label: 'Interest', value: r.totalInterest } },
         note:
           r.totalInterest > v.principal
-            ? 'Over this tenure the interest exceeds the amount borrowed. Shortening the tenure changes that faster than any rate negotiation will.'
+            ? 'The interest exceeds the loan. Shortening the tenure fixes that faster than any rate negotiation.'
             : null,
       };
     },
@@ -155,9 +347,9 @@ export const CALCULATORS = [
     group: 'loans',
     icon: 'fast_forward',
     title: 'EMI prepayment',
-    blurb: 'What paying extra actually buys.',
+    blurb: 'What paying extra on the instalment actually buys.',
     intro:
-      'The instalment is held where it is, so paying extra shortens the loan rather than shrinking the payment. That is the version most people are never shown.',
+      'The instalment stays put, so paying extra shortens the loan instead.',
     cta: 'Ask whether to prepay or invest instead',
     inputs: [
       { key: 'principal', label: 'Loan amount', min: 100000, max: 50000000, step: 100000, value: 5000000, format: money },
@@ -183,12 +375,12 @@ export const CALCULATORS = [
   },
   {
     slug: 'income-tax',
-    group: 'tax',
+    group: 'cover',
     icon: 'receipt_long',
     title: 'Income tax: old vs new',
     blurb: 'Which regime costs you less.',
     intro:
-      'A salaried comparison for the current year. Deductions are what you would actually claim under the old regime — 80C, 80D, HRA, home-loan interest — since the new regime allows almost none of them.',
+      'Deductions are what you would claim under the old regime — investments, insurance premiums, rent paid and home-loan interest.',
     cta: 'Ask what else is deductible',
     inputs: [
       { key: 'grossSalary', label: 'Gross annual salary', min: 300000, max: 10000000, step: 25000, value: 1500000, format: money },
@@ -209,19 +401,19 @@ export const CALCULATORS = [
           { label: 'Computed for', value: r.year },
         ],
         note:
-          'Includes the standard deduction and 4% cess. Surcharge on incomes above ₹50 lakh, capital gains and marginal relief are not modelled. Slabs change every year — check the current Finance Act before filing.',
+          'Standard deduction and 4% cess included. Surcharge, capital gains and marginal relief are not. Slabs change yearly.',
       };
     },
   },
   {
     slug: 'nps',
-    group: 'tax',
+    group: 'retirement',
     icon: 'elderly',
     title: 'NPS calculator',
-    blurb: 'The corpus, and the pension it buys.',
+    blurb: 'National Pension System: the corpus, and the pension it buys.',
     intro:
-      'At retirement at least 40% of an NPS corpus must be used to buy an annuity; the rest can be withdrawn. Both parts are shown, because the pension is the part that has to last.',
-    cta: 'Ask how NPS fits my retirement',
+      'At least forty per cent must buy an annuity. The pension is the part that has to last.',
+    cta: 'Ask how this fits my retirement',
     inputs: [
       { key: 'monthly', label: 'Monthly contribution', min: 500, max: 150000, step: 500, value: 10000, format: money },
       { key: 'currentAge', label: 'Your age now', min: 18, max: 59, step: 1, value: 32, format: yrs },
@@ -237,21 +429,21 @@ export const CALCULATORS = [
           { label: 'Contributed over the years', value: formatMoney(r.invested) },
           { label: 'Withdrawable lump sum', value: formatMoney(r.lumpSum) },
           { label: 'Used to buy the annuity', value: formatMoney(r.annuityCorpus) },
-          { label: 'Monthly pension (at 6%)', value: formatMoney(r.monthlyPension) },
+          { label: 'Monthly pension, at a 6% annuity', value: formatMoney(r.monthlyPension) },
           { label: 'Years of contribution', value: `${r.years}` },
         ],
-        note: 'The annuity rate is assumed at 6%. The rate you are actually offered at retirement will differ.',
+        note: 'Annuity assumed at 6%. What you are offered at retirement will differ.',
       };
     },
   },
   {
     slug: 'human-life-value',
-    group: 'tax',
+    group: 'cover',
     icon: 'shield_with_heart',
     title: 'Human life value',
     blurb: 'The cover gap, in a number.',
     intro:
-      'What it would cost to replace the income you bring in until you would have retired, plus what is owed, less what is already set aside and already covered. This is the single most important number on this page.',
+      'The income to replace, plus what is owed, less what is already covered.',
     cta: 'Ask how to close this gap',
     inputs: [
       { key: 'annualIncome', label: 'Your annual income', min: 200000, max: 20000000, step: 50000, value: 1500000, format: money },
@@ -279,18 +471,18 @@ export const CALCULATORS = [
           { label: 'Years of income counted', value: `${r.years}` },
         ],
         note:
-          'Income is discounted at 6% and assumed to grow at 5%. A term plan is the usual instrument for a gap of this shape — but the number is the starting point of a conversation, not a recommendation.',
+          'Discounted at 6%, growing at 5%. A starting point for a conversation, not a recommendation.',
       };
     },
   },
   {
     slug: 'epf',
-    group: 'schemes',
+    group: 'retirement',
     icon: 'savings',
     title: 'EPF projection',
-    blurb: 'What the provident fund reaches.',
+    blurb: 'Employees’ Provident Fund: what it reaches by the time you stop.',
     intro:
-      'Your 12% and the 3.67% of the employer’s share that goes to EPF rather than to the pension scheme, compounded at the declared rate, with the basic rising each year.',
+      'Your twelve per cent, plus the part of your employer’s share that reaches the provident fund, at the declared rate.',
     cta: 'Ask what this covers, and what it does not',
     inputs: [
       { key: 'basicMonthly', label: 'Monthly basic pay', min: 10000, max: 500000, step: 1000, value: 50000, format: money },
@@ -305,22 +497,22 @@ export const CALCULATORS = [
         headline: { label: 'Balance at retirement', value: money(r.corpus) },
         rows: [
           { label: 'Contributed over the years', value: formatMoney(r.contributed) },
-          { label: 'Interest earned', value: formatMoney(r.interest) },
           { label: 'Starting balance', value: formatMoney(v.balance) },
           { label: 'Years to run', value: `${r.years}` },
         ],
-        note: 'At the 8.25% rate declared for recent years. The rate is notified annually and is not guaranteed.',
+        split: { a: { label: 'Contributed', value: r.contributed }, b: { label: 'Interest', value: r.interest } },
+        note: 'At 8.25%. Notified annually, not guaranteed.',
       };
     },
   },
   {
     slug: 'sukanya-samriddhi',
-    group: 'schemes',
+    group: 'education',
     icon: 'child_care',
     title: 'Sukanya Samriddhi',
-    blurb: 'The scheme for a daughter, to maturity.',
+    blurb: 'Sukanya Samriddhi: the scheme for a daughter, to maturity.',
     intro:
-      'Deposits run for fifteen years from opening; the account matures twenty-one years after opening, compounding untouched in between. Opened before the girl turns ten.',
+      'Fifteen years of deposits, maturing twenty-one years after opening.',
     cta: 'Ask how this fits an education goal',
     inputs: [
       { key: 'yearly', label: 'Deposited each year', min: 250, max: 150000, step: 250, value: 50000, format: money },
@@ -332,22 +524,22 @@ export const CALCULATORS = [
         headline: { label: 'Maturity amount', value: money(r.maturity) },
         rows: [
           { label: 'Deposited over 15 years', value: formatMoney(r.deposited) },
-          { label: 'Interest earned', value: formatMoney(r.interest) },
           { label: 'She will be', value: `${r.maturesAtGirlAge} years old` },
         ],
-        note: 'At 8.2%, the rate notified for recent quarters. The rate is revised quarterly. The maximum deposit is ₹1.5 lakh a year.',
+        split: { a: { label: 'Deposited', value: r.deposited }, b: { label: 'Interest', value: r.interest } },
+        note: 'At 8.2%, revised quarterly. Maximum ₹1.5 lakh a year.',
       };
     },
   },
   {
     slug: 'ppf',
-    group: 'schemes',
+    group: 'education',
     icon: 'account_balance_wallet',
     title: 'PPF calculator',
-    blurb: 'Fifteen years, tax-free at maturity.',
+    blurb: 'Public Provident Fund: fifteen years, tax-free at maturity.',
     intro:
-      'A deposit each year for fifteen years, extendable in blocks of five. Interest is compounded annually and is exempt at maturity.',
-    cta: 'Ask where PPF fits against other options',
+      'Fifteen years, extendable in blocks of five. Tax-free at maturity.',
+    cta: 'Ask where this fits against the alternatives',
     inputs: [
       { key: 'yearly', label: 'Deposited each year', min: 500, max: 150000, step: 500, value: 150000, format: money },
       { key: 'years', label: 'Term', min: 15, max: 35, step: 5, value: 15, format: yrs },
@@ -358,10 +550,10 @@ export const CALCULATORS = [
         headline: { label: 'Maturity amount', value: money(r.maturity) },
         rows: [
           { label: 'Deposited', value: formatMoney(r.deposited) },
-          { label: 'Interest earned', value: formatMoney(r.interest) },
           { label: 'Term', value: `${v.years} years` },
         ],
-        note: 'At 7.1%, the rate notified for recent quarters. The rate is revised quarterly. The maximum deposit is ₹1.5 lakh a year.',
+        split: { a: { label: 'Deposited', value: r.deposited }, b: { label: 'Interest', value: r.interest } },
+        note: 'At 7.1%, revised quarterly. Maximum ₹1.5 lakh a year.',
       };
     },
   },

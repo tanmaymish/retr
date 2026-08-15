@@ -1,4 +1,4 @@
-# Akshayvriddhi
+# Akshay Vriddhi
 
 **Prosperity with Purpose.** A financial-protection institution and the secure
 family vault behind it: the documents a family actually goes looking for —
@@ -144,7 +144,7 @@ Both are stated in the interface rather than hidden:
   `photo` values in `app/src/site/content.js` — nothing else needs changing.
 
 - **The logo spells the name `Akshay Vridhi`; the site spells it
-  `Akshayvriddhi`.** Both appear on the page — the lockup in the footer, the
+  `Akshay Vriddhi`.** Both appear on the page — the lockup in the footer, the
   text everywhere else — so one of them is wrong and only the founders can say
   which. The text spelling is a single string: `brand.name` in
   `app/src/site/content.js`. The `IMF` line in the lockup is likewise carried as

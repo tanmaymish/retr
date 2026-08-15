@@ -243,3 +243,102 @@ CREATE TABLE IF NOT EXISTS leads (
   updated_at      TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_leads_status ON leads(status, created_at);
+
+-- ── The admin surface ──────────────────────────────────────────────────────
+--
+-- Three things the founders need and could not previously reach: the site's
+-- own words, who is visiting it, and what those visitors asked for.
+
+-- Editable copy, as an override layer over what the client already ships.
+--
+-- The site compiles its own defaults into the bundle, so a row here is an
+-- override and never the only copy. That is deliberate: if this database is
+-- unreachable the marketing site still renders its text, because the text was
+-- never coming from here in the first place.
+--
+-- Draft and published are separate columns rather than separate rows, so
+-- publishing is one UPDATE and can never leave two half-states behind.
+CREATE TABLE IF NOT EXISTS content_blocks (
+  key              TEXT PRIMARY KEY,
+  -- 'text' holds a string; 'json' holds a serialised structure (a list of
+  -- FAQs, say). The editor picks its control from this.
+  kind             TEXT NOT NULL DEFAULT 'text' CHECK (kind IN ('text', 'json')),
+  label            TEXT NOT NULL,
+  draft_value      TEXT,
+  published_value  TEXT,
+  published_at     TEXT,
+  updated_at       TEXT NOT NULL,
+  updated_by       TEXT REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- Every save, publish and revert, kept for ever.
+--
+-- The point is not an audit trail for its own sake: it is that a bad edit to a
+-- regulated firm's website can be undone in one click, by the person who made
+-- it, without a developer.
+CREATE TABLE IF NOT EXISTS content_revisions (
+  id          TEXT PRIMARY KEY,
+  key         TEXT NOT NULL,
+  action      TEXT NOT NULL CHECK (action IN ('save', 'publish', 'revert')),
+  value       TEXT,
+  note        TEXT,
+  created_by  TEXT REFERENCES users(id) ON DELETE SET NULL,
+  created_at  TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_revisions_key ON content_revisions(key, created_at DESC);
+
+-- Raw page views, collected first-party.
+--
+-- No cookies and no identifiers: `visitor_hash` is a daily rotating hash of
+-- coarse request attributes and a server-side secret, which makes it possible
+-- to count a visitor twice in one day without being able to recognise them
+-- tomorrow, or anywhere else. Raw rows are pruned; the daily rollup is kept.
+CREATE TABLE IF NOT EXISTS page_views (
+  id            TEXT PRIMARY KEY,
+  path          TEXT NOT NULL,
+  referrer_host TEXT,
+  device        TEXT CHECK (device IN ('mobile', 'tablet', 'desktop')),
+  country       TEXT,
+  visitor_hash  TEXT NOT NULL,
+  -- Milliseconds the page was actually open, when the browser managed to tell
+  -- us before it was closed. Null is normal and means nothing is known.
+  dwell_ms      INTEGER,
+  created_at    TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_views_created ON page_views(created_at);
+CREATE INDEX IF NOT EXISTS idx_views_path ON page_views(path, created_at);
+
+-- Named things people did: opened a calculator, started the check, asked for a
+-- call. Properties are counts and enum-ish labels only, never anything that
+-- identifies a person.
+CREATE TABLE IF NOT EXISTS site_events (
+  id           TEXT PRIMARY KEY,
+  name         TEXT NOT NULL,
+  path         TEXT,
+  props_json   TEXT,
+  visitor_hash TEXT NOT NULL,
+  created_at   TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_events_created ON site_events(created_at);
+CREATE INDEX IF NOT EXISTS idx_events_name ON site_events(name, created_at);
+
+-- The rollup, one row per day per path.
+--
+-- Kept for ever and written as raw rows arrive, so the dashboard never scans
+-- the raw tables and stays fast after the prune has removed them.
+CREATE TABLE IF NOT EXISTS daily_stats (
+  day        TEXT NOT NULL,
+  path       TEXT NOT NULL,
+  views      INTEGER NOT NULL DEFAULT 0,
+  visitors   INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (day, path)
+);
+
+-- Which visitor hashes were seen on a day, so the rollup can count people
+-- rather than requests. Pruned on the same schedule as the raw views.
+CREATE TABLE IF NOT EXISTS daily_visitors (
+  day          TEXT NOT NULL,
+  path         TEXT NOT NULL,
+  visitor_hash TEXT NOT NULL,
+  PRIMARY KEY (day, path, visitor_hash)
+);

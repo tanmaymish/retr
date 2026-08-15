@@ -31,7 +31,7 @@ export default function InviteAccept() {
           <Icon name="link_off" size={40} style={{ color: 'var(--outline)' }} />
           <h2>This invitation is no longer valid</h2>
           <p className="muted small">{error.message}</p>
-          <Link to="/" className="btn btn-secondary">Back to Akshayvriddhi</Link>
+          <Link to="/" className="btn btn-secondary">Back to Akshay Vriddhi</Link>
         </Card>
       </Shell>
     );

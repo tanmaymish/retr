@@ -110,6 +110,9 @@ export function loadConfig(env = process.env) {
       minPasswordLength: int(env.MIN_PASSWORD_LENGTH, 12),
       allowRegistration: bool(env.ALLOW_REGISTRATION, true),
     },
+    // How long row-level traffic detail is kept. The daily rollup it feeds is
+    // never pruned, so the history survives as counts either way.
+    trafficRetentionDays: int(env.TRAFFIC_RETENTION_DAYS, 90),
     uploads: {
       maxBytes: int(env.MAX_UPLOAD_BYTES, 10 * 1024 * 1024),
       maxDocumentsPerUser: int(env.MAX_DOCUMENTS_PER_USER, 200),

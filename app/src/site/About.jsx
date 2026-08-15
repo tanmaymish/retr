@@ -13,7 +13,6 @@ import {
   fourQuestions,
   mission,
   promise,
-  stages,
   vision,
 } from './content';
 
@@ -26,7 +25,7 @@ export default function About() {
   useSeo({
     title: 'About',
     description:
-      'Akshayvriddhi begins with experience. The philosophy, the founders, and why an institution built on listening rather than selling.',
+      'Akshay Vriddhi begins with experience. The philosophy, the founders, and why an institution built on listening rather than selling.',
     path: '/about',
     jsonLd: breadcrumbSchema([
       { name: 'Home', path: '/' },
@@ -48,15 +47,11 @@ export default function About() {
   return (
     <SitePage>
       <Opening />
-      <Philosophy />
-      <Vision />
       <Founders />
       <TwoJourneys />
       <VisionMission />
-      <StandsFor />
       <Message />
       <Promise />
-      <Signature />
     </SitePage>
   );
 }
@@ -70,7 +65,7 @@ function Opening() {
           Experience that now has a larger purpose.
         </h1>
         <div className="stack stack-sm" style={{ marginTop: 8 }}>
-          <Lead>Some businesses begin with an opportunity. Akshayvriddhi begins with experience.</Lead>
+          <Lead>Some businesses begin with an opportunity. Akshay Vriddhi begins with experience.</Lead>
           <Body>
             After decades spent understanding insurance, building distribution networks, leading
             teams, transforming businesses and — most importantly — interacting with people at
@@ -82,117 +77,11 @@ function Opening() {
             them when life changes.
           </Pullquote>
           <Body>
-            Akshayvriddhi was born from this belief. We want to move the conversation beyond
-            policies, premiums and transactions towards something much more meaningful — financial
-            preparedness, continuity and responsible prosperity.
-          </Body>
-          <Body>
-            Because insurance, when understood correctly, isn’t simply something you buy. It is a
-            promise you make to the future: that the life you have worked years to build can continue
-            even when circumstances change. That your family’s aspirations do not disappear with an
-            unexpected event. That wealth is not only created, but protected. And that what you build
-            today can become something meaningful for the generation that follows.
-          </Body>
-          <Body>That is the purpose behind Akshayvriddhi.</Body>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Philosophy() {
-  return (
-    <section id="philosophy" style={{ background: 'var(--surface-container)', padding: '88px 0' }}>
-      <div className="container stack stack-lg">
-        <div style={{ maxWidth: 720 }} className="stack stack-sm">
-          <span className="caps" style={{ color: 'var(--primary)' }}>Our philosophy</span>
-          <h2>Protect what you build. Prepare for what comes next.</h2>
-          <Body>
-            Life is continuously evolving. During our early years, we focus on creation — building
-            careers, businesses, families, assets and ambitions. As responsibilities grow, the focus
-            shifts towards continuation. With prosperity comes consumption, the freedom to experience
-            the life our efforts have made possible. And eventually comes distribution — transferring
-            wealth, values and opportunities to the people and causes that matter to us.
+            Insurance, understood correctly, is not something you buy. It is a promise made to the
+            future: that the life you spent years building can continue when circumstances change.
+            That is the purpose behind Akshay Vriddhi.
           </Body>
         </div>
-
-        <div className="grid grid-4">
-          {stages.map((stage, index) => (
-            <Card key={stage.key} className="stack stack-sm">
-              <div className="row-between">
-                <span
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 'var(--radius-md)',
-                    background: 'var(--primary-fixed)',
-                    color: 'var(--primary)',
-                    display: 'grid',
-                    placeItems: 'center',
-                  }}
-                >
-                  <Icon name={stage.icon} size={22} />
-                </span>
-                <span className="tiny muted">0{index + 1}</span>
-              </div>
-              <h4>{stage.label}</h4>
-              <p className="small muted">{stage.body}</p>
-            </Card>
-          ))}
-        </div>
-
-        <Body style={{ maxWidth: 720 }}>
-          We believe financial planning should accompany people through this entire journey — not
-          appear only when a policy needs to be purchased. Our role is therefore not merely to
-          provide access to financial protection. Our role is to help people make better decisions
-          about the life they are building.
-        </Body>
-      </div>
-    </section>
-  );
-}
-
-function Vision() {
-  return (
-    <section style={{ padding: '88px 0' }}>
-      <div className="container stack stack-md" style={{ maxWidth: 760 }}>
-        <span className="caps" style={{ color: 'var(--primary)' }}>The founders’ vision</span>
-        <h2>From experience to perspective. From perspective to purpose.</h2>
-        <Body>
-          For years, our founders worked within the insurance industry — building businesses,
-          developing people, transforming distribution and helping protection reach thousands of
-          families. But experience eventually creates a different kind of responsibility.
-        </Body>
-        <Body>
-          After decades of professional achievement, the question is no longer simply “what can we
-          build next?” It becomes: “what can everything we have learned now do for others?”
-        </Body>
-        <Pullquote>Akshayvriddhi is their answer.</Pullquote>
-        <Body>
-          The vision is to build an institution where insurance is approached not through fear,
-          pressure or transactions, but through understanding, suitability, responsibility and
-          long-term relationships. An institution where advice begins with listening. Where
-          recommendations begin with understanding a family’s circumstances rather than choosing a
-          product. Where technology makes financial planning simpler without removing the human
-          relationship that creates trust. And where success is measured not merely by policies
-          issued, but by the confidence and continuity those decisions create for families.
-        </Body>
-
-        <div className="grid grid-2" style={{ marginTop: 8 }}>
-          {[
-            'Perspective about how people’s priorities change.',
-            'Perspective about how financial responsibilities evolve.',
-            'Perspective about the difference between owning financial products and actually being financially prepared.',
-            'Perspective about the responsibility that comes with advising someone about their family’s future.',
-          ].map((line) => (
-            <div key={line} className="row" style={{ gap: 10, alignItems: 'flex-start' }}>
-              <Icon name="arrow_forward" size={18} style={{ color: 'var(--primary)', marginTop: 3, flex: 'none' }} />
-              <p className="small">{line}</p>
-            </div>
-          ))}
-        </div>
-
-        <Body>Akshayvriddhi exists to put that perspective to work.</Body>
       </div>
     </section>
   );
@@ -240,7 +129,7 @@ function TwoJourneys() {
             insurance through the lenses of strategy, transformation, distribution and organisational
             leadership. The other has built his experience close to markets, advisors, teams,
             customers and families. Together, those perspectives create the foundation of
-            Akshayvriddhi.
+            Akshay Vriddhi.
           </p>
         </div>
         <div className="grid grid-4">
@@ -327,34 +216,6 @@ function VisionMission() {
   );
 }
 
-function StandsFor() {
-  return (
-    <section style={{ background: 'var(--surface-container)', padding: '88px 0' }}>
-      <div className="container stack stack-lg">
-        <div style={{ maxWidth: 620 }}>
-          <h2>What Akshayvriddhi stands for.</h2>
-        </div>
-        <div className="grid grid-2">
-          {stages.map((stage) => (
-            <Card key={stage.key} className="row" style={{ gap: 18, alignItems: 'flex-start' }}>
-              <span
-                className="medallion medallion-solid"
-                style={{ width: 50, height: 50, borderRadius: 'var(--radius-md)' }}
-              >
-                <Icon name={stage.icon} size={22} />
-              </span>
-              <div className="stack" style={{ gap: 6 }}>
-                <h4>{stage.label}</h4>
-                <p className="small muted" style={{ lineHeight: 1.7 }}>{stage.body}</p>
-              </div>
-            </Card>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function Message() {
   return (
     <section style={{ padding: '88px 0' }}>
@@ -366,49 +227,45 @@ function Message() {
         <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, marginTop: 8 }}>
           — Shiv Maheshwari &amp; Vikram Rajput
           <br />
-          <span className="small muted" style={{ fontWeight: 400 }}>Co-Founders, Akshayvriddhi</span>
+          <span className="small muted" style={{ fontWeight: 400 }}>Co-Founders, Akshay Vriddhi</span>
         </p>
       </div>
     </section>
   );
 }
 
+/**
+ * The four lines the founders lead with, and the close.
+ *
+ * These used to be two sections saying much the same thing at eighty-eight
+ * pixels of padding each. One section, the promise as a numbered strip above
+ * the sign-off.
+ */
 function Promise() {
   return (
-    <section style={{ background: 'var(--surface-low)', padding: '88px 0' }}>
-      <div className="container stack stack-md" style={{ maxWidth: 760 }}>
-        <h2>The Akshayvriddhi promise.</h2>
+    <section style={{ background: 'var(--surface-lowest)', padding: '88px 0 96px' }}>
+      <div className="container stack stack-lg" style={{ maxWidth: 820 }}>
         <div className="stack stack-sm">
-          {promise.map((line) => (
-            <div key={line} className="row" style={{ gap: 12, alignItems: 'flex-start' }}>
-              <Icon name="check_circle" size={20} style={{ color: 'var(--sage)', marginTop: 2, flex: 'none' }} />
-              <p style={{ fontSize: 17 }}>{line}</p>
-            </div>
-          ))}
+          <span className="caps" style={{ color: 'var(--primary)' }}>The Akshay Vriddhi promise</span>
+          <div className="promise-strip">
+            {promise.map((line) => (
+              <p key={line} className="row" style={{ gap: 11, alignItems: 'flex-start' }}>
+                <Icon name="check_circle" size={19} style={{ color: 'var(--sage)', marginTop: 3, flex: 'none' }} />
+                <span style={{ fontSize: 16, lineHeight: 1.6 }}>{line}</span>
+              </p>
+            ))}
+          </div>
         </div>
-        <Body>
-          Because trust in financial services should never begin with a product. It should begin with
-          understanding.
-        </Body>
-      </div>
-    </section>
-  );
-}
 
-function Signature() {
-  return (
-    <section style={{ background: 'var(--surface-lowest)', padding: '96px 0' }}>
-      <div className="container center stack stack-md" style={{ maxWidth: 680 }}>
-        <h2>{brand.promise}</h2>
-        <p className="muted" style={{ fontSize: 17, lineHeight: 1.7 }}>
-          You spend years creating a life — a career, a family, a home, wealth, aspirations and a
-          legacy. Akshayvriddhi exists to help ensure that what you create today has the strength to
-          continue tomorrow.
-        </p>
-        <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 20, color: 'var(--primary)' }}>
-          {brand.stages}
-        </p>
-        <div className="row" style={{ justifyContent: 'center', marginTop: 8 }}>
+        <div className="center stack stack-md" style={{ alignItems: 'center' }}>
+          <h2>{brand.promise}</h2>
+          <p className="muted" style={{ fontSize: 17, lineHeight: 1.7, maxWidth: '58ch' }}>
+            Trust in financial services should never begin with a product. It should begin with
+            understanding.
+          </p>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 15, letterSpacing: '0.14em', color: 'var(--gold-ink)' }}>
+            {brand.stages}
+          </p>
           <button type="button" className="btn btn-sheen" onClick={requestCallback}>
             Request a call
           </button>

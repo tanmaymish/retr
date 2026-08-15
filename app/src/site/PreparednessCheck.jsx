@@ -73,14 +73,19 @@ export default function PreparednessCheck() {
         <div className="container" style={{ maxWidth: 860 }}>
           {loading ? (
             <Spinner label="Loading the check" />
-          ) : error ? (
-            <EmptyState icon="cloud_off" title="The check is unavailable right now">
-              {error.message}
-            </EmptyState>
           ) : result ? (
             <Result result={result} onRestart={restart} />
           ) : scoring ? (
             <Spinner label="Working out where you stand" />
+          ) : error || !current ? (
+            /* `!current` is not paranoia. A request that resolves with an
+               unexpected shape — or one the browser cancels without raising —
+               leaves us not loading, not failed, and with no question to draw.
+               Rendering the unavailable state beats throwing on `current.question`
+               and taking the whole page down with it. */
+            <EmptyState icon="cloud_off" title="The check is unavailable right now">
+              {error?.message ?? 'We could not load the questions. Please try again in a moment.'}
+            </EmptyState>
           ) : (
             <div className="stack stack-lg">
               <header className="stack stack-sm">

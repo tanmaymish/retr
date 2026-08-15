@@ -23,6 +23,8 @@ import { emergencyRoutes } from './routes/emergency.js';
 import { overviewRoutes } from './routes/overview.js';
 import { newsRoutes } from './routes/news.js';
 import { publicRoutes } from './routes/public.js';
+import { adminRoutes } from './routes/admin.js';
+import { ensureContentRows } from './engine/content.js';
 import { CATEGORIES } from './engine/categories.js';
 
 /**
@@ -43,6 +45,9 @@ export function createApp(options = {}) {
   ctx.limiter = createRateLimiter(config);
 
   pruneExpiredSessions(db);
+  // Seeds a row per editable block. Idempotent, so a new block added to the
+  // list appears in the editor on the next restart without a migration.
+  ensureContentRows(db);
 
   const app = express();
   app.disable('x-powered-by');
@@ -75,6 +80,9 @@ export function createApp(options = {}) {
   // which guards itself.
   api.use('/', publicRoutes(ctx));
   api.use('/', newsRoutes(ctx));
+  // The collector and the content overrides are public and must stay reachable
+  // without a session; everything under /admin guards itself.
+  api.use('/', adminRoutes(ctx));
 
   // Past this point a session must have cleared its MFA challenge. A
   // half-authenticated session can reach the auth routes above and nothing else.

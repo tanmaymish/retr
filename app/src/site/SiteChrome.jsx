@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Icon } from '../components/ui';
 import { useAuth } from '../state/AuthContext';
 import { CallbackPopup, requestCallback } from './CallbackPopup';
+import { PageNav } from './PageNav';
 import { asset } from '../lib/asset';
+import { journey, navLinks } from './pages';
 import { brand } from './content';
 
 /**
@@ -46,14 +48,7 @@ export function Wordmark({ size = 44, subtitle }) {
   );
 }
 
-const LINKS = [
-  { to: '/calculators', label: 'Calculators' },
-  { to: '/preparedness-check', label: 'Preparedness check' },
-  { to: '/insights', label: 'Insights' },
-  { to: '/#services', label: 'What we do' },
-  { to: '/about', label: 'About' },
-  { to: '/contact', label: 'Contact' },
-];
+const LINKS = navLinks;
 
 export function SiteHeader() {
   const { user } = useAuth();
@@ -71,13 +66,14 @@ export function SiteHeader() {
       }}
     >
       <div className="container row-between" style={{ height: 72 }}>
-        {/* Narrow screens get the emblem alone: the name set in wide capitals
-            is too long to share a 390px bar with the call to action. */}
+        {/* Below a comfortable desktop width the name and six nav items cannot
+            both fit, so the name gives way first: the emblem still identifies
+            the site, and the nav is what a visitor came here to use. */}
         <Link to="/" style={{ color: 'var(--on-surface)' }}>
-          <span className="hide-mobile">
+          <span className="brand-full">
             <Wordmark subtitle={brand.tagline} />
           </span>
-          <span className="show-mobile">
+          <span className="brand-mark">
             <Mark size={40} alt={brand.name} />
           </span>
         </Link>
@@ -129,8 +125,8 @@ export function SiteFooter() {
             marginBottom: 12,
           }}
         >
-          <h3 style={{ fontSize: 24 }}>Have something worth protecting?</h3>
-          <Link to="/contact" className="btn">Start a conversation →</Link>
+          <h3 style={{ fontSize: 24 }}>Want to know your number?</h3>
+          <Link to="/calculators/retirement-readiness" className="btn">Get your readiness score →</Link>
         </div>
         <div className="row-between wrap" style={{ gap: 24, alignItems: 'flex-start' }}>
           <div className="stack" style={{ gap: 12, maxWidth: 340 }}>
@@ -140,24 +136,25 @@ export function SiteFooter() {
             <p className="tiny muted">{brand.stages}</p>
           </div>
           <div className="row wrap small" style={{ gap: 40, alignItems: 'flex-start' }}>
+            {/* The same order as the nav and the pager, because it is the same
+                list. Numbered, so the site reads as a route through, not a
+                heap of links. */}
             <div className="stack" style={{ gap: 8 }}>
-              <span className="tiny caps muted">Company</span>
-              <Link to="/about">About us</Link>
-              <Link to="/about#founders">Founders</Link>
-              <Link to="/about#vision">Vision and mission</Link>
-              <Link to="/contact">Contact</Link>
+              <span className="tiny caps muted">The site, in order</span>
+              {journey.map((page, index) => (
+                <Link key={page.path} to={page.path} className="row" style={{ gap: 9 }}>
+                  <span className="tiny muted" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  {page.label}
+                </Link>
+              ))}
             </div>
             <div className="stack" style={{ gap: 8 }}>
-              <span className="tiny caps muted">Advice</span>
-              <Link to="/#services">What we do</Link>
-              <Link to="/#how">How we work</Link>
-              <Link to="/calculators">Calculators</Link>
-              <Link to="/preparedness-check">Preparedness check</Link>
-              <Link to="/insights">Insights</Link>
-              <Link to="/#faq">Questions</Link>
-            </div>
-            <div className="stack" style={{ gap: 8 }}>
-              <span className="tiny caps muted">Legal</span>
+              <span className="tiny caps muted">Also</span>
+              <Link to="/about#founders">The founders</Link>
+              <Link to="/services#how">How we work</Link>
+              <Link to="/services#faq">Questions</Link>
               <Link to="/privacy">Privacy</Link>
               <Link to="/terms">Terms</Link>
             </div>
@@ -166,20 +163,55 @@ export function SiteFooter() {
         <div className="rule-gold" role="separator">
           <span className="diamond" aria-hidden="true">✦</span>
         </div>
-        <p className="tiny muted">
-          © {new Date().getFullYear()} {brand.name}. {brand.tagline}.
-        </p>
+        <div className="stack" style={{ gap: 6 }}>
+          {/* The lockup reads "IMF". Spelled out here, because the abbreviation
+              is also the International Monetary Fund, and a regulated firm
+              cannot leave that ambiguous.
+
+              THIS IS A TEMPLATE. The registration and ARN numbers, and the
+              grievance address, are the founders' to supply, and the final
+              wording is what a regulator and any complaint will be held
+              against — it needs a compliance read before this ships. */}
+          <p className="tiny muted" style={{ lineHeight: 1.8, maxWidth: '92ch' }}>
+            Akshay Vriddhi IMF is registered with the Insurance Regulatory and Development Authority
+            of India (IRDAI) as an Insurance Marketing Firm, Registration No. [to be stated], and is
+            empanelled with the insurers listed on this site. Mutual funds are distributed under
+            AMFI ARN [to be stated]. IRDAI registration does not guarantee the performance of any
+            insurer or product. Insurance is the subject matter of solicitation; please read the
+            policy wordings and sales brochure carefully before concluding a sale. Mutual fund
+            investments are subject to market risks; read all scheme-related documents carefully.
+          </p>
+          <p className="tiny muted" style={{ lineHeight: 1.8, maxWidth: '92ch' }}>
+            Grievances: write to [grievance address, to be stated]. Insurance complaints may also be
+            escalated through the IRDAI’s grievance portal or the Insurance Ombudsman for your
+            region; mutual fund complaints through SEBI’s SCORES portal. Figures shown by the
+            calculators on this site are illustrative projections based on the assumptions stated
+            beside them, not guarantees of future performance.
+          </p>
+          <p className="tiny muted">
+            © {new Date().getFullYear()} {brand.name}. {brand.tagline}.
+          </p>
+        </div>
       </div>
     </footer>
   );
 }
 
-/** Wraps a marketing page in the shared chrome. */
+/**
+ * Wraps a marketing page in the shared chrome.
+ *
+ * The pager comes from the path, so a page gets its place in the sequence by
+ * being in the journey — not by remembering to add anything. Pages outside it
+ * (a single calculator, one article) get no pager, which is right: they have
+ * their own way back.
+ */
 export function SitePage({ children }) {
+  const { pathname } = useLocation();
   return (
     <div style={{ background: 'var(--surface)' }}>
       <SiteHeader />
       {children}
+      <PageNav path={pathname} />
       <SiteFooter />
       <CallbackPopup />
     </div>

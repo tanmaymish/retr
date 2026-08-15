@@ -2,6 +2,7 @@ import { createApp } from './app.js';
 import { loadConfig } from './config.js';
 import { createLogger } from './lib/logger.js';
 import { pruneExpiredSessions } from './db/index.js';
+import { pruneTraffic } from './engine/traffic.js';
 
 const config = loadConfig();
 const logger = createLogger(config.logLevel);
@@ -30,8 +31,15 @@ const sweeper = setInterval(() => {
   try {
     const removed = pruneExpiredSessions(ctx.db);
     if (removed) logger.debug('sessions_pruned', { removed });
+
+    /* Raw page views and events have a ninety-day life; the daily rollup they
+       feed is kept for ever. Traffic history therefore survives as counts while
+       the row-level detail — the only part carrying any re-identification risk
+       — does not accumulate. */
+    const traffic = pruneTraffic(ctx.db, { days: ctx.config.trafficRetentionDays });
+    if (traffic.views || traffic.events) logger.debug('traffic_pruned', traffic);
   } catch (err) {
-    logger.warn('session_prune_failed', { error: err.message });
+    logger.warn('housekeeping_failed', { error: err.message });
   }
 }, 3_600_000);
 sweeper.unref();

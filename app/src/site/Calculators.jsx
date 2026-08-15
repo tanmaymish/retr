@@ -3,11 +3,13 @@ import { Link, useParams } from 'react-router-dom';
 import { Card, Icon } from '../components/ui';
 import { SitePage } from './SiteChrome';
 import { Crest, Reveal, SectionHead } from './Section';
+import { ChartKey, Columns } from './Chart';
 import { requestCallback } from './CallbackPopup';
 import { useSeo } from '../lib/seo';
 import { track } from '../lib/analytics';
 import { CALCULATORS, GROUPS, bySlug } from '../lib/calculatorSpecs';
 import { formatMoney } from '../lib/format';
+import { glossary } from './content';
 
 /**
  * The calculators.
@@ -26,7 +28,7 @@ export function CalculatorsHub() {
   useSeo({
     title: 'Calculators',
     description:
-      'Free calculators for Indian households: SIP, step-up SIP, lumpsum, home loan EMI and prepayment, income tax old versus new, NPS, human life value, EPF, Sukanya Samriddhi and PPF.',
+      'Free calculators for Indian households: retirement drawdown, education goal, NPS, EPF, SIP and step-up SIP, home loan EMI and prepayment, income tax old versus new, human life value, Sukanya Samriddhi and PPF.',
     path: '/calculators',
   });
 
@@ -38,7 +40,7 @@ export function CalculatorsHub() {
             as="h1"
             eyebrow="Tools"
             title="Run the numbers yourself."
-            lede="The same arithmetic we use in a review, with nothing hidden behind a signup. Nothing you type here is sent anywhere or stored."
+            lede="The same arithmetic we use in a review. Nothing you type is stored."
           />
         </div>
       </section>
@@ -73,14 +75,14 @@ export function CalculatorsHub() {
             </div>
           ))}
 
+          <Glossary />
+
           <Reveal>
             <Card flat className="stack stack-sm center" style={{ alignItems: 'center', padding: 32 }}>
               <Crest />
               <h3>A number is not a plan.</h3>
               <p className="small muted" style={{ maxWidth: '58ch' }}>
-                These are indicative calculations on the assumptions you enter. What they cannot tell
-                you is which of them matters most in your household this year — that is the
-                conversation.
+                Which of these matters most in your household this year is the conversation.
               </p>
               <button type="button" className="btn" onClick={requestCallback}>Talk it through</button>
             </Card>
@@ -88,6 +90,33 @@ export function CalculatorsHub() {
         </div>
       </section>
     </SitePage>
+  );
+}
+
+/**
+ * The initials, said in words.
+ *
+ * Indian financial writing runs on abbreviations, and this site cannot avoid
+ * all of them — EPF and NPS are what the accounts are actually called. What it
+ * can do is never leave one unexplained on the page where the arithmetic
+ * happens.
+ */
+function Glossary() {
+  return (
+    <Reveal className="stack stack-md">
+      <div className="rule-gold lead" role="separator"><span>In plain words</span></div>
+      <div className="grid grid-3">
+        {glossary.map((entry) => (
+          <div key={entry.term} className="stack" style={{ gap: 4 }}>
+            <div className="row" style={{ gap: 8, alignItems: 'baseline' }}>
+              <strong style={{ fontFamily: 'var(--font-heading)', fontSize: 15 }}>{entry.term}</strong>
+              <span className="tiny" style={{ color: 'var(--gold-ink)' }}>{entry.full}</span>
+            </div>
+            <p className="small muted" style={{ lineHeight: 1.7 }}>{entry.body}</p>
+          </div>
+        ))}
+      </div>
+    </Reveal>
   );
 }
 
@@ -168,6 +197,18 @@ function CalculatorRunner({ calc }) {
               {result.headline.note && <span className="small muted">{result.headline.note}</span>}
             </div>
 
+            {result.chart && (
+              <div className="stack" style={{ gap: 10 }}>
+                <Columns
+                  points={result.chart.points}
+                  markAt={result.chart.markAt}
+                  aria={result.chart.aria}
+                  foot={result.chart.foot}
+                />
+                <ChartKey bar={result.chart.key.bar} mark={result.chart.key.mark} />
+              </div>
+            )}
+
             <hr className="divider" />
 
             <dl className="stack" style={{ gap: 0, margin: 0 }}>
@@ -188,6 +229,8 @@ function CalculatorRunner({ calc }) {
               ))}
             </dl>
 
+            {result.split && <Proportion split={result.split} />}
+
             {result.note && <p className="tiny muted" style={{ lineHeight: 1.7 }}>{result.note}</p>}
 
             <button type="button" className="btn btn-sheen" onClick={() => { track('calculator_cta', { calculator: calc.slug }); requestCallback(); }}>
@@ -195,20 +238,82 @@ function CalculatorRunner({ calc }) {
             </button>
           </Card>
 
-          {/* The assumptions, as sliders. */}
-          <Card className="stack stack-md" style={{ padding: 28 }}>
+          {/* The assumptions, as sliders. Pinned, because the card beside it is
+              taller once a chart is in it, and the sliders are the point. */}
+          <Card className="stack stack-md calc-controls" style={{ padding: 28 }}>
             <h3>Adjust the assumptions</h3>
-            {calc.inputs.map((input) => (
-              <Slider key={input.key} input={input} value={values[input.key]} onChange={(v) => set(input.key, v)} />
-            ))}
+            {calc.inputs.map((input) =>
+              input.type === 'choice' ? (
+                <Choice key={input.key} input={input} value={values[input.key]} onChange={(v) => set(input.key, v)} />
+              ) : (
+                <Slider key={input.key} input={input} value={values[input.key]} onChange={(v) => set(input.key, v)} />
+              ),
+            )}
             <p className="tiny muted" style={{ lineHeight: 1.7 }}>
-              Indicative only, on the assumptions above. Not financial, insurance or tax advice, and
-              not a recommendation of any product. Returns are assumed, not promised.
+              Indicative only. Not advice, and not a recommendation. Returns are assumed, not promised.
             </p>
           </Card>
         </div>
       </section>
     </>
+  );
+}
+
+/**
+ * Two quantities that make a whole, as a bar rather than another row of digits.
+ * Both segments are labelled, so identity never rests on colour alone.
+ */
+function Proportion({ split }) {
+  const total = split.a.value + split.b.value;
+  if (!(total > 0)) return null;
+  const share = (split.a.value / total) * 100;
+
+  return (
+    <div className="stack" style={{ gap: 10 }}>
+      <div
+        className="propbar"
+        role="img"
+        aria-label={`${split.a.label} ${Math.round(share)}%, ${split.b.label} ${Math.round(100 - share)}%`}
+      >
+        <span className="seg-a" style={{ width: `${share}%` }} />
+        <span className="seg-b" style={{ width: `${100 - share}%` }} />
+      </div>
+      <div className="proplegend">
+        <span><i style={{ background: '#a02a42' }} />{split.a.label} · <strong>{Math.round(share)}%</strong></span>
+        <span><i style={{ background: 'var(--gold)' }} />{split.b.label} · <strong>{Math.round(100 - share)}%</strong></span>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Not every assumption is a number on a line. A retirement lifestyle is a
+ * choice between three named lives, and asking for it as a percentage would be
+ * asking the reader to do the translation we are supposed to be doing.
+ */
+function Choice({ input, value, onChange }) {
+  return (
+    <fieldset className="stack choiceset" style={{ gap: 8 }}>
+      <legend className="small" style={{ fontWeight: 600, padding: 0 }}>{input.label}</legend>
+      {input.helper && <p className="tiny muted" style={{ lineHeight: 1.6 }}>{input.helper}</p>}
+      <div className="stack" style={{ gap: 7 }}>
+        {input.options.map((option) => (
+          <label key={option.value} className={`choice${value === option.value ? ' is-on' : ''}`}>
+            <input
+              type="radio"
+              name={`calc-${input.key}`}
+              value={option.value}
+              checked={value === option.value}
+              onChange={() => onChange(option.value)}
+            />
+            <span className="stack" style={{ gap: 1 }}>
+              <span className="small" style={{ fontWeight: 600 }}>{option.label}</span>
+              {option.note && <span className="tiny muted">{option.note}</span>}
+            </span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
   );
 }
 
@@ -240,6 +345,9 @@ function Slider({ input, value, onChange }) {
         <span>{input.format ? input.format(input.min) : input.min}</span>
         <span>{input.format ? input.format(input.max) : input.max}</span>
       </div>
+      {/* A helper line under the field, because an ambiguous input is where
+          trust in a financial tool quietly dies. */}
+      {input.helper && <p className="tiny muted" style={{ lineHeight: 1.6 }}>{input.helper}</p>}
     </div>
   );
 }

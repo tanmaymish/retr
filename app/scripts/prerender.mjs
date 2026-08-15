@@ -17,33 +17,46 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(root, 'dist');
-const SITE = process.env.SITE_URL || 'https://akshayvriddhi.example';
+/* CI passes the real one from actions/configure-pages, so this default only
+   affects a local build. It names the GitHub Pages address the project page
+   will have, rather than a placeholder domain nobody owns. */
+const SITE = process.env.SITE_URL || 'https://tanmaymish.github.io/akshayvriddhi';
 
 const ROUTES = [
   {
     path: '/',
     file: 'index.html',
-    title: 'Akshayvriddhi — Prosperity with Purpose',
+    title: 'Akshay Vriddhi — Prosperity with Purpose',
     description:
-      'What you build deserves to continue. Protection, retirement and financial planning for families and business owners in India’s smaller cities.',
+      'Retire without asking anyone for money. A retirement plan built on your real numbers, from an IRDAI-registered Insurance Marketing Firm founded by two people with two decades each in life insurance.',
     priority: '1.0',
-    heading: 'What you build deserves to continue.',
-    body: 'Akshayvriddhi is a financial advisory for families and business owners in India’s smaller cities: protection, retirement and the planning around them. Create. Continue. Live. Leave a Legacy.',
+    heading: 'Retire without asking anyone for money.',
+    body: 'Akshay Vriddhi is an IRDAI-registered Insurance Marketing Firm. We build retirement plans for Indian households in the ten years before the salary stops: a target corpus, the gap to it, and the monthly figure that closes it — in writing, before any product is suggested. Create. Continue. Live. Leave a Legacy.',
   },
   {
     path: '/about',
     file: 'about.html',
-    title: 'About — Akshayvriddhi',
+    title: 'About — Akshay Vriddhi',
     description:
-      'Akshayvriddhi begins with experience. The philosophy, the founders, and why an advisory built on listening rather than selling.',
+      'Akshay Vriddhi begins with experience. The philosophy, the founders, and why an advisory built on listening rather than selling.',
     priority: '0.9',
     heading: 'Experience that now has a larger purpose.',
     body: 'Founded by Shiv Maheshwari and Vikram Rajput, each with two decades in life insurance. People do not need more insurance products — they need clarity about what they are protecting and why.',
   },
   {
+    path: '/services',
+    file: 'services.html',
+    title: 'What we do — Akshay Vriddhi',
+    description:
+      'Protection, retirement, education funding and the planning around them — what Akshay Vriddhi advises on, how an engagement runs, and the four commitments behind it.',
+    priority: '0.9',
+    heading: 'Advice across a whole financial life, not one product at a time.',
+    body: 'How an engagement runs, the seven pillars it covers — corpus planning, EPF/NPS/PPF optimisation, post-retirement income design, health cover, tax structuring, estate readiness and family conversations — and who this is for.',
+  },
+  {
     path: '/preparedness-check',
     file: 'preparedness-check.html',
-    title: 'Preparedness Check — Akshayvriddhi',
+    title: 'Preparedness Check — Akshay Vriddhi',
     description:
       'Six questions about cover, reserves and whether your family could find what they need. An indicative self-assessment — no signup, nothing stored.',
     priority: '0.9',
@@ -53,17 +66,27 @@ const ROUTES = [
   {
     path: '/calculators',
     file: 'calculators.html',
-    title: 'Calculators — Akshayvriddhi',
+    title: 'Calculators — Akshay Vriddhi',
     description:
-      'Free calculators for Indian households: SIP, step-up SIP, lumpsum, home loan EMI and prepayment, income tax old versus new, NPS, human life value, EPF, Sukanya Samriddhi and PPF.',
+      'Free calculators for Indian households: retirement drawdown, education goal, NPS, EPF, SIP and step-up SIP, home loan EMI and prepayment, income tax old versus new, human life value, Sukanya Samriddhi and PPF.',
     priority: '0.9',
     heading: 'Run the numbers yourself.',
-    body: 'SIP, step-up SIP, lumpsum, home loan EMI, EMI prepayment, income tax old versus new, NPS, human life value, EPF, Sukanya Samriddhi and PPF. Nothing you enter is sent anywhere or stored.',
+    body: 'Retirement drawdown, education goal, NPS, EPF, SIP and step-up SIP, lumpsum, home loan EMI and prepayment, income tax old versus new, human life value, Sukanya Samriddhi and PPF. Nothing you enter is sent anywhere or stored.',
+  },
+  {
+    path: '/trust',
+    file: 'trust.html',
+    title: 'How we are paid — Akshay Vriddhi',
+    description:
+      'Akshay Vriddhi is an IRDAI-registered Insurance Marketing Firm. We earn commission from the insurers and fund houses we are empanelled with, and we will tell you what it is.',
+    priority: '0.8',
+    heading: 'We earn commission. Ask us the number.',
+    body: 'An Insurance Marketing Firm may empanel with up to six insurers in each of life, general and health, and distribute mutual funds. We are not fee-only, not commission-free, and not a SEBI-registered Investment Adviser.',
   },
   {
     path: '/insights',
     file: 'insights.html',
-    title: 'Insights — Akshayvriddhi',
+    title: 'Insights — Akshay Vriddhi',
     description:
       'Plain explanations of protection, retirement and planning for Indian households — what to check, what it costs, and what nobody tells you.',
     priority: '0.8',
@@ -73,7 +96,7 @@ const ROUTES = [
   {
     path: '/contact',
     file: 'contact.html',
-    title: 'Start a conversation — Akshayvriddhi',
+    title: 'Start a conversation — Akshay Vriddhi',
     description: 'Tell us about your household and what you would like to protect. We listen before we advise.',
     priority: '0.8',
     heading: 'We listen before we advise.',
@@ -82,8 +105,8 @@ const ROUTES = [
   {
     path: '/privacy',
     file: 'privacy.html',
-    title: 'Privacy notice — Akshayvriddhi',
-    description: 'What Akshayvriddhi stores, how it is protected, and what we do not collect.',
+    title: 'Privacy notice — Akshay Vriddhi',
+    description: 'What Akshay Vriddhi stores, how it is protected, and what we do not collect.',
     priority: '0.4',
     heading: 'Privacy notice',
     body: 'Three things kept apart: your account, your encrypted vault, and enquiries. The preparedness check stores nothing.',
@@ -91,8 +114,8 @@ const ROUTES = [
   {
     path: '/terms',
     file: 'terms.html',
-    title: 'Terms of use — Akshayvriddhi',
-    description: 'The terms under which the Akshayvriddhi vault is provided.',
+    title: 'Terms of use — Akshay Vriddhi',
+    description: 'The terms under which the Akshay Vriddhi vault is provided.',
     priority: '0.4',
     heading: 'Terms of use',
     body: 'Nothing in this application is financial, insurance, tax or legal advice.',

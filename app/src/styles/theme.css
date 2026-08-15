@@ -1,4 +1,4 @@
-/* Akshayvriddhi — design tokens, taken from the logo.
+/* Akshay Vriddhi — design tokens, taken from the logo.
    Every colour below was sampled out of the artwork in app/public/brand: the
    maroon of the crescent and the wordmark, the gold of the rising arrow and
    the bars, and the cream the whole lockup is drawn on. Maroon carries action
@@ -179,6 +179,15 @@ button, input, select, textarea { font: inherit; color: inherit; }
   border-radius: var(--radius-sm);
 }
 
+/* An icon is a ligature: the element's text is the icon's name, and the font
+   turns it into a glyph. If that font has not arrived — a slow CDN, a blocked
+   request, a subset missing the name — the browser draws the name instead, and
+   the page fills up with TRENDING_DOWN in small caps.
+
+   So the glyph is transparent until the font is confirmed loaded, at which
+   point main.jsx puts `icons-ready` on the root. The element keeps its box, so
+   nothing shifts; it simply shows nothing rather than showing debug text on a
+   page about somebody's retirement. */
 .material-symbols-rounded {
   font-family: 'Material Symbols Rounded';
   font-weight: normal;
@@ -191,7 +200,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
   direction: ltr;
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   user-select: none;
+  color: transparent;
 }
+.icons-ready .material-symbols-rounded { color: inherit; }
 
 /* ── Layout helpers ─────────────────────────────────────────────────────── */
 .stack { display: flex; flex-direction: column; }
@@ -304,6 +315,186 @@ select.input { appearance: none; background-image: none; cursor: pointer; paddin
 
 .check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; font-size: 15px; }
 .check input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--primary); flex: none; }
+
+/* The proportion bar under a calculator's headline: two segments, direct
+   labels, a 2px surface gap between them. The maroon is lifted from the brand
+   step to #a02a42 so the pair clears the lightness band and stays separable
+   under deuteranopia (ΔE 18.6) — validated, not eyeballed. */
+.propbar {
+  display: flex;
+  height: 12px;
+  gap: 2px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  background: var(--surface-high);
+}
+.propbar span { display: block; height: 100%; }
+.propbar .seg-a { background: #a02a42; border-radius: var(--radius-full) 0 0 var(--radius-full); }
+.propbar .seg-b { background: var(--gold); border-radius: 0 var(--radius-full) var(--radius-full) 0; }
+.proplegend { display: flex; gap: 18px; flex-wrap: wrap; }
+.proplegend > span { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; }
+.proplegend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex: none;
+  font-style: normal;
+}
+
+/* ── The pager ────────────────────────────────────────────────────────────
+   Every page ends with where it sits in the sequence and the two doors out
+   of it. The rule carries the step count the way the section rules carry a
+   label, so the device reads as part of the same system. */
+.pagenav { padding: 72px 0 8px; }
+.pagenav-rule {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: var(--gold-ink);
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  letter-spacing: 0.22em;
+}
+.pagenav-rule::before,
+.pagenav-rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-line), transparent);
+}
+.pagenav-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.pagenav-step {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 24px 26px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--outline-variant);
+  background: var(--surface-lowest);
+  color: var(--on-surface);
+  text-align: right;
+  align-items: flex-end;
+  transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+.pagenav-step.is-back { text-align: left; align-items: flex-start; }
+.pagenav-step:hover {
+  border-color: var(--gold-line);
+  box-shadow: var(--elev-2);
+  transform: translateY(-2px);
+}
+.pagenav-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-serif);
+  font-size: clamp(21px, 2.6vw, 28px);
+  line-height: 1.2;
+  color: var(--primary);
+}
+/* The arrow leans in the direction of travel when the card is hovered. */
+.pagenav-step:hover .pagenav-title .material-symbols-rounded { transform: translateX(3px); }
+.pagenav-step.is-back:hover .pagenav-title .material-symbols-rounded { transform: translateX(-3px); }
+.pagenav-title .material-symbols-rounded { transition: transform 180ms ease; }
+
+@media (max-width: 700px) {
+  .pagenav-grid { grid-template-columns: 1fr; }
+  .pagenav-step,
+  .pagenav-step.is-back { text-align: left; align-items: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pagenav-step,
+  .pagenav-title .material-symbols-rounded { transition: none; }
+  .pagenav-step:hover { transform: none; }
+}
+
+/* The calculator's slider panel follows the reader down the answer beside it.
+   Only where there is room for two columns and where the reader has not asked
+   for stillness. */
+@media (min-width: 861px) and (prefers-reduced-motion: no-preference) {
+  .calc-controls { position: sticky; top: 96px; }
+}
+
+/* The landing page's interactive: controls beside the figure, stacked once
+   there is no room for two columns. */
+.drawdown-split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+}
+.drawdown-figure {
+  background: var(--surface-container);
+  border-left: 1px solid var(--gold-line);
+}
+@media (max-width: 860px) {
+  .drawdown-split { grid-template-columns: 1fr; }
+  .drawdown-figure { border-left: 0; border-top: 1px solid var(--gold-line); }
+}
+
+/* ── The column chart ─────────────────────────────────────────────────────
+   Bars grow from a baseline on first paint, so the shape draws itself once
+   rather than simply appearing. Colours come from Chart.jsx, where the
+   data-viz validation that chose them is documented. */
+.chart-plot {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  padding-top: 8px;
+  border-bottom: 1px solid var(--outline);
+}
+.chart-bar {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 3px;
+  border-radius: 3px 3px 0 0;
+  transform-origin: bottom;
+  animation: chartRise 620ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+.chart-bar.is-empty { min-height: 4px; border-radius: 2px; opacity: 0.85; }
+.chart-bar.is-marked { box-shadow: 0 0 0 1px var(--surface-lowest); }
+.chart-bar:hover { filter: brightness(1.12); }
+@keyframes chartRise {
+  from { transform: scaleY(0.02); }
+  to { transform: scaleY(1); }
+}
+
+/* The value, on hover and on keyboard focus of the card — a tooltip that costs
+   nothing when it is not wanted. */
+.chart-tip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 9px;
+  border-radius: var(--radius-sm);
+  background: var(--wine);
+  color: #fff;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 140ms ease;
+  z-index: 2;
+}
+.chart-bar:hover .chart-tip { opacity: 1; }
+
+.chart-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--on-surface-variant);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart-bar { animation: none; }
+}
 
 /* The live dot on the news strip: it pulses because the strip is fetched, and
    stops for anyone who has asked motion to stop. */
@@ -686,3 +877,254 @@ select.input { appearance: none; background-image: none; cursor: pointer; paddin
 @media (max-width: 900px) {
   .hero-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
 }
+
+/* The founders on the landing page: a photograph beside four lines, rather
+   than the full biographies the About page carries. */
+.founders-strip {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+}
+@media (max-width: 860px) {
+  .founders-strip { grid-template-columns: 1fr; gap: 26px; }
+}
+
+/* A disclosure that reads as a control rather than as a browser default:
+   long-form copy kept in full, but folded away until it is asked for. */
+.disclosure > summary {
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  padding: 9px 0;
+  border-top: 1px solid var(--outline-variant);
+}
+.disclosure > summary::-webkit-details-marker { display: none; }
+.disclosure > summary .material-symbols-rounded { transition: transform 200ms var(--spring); }
+.disclosure[open] > summary .material-symbols-rounded { transform: rotate(180deg); }
+@media (prefers-reduced-motion: reduce) {
+  .disclosure > summary .material-symbols-rounded { transition: none; }
+}
+
+/* Four short lines read faster side by side than stacked down a column. */
+.promise-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 14px 32px;
+}
+
+/* A choice between named options, styled as cards rather than as bare radios —
+   the same weight as the sliders they sit among. */
+.choiceset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 11px 14px;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-md);
+  background: var(--surface-lowest);
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+.choice:hover { border-color: var(--gold-line); }
+.choice.is-on {
+  border-color: var(--primary);
+  background: var(--primary-fixed);
+}
+.choice input { accent-color: var(--primary); margin: 2px 0 0; flex: none; }
+@media (prefers-reduced-motion: reduce) { .choice { transition: none; } }
+
+/* Lines written to be lifted whole — set in the serif, italic, one per row, so
+   they read as quotations rather than as a bulleted list. */
+.oneliners { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.oneliners li {
+  background: var(--surface-container);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 14px 18px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1.45;
+  color: var(--on-surface);
+}
+
+/* Exactly two columns, collapsing to one. `.grid-2` is auto-fit and will take
+   a third track when the container is wide enough — right for a list of
+   unknown length, wrong for a set of four that reads as two by two. */
+.grid.pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 720px) { .grid.pair { grid-template-columns: 1fr; } }
+
+/* ── Cards on the maroon band ─────────────────────────────────────────────
+   A translucent white wash over maroon reads as a placeholder: the fill is
+   neither the band nor a card, and a hairline gold border cannot carry it.
+   These sit on the wine below the band instead — a real surface, with the gold
+   spent on one rule at the top edge rather than smeared around the perimeter. */
+.band-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  padding: 30px 28px 28px;
+  border-radius: var(--radius-lg);
+  background: var(--wine);
+  border: 1px solid color-mix(in srgb, var(--band-accent) 22%, transparent);
+  box-shadow: 0 18px 40px rgba(30, 4, 10, 0.28);
+  overflow: hidden;
+}
+.band-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: var(--gold-leaf);
+}
+.band-card h4 { color: var(--on-band); font-size: 17.5px; }
+.band-card p {
+  color: color-mix(in srgb, var(--on-band) 74%, transparent);
+  font-size: 14.5px;
+  line-height: 1.75;
+}
+/* The index, set in the display serif, as the card's own quiet number. */
+.band-card .band-num {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--band-accent);
+}
+.band-card .band-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  display: grid;
+  place-items: center;
+  flex: none;
+  color: var(--band-accent);
+  background: color-mix(in srgb, var(--band-accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--band-accent) 30%, transparent);
+}
+
+/* ── The admin portal ─────────────────────────────────────────────────────
+   A working surface rather than a page to be read: a fixed rail, a scrolling
+   main, and denser type than the marketing site. It shares the brand's ink and
+   cream so it does not feel like a different product, but nothing here is
+   trying to persuade anybody of anything. */
+.admin-shell {
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  min-height: 100vh;
+  background: var(--surface);
+}
+.admin-nav {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 18px;
+  background: var(--surface-lowest);
+  border-right: 1px solid var(--outline-variant);
+}
+.admin-link {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  color: var(--on-surface);
+  border-left: 2px solid transparent;
+}
+.admin-link:hover { background: var(--surface-container); text-decoration: none; }
+.admin-link.is-on {
+  background: var(--primary-fixed);
+  border-left-color: var(--primary);
+  color: var(--primary);
+}
+.admin-link.is-on .muted { color: color-mix(in srgb, var(--primary) 70%, transparent); }
+.admin-foot { margin-top: auto; padding-top: 18px; border-top: 1px solid var(--outline-variant); }
+.admin-main { padding: 34px 38px 80px; max-width: 1180px; width: 100%; }
+
+@media (max-width: 900px) {
+  .admin-shell { grid-template-columns: 1fr; }
+  .admin-nav { position: relative; height: auto; border-right: 0; border-bottom: 1px solid var(--outline-variant); }
+  .admin-main { padding: 24px 18px 60px; }
+}
+
+/* A labelled bar per row: the number is the fact, the bar is only there to
+   make the ranking readable at a glance. */
+.admin-bar-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 90px 64px;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--outline-variant);
+}
+.admin-bar-row:last-child { border-bottom: 0; }
+.admin-bar { display: block; height: 6px; border-radius: var(--radius-full); background: var(--surface-high); overflow: hidden; }
+.admin-bar > span { display: block; height: 100%; background: #a8762f; border-radius: var(--radius-full); }
+.admin-bar-row > span:last-child { text-align: right; }
+
+.admin-block-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+}
+.admin-editor {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-md);
+  background: var(--surface-lowest);
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.7;
+  resize: vertical;
+}
+.admin-editor:focus-visible { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px var(--focus-ring); }
+.admin-editor[aria-invalid='true'] { border-color: var(--error); }
+
+.admin-revision {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--outline-variant);
+}
+.admin-revision:last-child { border-bottom: 0; }
+.admin-revision-preview {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 60ch;
+  font-family: var(--font-body);
+}
+
+/* The site header's own breakpoint, wider than the app shell's.
+   "Akshay Vriddhi" set in spaced capitals plus six nav items plus a call to
+   action need more room than 900px, and the failure was ugly rather than
+   subtle — the name broke across two lines and two nav items followed it. */
+.brand-mark { display: none; }
+@media (max-width: 1100px) {
+  .brand-full { display: none; }
+  .brand-mark { display: inline-flex; }
+}
+/* Nothing in the bar may break mid-phrase. */
+.wordmark-type { white-space: nowrap; }
+header nav[aria-label='Primary'] a { white-space: nowrap; }
