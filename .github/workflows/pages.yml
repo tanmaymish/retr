@@ -7,11 +7,20 @@ name: Publish the site
 # browser using the same shared/preparedness.js the server uses, and the doors
 # into the vault are left off rather than left broken.
 #
-# Enquiries need somewhere to go. Set the repository variable LEADS_ENDPOINT to
-# a URL that accepts a JSON POST — a form service, or the firm's own API — and
-# the callback popup and contact form post to it. With nothing configured the
-# forms say plainly that they are not connected rather than dropping what
-# someone typed.
+# Two repository variables connect this to the server, and neither is required:
+#
+#   LEADS_ENDPOINT  where an enquiry is posted. Unset, the forms say plainly
+#                   that they are not connected rather than dropping what
+#                   somebody typed.
+#   API_URL         the origin the API is deployed at, e.g.
+#                   https://akshayvriddhi.fly.dev. Set it and the published
+#                   site reports its traffic to the founders' portal and picks
+#                   up any copy edited there. Unset, the collector is off and
+#                   the copy compiled into the bundle is used — the site is
+#                   complete either way.
+#
+# This workflow is the only thing that deploys to Pages. There used to be a
+# second one, and the two raced for the same deployment on every push.
 #
 # Pages needs to be on for the publish job to be allowed to deploy. The
 # configure-pages step below asks for it with `enablement: true`, so a fresh
@@ -73,6 +82,11 @@ jobs:
         env:
           VITE_STATIC: 'true'
           VITE_LEADS_ENDPOINT: ${{ vars.LEADS_ENDPOINT }}
+          # Point the published site at the API, and its page views and content
+          # overrides start flowing. Unset, the site still works completely: the
+          # collector is off and the copy compiled into the bundle is used.
+          VITE_COLLECT_ENDPOINT: ${{ vars.API_URL && format('{0}/api/collect', vars.API_URL) }}
+          VITE_CONTENT_ENDPOINT: ${{ vars.API_URL && format('{0}/api/content', vars.API_URL) }}
           SITE_URL: ${{ steps.pages.outputs.base_url }}
         run: npm run build
 

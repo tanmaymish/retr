@@ -160,7 +160,9 @@ time.
 
 The marketing site can be published without the API at all — GitHub Pages, or
 any host that serves files. `.github/workflows/pages.yml` does it on every push
-to `main`; turn it on once in **Settings → Pages → Source: GitHub Actions**.
+to `main`, and asks GitHub to enable Pages itself, so there is nothing to click
+in Settings. It is the only workflow that deploys — a second one used to, and
+the two raced for the same deployment on every push.
 
 A static build sets `VITE_STATIC=true`, and two things change:
 
@@ -184,6 +186,61 @@ Run it locally the same way:
 ```
 VITE_STATIC=true npm run build && npx serve app/dist
 ```
+
+## Deploying the server
+
+The marketing site is happy on a static host. The founders' portal is not: it
+edits copy, reads traffic and lists enquiries, and all three are database
+queries. That half needs a process, a disk that survives a deploy, and one
+origin.
+
+[`fly.toml`](fly.toml) sets that up. Fly because SQLite wants a real volume and
+Mumbai is a region — the households this serves are in India, and a round trip
+to Virginia is a quarter of a second nobody needs to spend.
+
+```
+fly launch --no-deploy --copy-config
+fly volumes create data --size 1 --region bom
+fly secrets set \
+  SESSION_SECRET=$(node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))") \
+  DOCUMENT_KEY=$(node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))")
+fly deploy
+```
+
+Both secrets are mandatory and the server refuses to start without them. That
+is deliberate: a default signing key is not a default, it is a vulnerability.
+
+Then create an account through the normal sign-up and grant it admin — there is
+no self-service path, so no request however crafted can grant it:
+
+```
+fly ssh console -C "node server/scripts/set-role.mjs you@example.com admin"
+```
+
+The portal is then at `https://<your-app>.fly.dev/admin`, same-origin with its
+API, which is why its session cookie is an ordinary first-party cookie rather
+than a cross-site one that modern browsers increasingly refuse.
+
+The image is the same [`Dockerfile`](Dockerfile) either way, so Render, Railway,
+Coolify or a plain VPS work identically — they need the same two secrets, a
+volume mounted at `/data`, and `TRUST_PROXY=true` if anything terminates TLS in
+front of the app. Without that last one every visitor shares a single
+rate-limit bucket and a single visitor hash.
+
+### Connecting the published site to it
+
+Set one repository variable and the two halves join up:
+
+| Variable | Effect |
+| --- | --- |
+| `API_URL` | `https://<your-app>.fly.dev`. The published site starts reporting page views to the portal and picks up any copy edited there. |
+| `LEADS_ENDPOINT` | Where an enquiry is posted. |
+
+Neither is required. With `API_URL` unset the collector is off and the site uses
+the copy compiled into its own bundle — it is complete either way, which is the
+point: **the marketing site never depends on the server being up.** The server's
+`CORS_ORIGINS` must name the Pages origin for the two public endpoints, which
+[`fly.toml`](fly.toml) already does.
 
 ## The brand
 

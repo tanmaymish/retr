@@ -1,0 +1,74 @@
+# Akshay Vriddhi — the API and the founders' portal.
+#
+# Fly rather than a static host because this half needs three things a static
+# host cannot give it: a process, a writable disk that survives a deploy, and a
+# single origin. SQLite lives on the volume mounted at /data; the same server
+# hands out the built client, so the portal is same-origin and its session
+# cookie is an ordinary first-party cookie rather than a cross-site one.
+#
+#   fly launch --no-deploy --copy-config     # once, to claim the app name
+#   fly volumes create data --size 1 --region bom
+#   fly secrets set SESSION_SECRET=... DOCUMENT_KEY=...
+#   fly deploy
+#
+# Two secrets are mandatory and the server refuses to start without them —
+# deliberately, because a default signing key is not a default, it is a
+# vulnerability. Generate each with:
+#
+#   node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"
+
+app = "akshayvriddhi"
+# Mumbai. The households this serves are in India, and a round trip to Virginia
+# is a quarter of a second nobody needs to spend.
+primary_region = "bom"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  NODE_ENV = "production"
+  PORT = "4000"
+  HOST = "0.0.0.0"
+  DATA_DIR = "/data"
+  CLIENT_DIR = "/app/app/dist"
+  # Fly terminates TLS at its edge and forwards the real address in
+  # Fly-Client-IP / X-Forwarded-For, so the app must be told to believe them.
+  # Without this every visitor shares one rate-limit bucket and one visitor hash.
+  TRUST_PROXY = "true"
+  # The published marketing site is a different origin, and it posts page views
+  # and reads content overrides. Nothing here carries a cookie, so this widens
+  # only the two public endpoints.
+  CORS_ORIGINS = "https://tanmaymish.github.io"
+
+# The SQLite database and the encrypted documents. Both survive a deploy only
+# because they are here rather than in the image.
+[[mounts]]
+  source = "data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 4000
+  force_https = true
+  # A financial advisory's inbox is not a service to shut down to save a few
+  # rupees: a lead arriving at a stopped machine is a lead lost. One machine
+  # stays up.
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 200
+    hard_limit = 250
+
+# SQLite is a single file and a rolling deploy would briefly run two writers
+# against one volume. Stop the old machine before starting the new one.
+[deploy]
+  strategy = "immediate"
+
+[[http_service.checks]]
+  grace_period = "10s"
+  interval = "30s"
+  method = "GET"
+  timeout = "5s"
+  path = "/api/health"
