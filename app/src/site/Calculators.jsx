@@ -212,9 +212,13 @@ function CalculatorRunner({ calc }) {
               taller once a chart is in it, and the sliders are the point. */}
           <Card className="stack stack-md calc-controls" style={{ padding: 28 }}>
             <h3>Adjust the assumptions</h3>
-            {calc.inputs.map((input) => (
-              <Slider key={input.key} input={input} value={values[input.key]} onChange={(v) => set(input.key, v)} />
-            ))}
+            {calc.inputs.map((input) =>
+              input.type === 'choice' ? (
+                <Choice key={input.key} input={input} value={values[input.key]} onChange={(v) => set(input.key, v)} />
+              ) : (
+                <Slider key={input.key} input={input} value={values[input.key]} onChange={(v) => set(input.key, v)} />
+              ),
+            )}
             <p className="tiny muted" style={{ lineHeight: 1.7 }}>
               Indicative only. Not advice, and not a recommendation. Returns are assumed, not promised.
             </p>
@@ -252,6 +256,37 @@ function Proportion({ split }) {
   );
 }
 
+/**
+ * Not every assumption is a number on a line. A retirement lifestyle is a
+ * choice between three named lives, and asking for it as a percentage would be
+ * asking the reader to do the translation we are supposed to be doing.
+ */
+function Choice({ input, value, onChange }) {
+  return (
+    <fieldset className="stack choiceset" style={{ gap: 8 }}>
+      <legend className="small" style={{ fontWeight: 600, padding: 0 }}>{input.label}</legend>
+      {input.helper && <p className="tiny muted" style={{ lineHeight: 1.6 }}>{input.helper}</p>}
+      <div className="stack" style={{ gap: 7 }}>
+        {input.options.map((option) => (
+          <label key={option.value} className={`choice${value === option.value ? ' is-on' : ''}`}>
+            <input
+              type="radio"
+              name={`calc-${input.key}`}
+              value={option.value}
+              checked={value === option.value}
+              onChange={() => onChange(option.value)}
+            />
+            <span className="stack" style={{ gap: 1 }}>
+              <span className="small" style={{ fontWeight: 600 }}>{option.label}</span>
+              {option.note && <span className="tiny muted">{option.note}</span>}
+            </span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
 function Slider({ input, value, onChange }) {
   const id = `calc-${input.key}`;
   return (
@@ -280,6 +315,9 @@ function Slider({ input, value, onChange }) {
         <span>{input.format ? input.format(input.min) : input.min}</span>
         <span>{input.format ? input.format(input.max) : input.max}</span>
       </div>
+      {/* A helper line under the field, because an ambiguous input is where
+          trust in a financial tool quietly dies. */}
+      {input.helper && <p className="tiny muted" style={{ lineHeight: 1.6 }}>{input.helper}</p>}
     </div>
   );
 }

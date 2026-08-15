@@ -1,5 +1,6 @@
 import {
   drawdown,
+  readiness,
   educationGoal,
   emi,
   emiPrepayment,
@@ -44,6 +45,100 @@ export const GROUPS = [
 ];
 
 export const CALCULATORS = [
+  {
+    slug: 'retirement-readiness',
+    group: 'retirement',
+    icon: 'target',
+    title: 'Retirement readiness',
+    blurb: 'Your number, and the distance to it.',
+    intro: 'What the corpus has to be, what it is heading for, and the gap between the two.',
+    cta: 'Book the free readiness call',
+    inputs: [
+      {
+        key: 'currentAge',
+        label: 'Your current age',
+        helper: 'Just the number — we’ll handle the maths.',
+        min: 30, max: 70, step: 1, value: 50, format: yrs,
+      },
+      {
+        key: 'retireAge',
+        label: 'Age you’d like to stop active income',
+        helper: 'Not when you’re allowed to retire — when you actually want to.',
+        min: 45, max: 75, step: 1, value: 60, format: yrs,
+      },
+      {
+        key: 'monthlyExpense',
+        label: 'Your comfortable monthly household expense today',
+        helper: 'Think of a normal month, not a big one-off year with a wedding or a trip in it.',
+        min: 15000, max: 500000, step: 5000, value: 80000, format: money,
+      },
+      {
+        key: 'lifestyle',
+        label: 'Retirement lifestyle you’re planning for',
+        type: 'choice',
+        value: 'same',
+        options: [
+          { value: 'lower', label: 'A modest step-down', note: 'About 20% lower' },
+          { value: 'same', label: 'Same as today', note: 'The default' },
+          { value: 'enhanced', label: 'Enhanced', note: 'More travel, more support for family' },
+        ],
+      },
+      {
+        key: 'saved',
+        label: 'What you’ve already built',
+        helper: 'EPF, PPF, NPS, mutual funds, deposits. Leave out the house you live in — it doesn’t generate income unless you sell it.',
+        min: 0, max: 100000000, step: 500000, value: 8000000, format: money,
+      },
+      {
+        key: 'monthlySaving',
+        label: 'How much you can save monthly, starting now',
+        helper: 'A realistic number. Better a plan around ₹25,000 you will actually save than ₹60,000 you won’t.',
+        min: 0, max: 500000, step: 5000, value: 40000, format: money,
+      },
+    ],
+    run: (v) => {
+      const r = readiness(v);
+
+      /* Three states, three different things to say. The gap state is never
+         written to alarm: the reader arrived anxious, and the job of the copy
+         is to turn that into one specific next action, not to amplify it. */
+      const states = {
+        'on-track': {
+          label: 'On track',
+          value: `Covered to ${r.coveredPct}%`,
+          note: `You’re on pace to reach your number by ${v.retireAge}. The next question is whether it’s invested to actually get there — not just saved.`,
+        },
+        closeable: {
+          label: 'A closeable gap',
+          value: `${money(r.extraMonthly)} a month`,
+          note: `A gap of about ${money(r.gap)}, and it’s closeable — usually with a smaller increase than people expect once the plan is properly structured.`,
+        },
+        meaningful: {
+          label: 'A meaningful gap — let’s talk it through',
+          value: `${money(r.gap)} short`,
+          tone: 'danger',
+          note: 'This isn’t a save-a-bit-more fix. It needs a real conversation about timeline, lifestyle or savings rate — which is exactly what the free call is for.',
+        },
+      };
+
+      return {
+        headline: states[r.state],
+        split: {
+          a: { label: 'On track to have', value: r.projected },
+          b: { label: 'Still to fund', value: r.gap },
+        },
+        rows: [
+          { label: 'Corpus you need at ' + v.retireAge, value: formatMoney(r.corpus) },
+          { label: 'On track to have', value: formatMoney(r.projected) },
+          { label: 'A month, in ' + v.retireAge + '-year-old money', value: formatMoney(r.monthlyAtRetirement) },
+          { label: 'Years the corpus must last', value: `${r.retiredYears}` },
+          { label: 'Saving needed each month', value: formatMoney(r.totalMonthly) },
+        ],
+        note:
+          'Assumes 6% inflation, a life expectancy of 90, 10% on savings while you are still earning, and a retirement portfolio earning about 1.5% above inflation once preservation matters more than growth. Planning assumptions, not promises.',
+      };
+    },
+  },
   {
     slug: 'retirement-drawdown',
     group: 'retirement',

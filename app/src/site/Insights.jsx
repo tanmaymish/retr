@@ -6,6 +6,7 @@ import { requestCallback } from './CallbackPopup';
 import { useSeo } from '../lib/seo';
 import { formatDate } from '../lib/format';
 import { insightBySlug, insights } from './insights';
+import { shareable } from './content';
 
 /** The writing: an index, and a reader. Both are plain on purpose. */
 
@@ -45,6 +46,15 @@ export function InsightsIndex() {
               <span className="row small" style={{ gap: 6, color: 'var(--primary)', fontWeight: 600 }}>
                 Read it <Icon name="arrow_forward" size={16} />
               </span>
+            </Card>
+          </Reveal>
+
+          <Reveal>
+            <Card flat className="stack stack-md" style={{ padding: 32 }}>
+              <span className="eyebrow" style={{ color: 'var(--gold-ink)' }}>Worth forwarding</span>
+              <ul className="oneliners">
+                {shareable.map((line) => <li key={line}>{line}</li>)}
+              </ul>
             </Card>
           </Reveal>
 

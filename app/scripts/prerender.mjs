@@ -25,10 +25,10 @@ const ROUTES = [
     file: 'index.html',
     title: 'Akshayvriddhi — Prosperity with Purpose',
     description:
-      'What you build deserves to continue. Protection, retirement and financial planning for families and business owners in India’s smaller cities.',
+      'Retire without asking anyone for money. A retirement plan built on your real numbers, from an IRDAI-registered Insurance Marketing Firm founded by two people with two decades each in life insurance.',
     priority: '1.0',
-    heading: 'What you build deserves to continue.',
-    body: 'Akshayvriddhi is a financial advisory for families and business owners in India’s smaller cities: protection, retirement and the planning around them. Create. Continue. Live. Leave a Legacy.',
+    heading: 'Retire without asking anyone for money.',
+    body: 'Akshayvriddhi is an IRDAI-registered Insurance Marketing Firm. We build retirement plans for Indian households in the ten years before the salary stops: a target corpus, the gap to it, and the monthly figure that closes it — in writing, before any product is suggested. Create. Continue. Live. Leave a Legacy.',
   },
   {
     path: '/about',
@@ -48,7 +48,7 @@ const ROUTES = [
       'Protection, retirement, education funding and the planning around them — what Akshayvriddhi advises on, how an engagement runs, and the four commitments behind it.',
     priority: '0.9',
     heading: 'Advice across a whole financial life, not one product at a time.',
-    body: 'Why people come to us, the four things we advise on, the four stages they run across, how an engagement actually works, and what you can hold us to.',
+    body: 'How an engagement runs, the seven pillars it covers — corpus planning, EPF/NPS/PPF optimisation, post-retirement income design, health cover, tax structuring, estate readiness and family conversations — and who this is for.',
   },
   {
     path: '/preparedness-check',
@@ -69,6 +69,16 @@ const ROUTES = [
     priority: '0.9',
     heading: 'Run the numbers yourself.',
     body: 'Retirement drawdown, education goal, NPS, EPF, SIP and step-up SIP, lumpsum, home loan EMI and prepayment, income tax old versus new, human life value, Sukanya Samriddhi and PPF. Nothing you enter is sent anywhere or stored.',
+  },
+  {
+    path: '/trust',
+    file: 'trust.html',
+    title: 'How we are paid — Akshayvriddhi',
+    description:
+      'Akshayvriddhi is an IRDAI-registered Insurance Marketing Firm. We earn commission from the insurers and fund houses we are empanelled with, and we will tell you what it is.',
+    priority: '0.8',
+    heading: 'We earn commission. Ask us the number.',
+    body: 'An Insurance Marketing Firm may empanel with up to six insurers in each of life, general and health, and distribute mutual funds. We are not fee-only, not commission-free, and not a SEBI-registered Investment Adviser.',
   },
   {
     path: '/insights',

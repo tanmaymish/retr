@@ -904,3 +904,46 @@ select.input { appearance: none; background-image: none; cursor: pointer; paddin
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 14px 32px;
 }
+
+/* A choice between named options, styled as cards rather than as bare radios —
+   the same weight as the sliders they sit among. */
+.choiceset { border: 0; margin: 0; padding: 0; min-width: 0; }
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 11px 14px;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-md);
+  background: var(--surface-lowest);
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+.choice:hover { border-color: var(--gold-line); }
+.choice.is-on {
+  border-color: var(--primary);
+  background: var(--primary-fixed);
+}
+.choice input { accent-color: var(--primary); margin: 2px 0 0; flex: none; }
+@media (prefers-reduced-motion: reduce) { .choice { transition: none; } }
+
+/* Lines written to be lifted whole — set in the serif, italic, one per row, so
+   they read as quotations rather than as a bulleted list. */
+.oneliners { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.oneliners li {
+  background: var(--surface-container);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 14px 18px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1.45;
+  color: var(--on-surface);
+}
+
+/* Exactly two columns, collapsing to one. `.grid-2` is auto-fit and will take
+   a third track when the container is wide enough — right for a list of
+   unknown length, wrong for a set of four that reads as two by two. */
+.grid.pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 720px) { .grid.pair { grid-template-columns: 1fr; } }

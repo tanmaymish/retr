@@ -5,15 +5,17 @@ import { SitePage } from './SiteChrome';
 import { Reveal, SectionHead } from './Section';
 import { requestCallback } from './CallbackPopup';
 import { breadcrumbSchema, faqSchema, useSeo } from '../lib/seo';
-import { assurances, audience, brand, faqs, howItWorks, problems, services, stages } from './content';
+import { audience, brand, faqs, howItWorks, services, stages } from './content';
 
 /**
  * What we do.
  *
- * These sections used to live on the landing page, which meant a visitor met
- * the whole firm in one scroll and stopped reading somewhere in the middle.
- * They are a page now: why people come, what we advise on, the stages it runs
- * across, how an engagement actually works, and what can be held against us.
+ * How an engagement runs, the seven pillars it runs across, the four life
+ * stages behind them, and who this is actually for.
+ *
+ * The commitments and the commercial arrangement are not here — they are the
+ * /trust page, because "how you get paid" deserves its own address rather than
+ * a card near the bottom of a services page.
  */
 export default function Services() {
   const { hash } = useLocation();
@@ -21,7 +23,7 @@ export default function Services() {
   useSeo({
     title: 'What we do',
     description:
-      'Protection, retirement, education funding and the planning around them — what Akshayvriddhi advises on, how an engagement runs, and the four commitments behind it.',
+      'Retirement corpus planning, EPF/NPS/PPF optimisation, post-retirement income design, health cover, tax structuring, estate readiness and family conversations — the seven things Akshayvriddhi advises on, and how an engagement runs.',
     path: '/services',
     jsonLd: {
       '@context': 'https://schema.org',
@@ -48,12 +50,10 @@ export default function Services() {
   return (
     <SitePage>
       <Opening />
-      <Problems />
+      <How />
       <What />
       <Stages />
-      <HowItWorks />
       <Who />
-      <Assurances />
       <Faqs />
     </SitePage>
   );
@@ -67,34 +67,45 @@ function Opening() {
           as="h1"
           eyebrow="What we do"
           title="Advice across a whole financial life, not one product at a time."
-          lede="Four conversations, held over the years it takes to build something and the years it has to last."
+          lede="Seven pillars, held over the years it takes to build something and the years it has to last."
         />
       </div>
     </section>
   );
 }
 
-function Problems() {
+function How() {
   return (
-    <section style={{ padding: '40px 0 80px' }}>
+    <section id="how" style={{ padding: '40px 0 88px' }}>
       <div className="container stack stack-lg">
         <SectionHead
-          eyebrow="Why people come to us"
-          title="Most households are not underinsured. They are unreviewed."
+          eyebrow="How we work"
+          title="How an engagement actually runs."
+          lede="In this order, every time. The first meeting names no product, and the plan arrives in writing before one is suggested."
         />
-        <div className="grid grid-3">
-          {problems.map((item, index) => (
-            <Reveal key={item.title} delay={index * 90}>
-              <Card className="stack stack-sm center card-gold" style={{ alignItems: 'center', height: '100%' }}>
-                <span className="medallion" style={{ width: 52, height: 52 }}>
-                  <Icon name={item.icon} size={24} />
+        <ol className="stack stack-md" style={{ listStyle: 'none', margin: 0, padding: 0, maxWidth: 880, width: '100%', marginInline: 'auto' }}>
+          {howItWorks.map((step, index) => (
+            <Reveal as="li" key={step.title} delay={index * 70}>
+              <Card className="row card-gold" style={{ alignItems: 'flex-start', gap: 20 }}>
+                <span className="medallion medallion-solid" style={{ width: 46, height: 46, borderRadius: 'var(--radius-md)' }}>
+                  <Icon name={step.icon} size={22} />
                 </span>
-                <h4>{item.title}</h4>
-                <p className="small muted">{item.body}</p>
+                <div className="stack grow" style={{ gap: 6 }}>
+                  <div className="row wrap" style={{ gap: 10 }}>
+                    <span
+                      className="tiny"
+                      style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.16em', color: 'var(--gold-ink)' }}
+                    >
+                      STEP {index + 1}
+                    </span>
+                    <h4>{step.title}</h4>
+                  </div>
+                  <p className="muted small" style={{ lineHeight: 1.7 }}>{step.body}</p>
+                </div>
               </Card>
             </Reveal>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );
@@ -104,11 +115,14 @@ function What() {
   return (
     <section id="services" style={{ background: 'var(--surface-container)', padding: '96px 0' }}>
       <div className="container stack stack-lg">
-        <SectionHead eyebrow="The advice" title="Four things, done properly." />
-        {/* Four services, so two by two rather than three and a stray. */}
+        <SectionHead
+          eyebrow="The advice"
+          title="Seven pillars."
+          lede="Each one carries a promise — what you get — and then the substance behind it."
+        />
         <div
           className="grid"
-          style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', maxWidth: 980, width: '100%', marginInline: 'auto' }}
+          style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', width: '100%' }}
         >
           {services.map((service, index) => (
             <Reveal key={service.key} delay={(index % 2) * 90}>
@@ -116,7 +130,10 @@ function What() {
                 <span className="medallion" style={{ width: 52, height: 52 }}>
                   <Icon name={service.icon} size={24} />
                 </span>
-                <h3 style={{ marginTop: 4 }}>{service.title}</h3>
+                <span className="tiny" style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.16em', color: 'var(--gold-ink)' }}>
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <h3 style={{ marginTop: 2 }}>{service.title}</h3>
                 <p
                   style={{
                     fontFamily: 'var(--font-serif)',
@@ -128,6 +145,7 @@ function What() {
                 >
                   {service.lead}
                 </p>
+                <p className="small muted" style={{ lineHeight: 1.75 }}>{service.body}</p>
                 <ul className="stack" style={{ gap: 8, margin: '4px 0 0', padding: 0, listStyle: 'none' }}>
                   {service.points.map((point) => (
                     <li key={point} className="row small" style={{ alignItems: 'flex-start', gap: 9 }}>
@@ -193,45 +211,6 @@ function Stages() {
   );
 }
 
-function HowItWorks() {
-  return (
-    <section id="how" style={{ background: 'var(--surface-low)', padding: '88px 0' }}>
-      <div className="container stack stack-lg">
-        <SectionHead
-          eyebrow="How we work"
-          title="How an engagement actually runs."
-          lede="In this order, every time. The first meeting names no product."
-        />
-        <ol className="stack stack-md" style={{ listStyle: 'none', margin: 0, padding: 0, maxWidth: 860, width: '100%', marginInline: 'auto' }}>
-          {howItWorks.map((step, index) => (
-            <Reveal as="li" key={step.title} delay={index * 70}>
-              <Card className="row card-gold" style={{ alignItems: 'flex-start', gap: 20 }}>
-                <span
-                  className="medallion medallion-solid"
-                  style={{ width: 46, height: 46, borderRadius: 'var(--radius-md)' }}
-                >
-                  <Icon name={step.icon} size={22} />
-                </span>
-                <div className="stack" style={{ gap: 6 }}>
-                  <div className="row" style={{ gap: 10 }}>
-                    <span
-                      className="tiny"
-                      style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.16em', color: 'var(--gold-ink)' }}
-                    >
-                      STEP {index + 1}
-                    </span>
-                    <h4>{step.title}</h4>
-                  </div>
-                  <p className="muted small">{step.body}</p>
-                </div>
-              </Card>
-            </Reveal>
-          ))}
-        </ol>
-      </div>
-    </section>
-  );
-}
 
 function Who() {
   return (
@@ -256,32 +235,6 @@ function Who() {
   );
 }
 
-function Assurances() {
-  return (
-    <section style={{ background: 'var(--surface-container)', padding: '88px 0' }}>
-      <div className="container stack stack-lg">
-        <SectionHead
-          eyebrow="What you can hold us to"
-          title="Four commitments, each one specific enough to be broken."
-        />
-        <div
-          className="grid"
-          style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', maxWidth: 940, width: '100%', marginInline: 'auto' }}
-        >
-          {assurances.map((item, index) => (
-            <Reveal key={item.title} delay={(index % 2) * 90}>
-              <Card className="stack stack-sm card-gold" style={{ height: '100%' }}>
-                <Icon name={item.icon} size={24} style={{ color: 'var(--primary)' }} />
-                <h4>{item.title}</h4>
-                <p className="small muted">{item.body}</p>
-              </Card>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function Faqs() {
   return (

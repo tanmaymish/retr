@@ -21,19 +21,27 @@ export const journey = [
     path: '/calculators',
     label: 'Calculators',
     nav: 'Calculators',
-    blurb: 'Thirteen of them. Nothing stored, nothing behind a signup.',
+    blurb: 'Start with your number. Nothing stored, nothing behind a signup.',
   },
   {
     path: '/preparedness-check',
     label: 'Preparedness check',
-    nav: 'Preparedness check',
+    // Not in the header: eight items wrap the bar on a laptop. It is reached
+    // from the hero, the calculators page, the pager and the footer.
+    nav: null,
     blurb: 'Six questions, scored, in about two minutes.',
   },
   {
     path: '/services',
     label: 'What we do',
     nav: 'What we do',
-    blurb: 'The advice, how an engagement runs, and what you can hold us to.',
+    blurb: 'Seven pillars, and how an engagement actually runs.',
+  },
+  {
+    path: '/trust',
+    label: 'How we are paid',
+    nav: 'How we’re paid',
+    blurb: 'We earn commission. Here is the whole arrangement.',
   },
   {
     path: '/insights',
@@ -45,7 +53,7 @@ export const journey = [
     path: '/about',
     label: 'About',
     nav: 'About',
-    blurb: 'Why two people left the industry to do this instead.',
+    blurb: 'Two decades each inside the industry, now pointed at one household at a time.',
   },
   {
     path: '/contact',

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import {
   drawdown,
+  readiness,
   educationGoal,
   emi,
   emiPrepayment,
@@ -234,5 +235,91 @@ describe('education goal', () => {
     const r = educationGoal({ costToday: 1000000, yearsAway: 5, saved: 50000000 });
     assert.equal(r.shortfall, 0);
     assert.equal(r.monthly, 0);
+  });
+});
+
+describe('retirement readiness', () => {
+  const base = {
+    currentAge: 50,
+    retireAge: 60,
+    monthlyExpense: 80000,
+    saved: 5000000,
+    monthlySaving: 40000,
+  };
+
+  it('inflates today’s spending to the day the salary stops', () => {
+    const r = readiness({ ...base, inflationPct: 6 });
+    // Ten years of six per cent is a shade under 1.8x.
+    assert.ok(r.monthlyAtRetirement > 80000 * 1.75, `got ${r.monthlyAtRetirement}`);
+    assert.ok(r.monthlyAtRetirement < 80000 * 1.85, `got ${r.monthlyAtRetirement}`);
+    assert.equal(r.firstYearNeed, r.monthlyAtRetirement * 12);
+  });
+
+  it('prices a longer retirement as a bigger corpus', () => {
+    const to90 = readiness(base);
+    const to95 = readiness({ ...base, lifeExpectancy: 95 });
+    assert.ok(to95.corpus > to90.corpus, 'five more years costs more');
+    assert.equal(to90.retiredYears, 30);
+    assert.equal(to95.retiredYears, 35);
+  });
+
+  it('charges more for an enhanced lifestyle and less for a step-down', () => {
+    const same = readiness({ ...base, lifestyle: 'same' });
+    const lower = readiness({ ...base, lifestyle: 'lower' });
+    const enhanced = readiness({ ...base, lifestyle: 'enhanced' });
+    assert.ok(lower.corpus < same.corpus);
+    assert.ok(enhanced.corpus > same.corpus);
+    // The factors are 0.8 and 1.25, and the corpus is linear in the need.
+    assert.ok(Math.abs(lower.corpus / same.corpus - 0.8) < 0.001);
+    assert.ok(Math.abs(enhanced.corpus / same.corpus - 1.25) < 0.001);
+  });
+
+  it('says on track when the projection already clears the corpus', () => {
+    const r = readiness({ ...base, saved: 60000000, monthlySaving: 100000 });
+    assert.equal(r.state, 'on-track');
+    assert.equal(r.gap, 0);
+    assert.equal(r.extraMonthly, 0);
+    assert.equal(r.coveredPct, 100);
+  });
+
+  it('calls a gap closeable only when doubling the habit would close it', () => {
+    // A crore already put away, 60k a month, ten years to go: short, but not
+    // by more than the household could absorb.
+    const near = readiness({ ...base, saved: 10000000, monthlySaving: 60000 });
+    assert.equal(near.state, 'closeable');
+    assert.ok(near.gap > 0, 'it is still a gap');
+    assert.ok(near.extraMonthly <= 60000, 'closeable means no more than doubling');
+
+    // Almost nothing put away, and ten years to fix it.
+    const far = readiness({ ...base, saved: 200000, monthlySaving: 5000 });
+    assert.equal(far.state, 'meaningful');
+    assert.ok(far.extraMonthly > 5000);
+  });
+
+  it('closes the gap with the extra it asks for', () => {
+    const r = readiness({ ...base, saved: 8000000, monthlySaving: 30000 });
+    assert.ok(r.gap > 0, 'this household is short');
+    const closed = readiness({ ...base, saved: 8000000, monthlySaving: r.totalMonthly });
+    // Saving what it asked for lands on the number: what is left is rounding,
+    // and the engine treats an immaterial residue as met rather than showing
+    // somebody a two-rupee shortfall on a four-crore plan.
+    assert.equal(closed.gap, 0, 'the gap it quoted is the gap it closes');
+    assert.equal(closed.state, 'on-track');
+  });
+
+  it('does not divide by zero when someone is already at their retirement age', () => {
+    const r = readiness({ ...base, currentAge: 60, retireAge: 60, monthlySaving: 0 });
+    assert.equal(r.years, 0);
+    assert.equal(r.contributionsGrowTo, 0);
+    assert.ok(Number.isFinite(r.corpus));
+    assert.ok(Number.isFinite(r.extraMonthly));
+    assert.equal(r.extraMonthly, 0, 'no runway left to save over');
+  });
+
+  it('keeps the covered share between nothing and everything', () => {
+    for (const saved of [0, 1000000, 50000000, 500000000]) {
+      const r = readiness({ ...base, saved });
+      assert.ok(r.coveredPct >= 0 && r.coveredPct <= 100, `${saved} → ${r.coveredPct}%`);
+    }
   });
 });

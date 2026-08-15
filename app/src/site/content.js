@@ -18,13 +18,17 @@
 export const brand = {
   name: 'Akshayvriddhi',
   tagline: 'Prosperity with Purpose',
-  promise: 'What you build deserves to continue.',
+  /* अक्षय + वृद्धि — growth that does not perish. It describes a cash-flow
+     strategy, not just a pleasant-sounding word, and the site says so plainly
+     because it happens to be true. */
+  meaning: 'Akshaya (अक्षय) — imperishable, undiminishing. Vriddhi (वृद्धि) — growth. Wealth built to keep growing quietly in the background, rather than being drawn down to nothing.',
+  promise: 'Retire without asking anyone for money.',
   stages: 'Create. Continue. Live. Leave a Legacy.',
-  /* Who the firm is for. Stated plainly, because it is the thing that makes
-     the rest of the copy specific rather than generic. */
-  audience: 'Families and business owners in India’s smaller cities.',
+  /* Who the firm is for. Not a 25-year-old opening a first SIP: someone who has
+     run a household for two decades and has started doing a private, anxious
+     calculation about what happens when the salary stops. */
+  audience: 'For people between 45 and 60, doing the arithmetic on what comes next.',
 };
-
 /**
  * What the site is for.
  *
@@ -138,7 +142,84 @@ export const vision =
   'To build a trusted financial protection institution that helps individuals and families create prosperity, protect continuity, live with confidence and transfer what they have built with purpose.';
 
 export const mission =
-  'To make insurance and financial protection understandable, personal and purposeful by combining decades of industry experience, responsible guidance, human relationships and technology.';
+  'To build the retirement Indian families were never given a template for — a clear, written plan, backed by real choice across insurers and fund houses, that turns one lump of savings into a paycheque that outlives you, rather than the other way around.';
+
+/** Why the old assumptions no longer hold. Structural reasons, not adjectives. */
+export const whyNow = [
+  {
+    icon: 'account_balance',
+    title: 'The safety net most people still count on does not fully exist',
+    body: 'Private-sector India has no state pension comparable to the UK or US. EPF and NPS are the main formal pillars, and neither was designed on its own to replace most of a senior urban income for 25 to 30 non-earning years.',
+  },
+  {
+    icon: 'diversity_1',
+    title: 'The joint-family net is thinning',
+    body: 'Smaller families, adult children in another city or country, rising individual costs. Fewer households can quietly absorb an ageing parent’s shortfall the way the last generation did. That is not a judgement — it is a planning input.',
+  },
+  {
+    icon: 'hourglass_bottom',
+    title: 'Retirements are longer than the plans built for them',
+    body: 'Someone retiring at 60 today can reasonably plan for 25 to 30 more years. A corpus sized for a few years of rest runs out mid-plan. The arithmetic has to assume a long life, not an average one.',
+  },
+  {
+    icon: 'ecg_heart',
+    title: 'Healthcare costs rise faster than everything else',
+    body: 'Medical costs in India have consistently outrun headline inflation. A retirement budget indexed only to general inflation falls short exactly where it matters most — in the years health spending climbs.',
+  },
+  {
+    icon: 'trending_down',
+    title: 'The first five years carry outsized risk',
+    body: 'A downturn early in drawdown can permanently impair a corpus meant to last decades, even when long-run average returns turn out fine. Almost no self-directed plan accounts for the sequence of returns.',
+  },
+];
+
+/**
+ * Composite situations, built from patterns advisers see constantly.
+ *
+ * NOT REAL CLIENTS AND NOT TESTIMONIALS. Every one is labelled as illustrative
+ * on the page for exactly that reason: a fabricated review is the kind of thing
+ * that draws regulatory attention to a young Insurance Marketing Firm, and it
+ * is dishonest besides.
+ */
+export const scenarios = [
+  {
+    initial: 'S',
+    who: 'The Sharmas, Pune',
+    meta: 'Him: 54, PSU manager · Her: 51, runs the house and a small tuition class',
+    setup:
+      'EPF, a small NPS account HR opened years ago, and a LIC policy a brother-in-law sold him in 2003 that he is still not sure what it does. He assumed all three added up to something decent. Nobody had ever added them up.',
+    turn:
+      'The total covered barely 40% of what the household spends today — and their daughter’s wedding sat unbudgeted inside the same ten-year window as his retirement. The fix was not dramatic: redirect one maturing FD, raise the NPS contribution modestly, and separate the wedding fund from the retirement fund so one stopped quietly eating the other.',
+  },
+  {
+    initial: 'R',
+    who: 'Rekha, Bengaluru',
+    meta: '47, marketing lead, single, ageing parents in a smaller town',
+    setup:
+      'Saving hard for her own retirement, and separately, quietly worried about her parents’ finances — but she had never actually looked at their accounts, because asking felt intrusive.',
+    turn:
+      'A nomination check on her father’s accounts found two mutual fund folios still naming a relative who had died. A five-minute fix that, left alone, would have meant months of legal delay at the worst possible time. The retirement plan and the parent check became one conversation instead of two.',
+  },
+  {
+    initial: 'A',
+    who: 'Anand, Ahmedabad',
+    meta: '58, business owner, two years from stepping back',
+    setup:
+      'A WhatsApp forward had convinced him that withdrawing his full NPS corpus at 60 was tax-free and unrestricted. It is neither — a portion must be annuitised, and the rules have changed more than once.',
+    turn:
+      'Correcting one wrong assumption eighteen months early changed how he structured contributions for the remaining working years. A small, boring adjustment that would have been an expensive surprise made two years too late.',
+  },
+];
+
+/** Lines written to be lifted whole — a section header, a card, a forward. */
+export const shareable = [
+  'Your EPF was never the whole plan. It was the down payment on one.',
+  'A pension is something your father might have had. A plan is something you build.',
+  'Nobody plans to run out of money at 78. They just never checked at 55.',
+  'The best gift for your children is not an inheritance. It is never having to worry about you.',
+  'You have been the money uncle for everyone else’s decisions. Who is doing that maths for you?',
+  'The first five years of retirement decide the next twenty-five. Plan them on purpose.',
+];
 
 export const foundersMessage = [
   'We have spent a significant part of our professional lives in insurance. During those years, we learned about distribution, strategy, transformation, leadership, technology and business. But our greatest lessons came from people.',
@@ -182,170 +263,304 @@ export const problems = [
  */
 export const audience = {
   eyebrow: 'Who we work with',
-  title: 'Advice that comes to the cities the advice usually skips.',
+  title: 'People in the ten years before the salary stops.',
   lede:
-    'Serious advice has stayed close to the metros. The households building the most are elsewhere.',
+    'Not a first SIP. Someone who has run a household for two decades and has started doing the arithmetic privately.',
   groups: [
     {
-      icon: 'store',
-      title: 'Business and shop owners',
-      body: 'Seasonal income, capital tied up in stock — and a family whose security is the business’s.',
+      icon: 'badge',
+      title: 'Salaried, 45 to 60',
+      body: 'EPF, an NPS account HR opened, some funds, and a policy a relative sold you. Nobody has ever added them up.',
     },
     {
-      icon: 'badge',
-      title: 'Salaried professionals',
-      body: 'A home loan, and cover bought once — usually as an investment rather than as protection.',
+      icon: 'store',
+      title: 'Business owners stepping back',
+      body: 'The business was the pension plan. Now it needs converting into one that pays monthly without you in it.',
     },
     {
       icon: 'diversity_1',
-      title: 'Households supporting parents',
-      body: 'Two generations, one earner. A health event is the largest risk in the house.',
+      title: 'Sandwiched between two generations',
+      body: 'Ageing parents in another city, children not yet independent, and one plan expected to carry all three.',
     },
     {
-      icon: 'auto_stories',
-      title: 'First-generation wealth',
-      body: 'No inherited playbook, and no relative to ask what a term plan actually does.',
+      icon: 'person',
+      title: 'Planning alone',
+      body: 'No spouse’s income to fall back on, and no second opinion at the dining table. The margin for error is thinner.',
     },
   ],
 };
 
+
 /**
- * The advice itself.
+ * The seven service pillars.
  *
- * The scope here follows what an IRDAI-registered Insurance Marketing Firm is
- * permitted to do: solicit insurance from a limited panel of insurers, service
- * those policies, and distribute other financial products through
- * appropriately licensed Financial Services Executives. Nothing below claims a
- * specific insurer, registration or qualification — those belong to the
- * founders to state, and must be filled in before this is published.
+ * Each carries a one-line promise (what the household gets) and then the
+ * substance (what is actually done), always in that order.
+ *
+ * REGULATORY BOUNDARY. Akshayvriddhi is an IRDAI-registered Insurance
+ * Marketing Firm, not a SEBI-registered Investment Adviser. Insurance sits
+ * squarely inside the licence; NPS, EPF, PPF and mutual fund content must stay
+ * generic and educational. A specific "buy this much of that security"
+ * instruction is investment advice in the SEBI sense and needs a separate
+ * registration. Keep the copy below on the right side of that line.
  */
 export const services = [
   {
-    key: 'protection',
-    icon: 'shield_with_heart',
-    title: 'Protection review',
-    lead: 'What would actually happen to the household income.',
-    body: 'Read against what the household earns and owes, so the sum assured has a reason behind it.',
-    points: ['Existing policies read and explained', 'Gaps and overlaps identified', 'Nominations and riders checked'],
+    key: 'corpus',
+    icon: 'target',
+    title: 'Retirement corpus and goal planning',
+    lead: 'Know your number — not a guess, a calculated one.',
+    body: 'The corpus required to fund your target lifestyle from your planned retirement age to a conservative life expectancy, adjusted for realistic inflation and a post-retirement real return — then the exact monthly saving that closes the gap to what you already hold.',
+    points: [
+      'A target corpus, with every assumption stated',
+      'The gap between that and where you stand today',
+      'The monthly figure that closes it',
+    ],
   },
   {
-    key: 'retirement',
-    icon: 'elderly',
-    title: 'Retirement planning',
-    lead: 'An income that continues when the salary stops.',
-    body: 'Working back from the life you intend to live, including the years after the earning stops.',
-    points: ['Target corpus and the years to build it', 'Where the income comes from, in order', 'Reviewed as the plan meets reality'],
-  },
-  {
-    key: 'goals',
+    key: 'accounts',
     icon: 'savings',
-    title: 'Goal and wealth planning',
-    lead: 'Every rupee given a job to do.',
-    body: 'Education, a home, a business — dated, costed and funded, so saving becomes a decision.',
-    points: ['Goals dated and costed', 'Reserves before returns', 'Reviewed against inflation, not hope'],
+    title: 'EPF, NPS and PPF optimisation',
+    lead: 'Make the accounts you already have pull their full weight before adding anything new.',
+    body: 'Active versus auto allocation inside NPS. Whether Tier I alone is enough. Stacking the ₹50,000 NPS deduction under 80CCD(1B) on top of your 80C limit. Voluntary Provident Fund against additional NPS. And whether your employer’s NPS structuring even captures the 14% of basic now deductible under the new regime.',
+    points: [
+      'What each account is actually doing',
+      'Deductions being left on the table',
+      'Whether your employer’s structure captures them',
+    ],
   },
   {
-    key: 'legacy',
+    key: 'income',
+    icon: 'payments',
+    title: 'Post-retirement income design',
+    lead: 'Turn a lump sum into a monthly paycheque built to last.',
+    body: 'A bucket strategy — near-term spending in low-volatility instruments, mid-term balanced, long-term still growing — with a withdrawal plan sized to survive a bad first five years, laddered Senior Citizen Savings Scheme deposits, and a clear-eyed comparison of annuity against the alternatives for the NPS portion that must be annuitised.',
+    points: [
+      'Buckets by when the money is needed, not by product',
+      'A withdrawal rate that survives a bad opening decade',
+      'Annuity compared honestly, not assumed',
+    ],
+  },
+  {
+    key: 'health',
+    icon: 'ecg_heart',
+    title: 'Health and longevity protection',
+    lead: 'Make sure a single hospitalisation cannot unravel thirty years of saving.',
+    body: 'A gap analysis of existing cover against realistic post-retirement medical costs, attention to the pre-existing-disease waiting periods that make buying fresh cover at 58 far harder than topping up cover held since 45, a super top-up layer, and the long-term-care conversation most families avoid until it is urgent.',
+    points: [
+      'Cover measured against real medical inflation',
+      'Waiting periods, before they matter',
+      'The long-term-care conversation, early',
+    ],
+  },
+  {
+    key: 'tax',
+    icon: 'receipt_long',
+    title: 'Tax-efficient structuring',
+    lead: 'Keep more of what you have already earned — legally, every year.',
+    body: 'Old against new regime is not a one-time decision; it can be reassessed most years, and the right answer moves as income shifts towards interest and pension. Alongside that: the enhanced 80TTB deduction on interest income for seniors, capital-gains harvesting across holdings, and where relevant, legitimate family structures.',
+    points: [
+      'The regime choice, revisited yearly',
+      'Deductions that only apply after 60',
+      'Gains harvested deliberately, not by accident',
+    ],
+  },
+  {
+    key: 'estate',
+    icon: 'family_restroom',
+    title: 'Estate and succession readiness',
+    lead: 'Make sure your family never has to fight — or beg a bank — for what is already theirs.',
+    body: 'Somewhere in India today a family is standing in a bank branch with a death certificate and a folder, because a nomination form from twelve years ago was never updated. It is the most preventable grief in personal finance. A will checklist, a nomination audit across every bank, EPF, NPS, fund and insurance account, joint-holding structure, and a healthcare power of attorney set up before it is ever needed.',
+    points: [
+      'A nomination audit across every account',
+      'A will checklist, and the nudge to finish it',
+      'Healthcare power of attorney, arranged early',
+    ],
+  },
+  {
+    key: 'family',
     icon: 'diversity_3',
-    title: 'Continuity and legacy',
-    lead: 'What you built, reaching who you meant it to reach.',
-    body: 'Nominations and intentions in one place, so the family is not learning any of it on the worst day.',
-    points: ['Nominations reviewed across every policy', 'The family briefed while you are here', 'Intentions written down, not assumed'],
+    title: 'Family conversations and legacy',
+    lead: 'Have the money conversation with your children before a crisis forces it.',
+    body: 'A facilitated, values-first conversation — not only "here is my net worth" but "here is what I want for you, and here is what I need from you". The discussion most Indian families quietly avoid until an emergency makes it unavoidable.',
+    points: [
+      'What you want for them, said out loud',
+      'What you need from them, said out loud',
+      'Held before it is an emergency',
+    ],
   },
 ];
 
-/** How an engagement runs, in the order it runs. */
+/** How an engagement runs. Genuinely sequential, so the numbering is honest. */
 export const howItWorks = [
   {
-    icon: 'hearing',
-    title: 'We listen first',
-    body: 'What you earn, what you owe, who depends on it. No recommendation is made in this meeting.',
+    icon: 'call',
+    title: 'A free 20-minute readiness call',
+    body: 'No commitment and no product pitch. Three questions: when do you want to stop active income, what does a comfortable month cost you today, and what have you already built.',
   },
   {
     icon: 'fact_check',
-    title: 'We read what you already have',
-    body: 'Most people carry something that works and something that stopped years ago. You should know which.',
-  },
-  {
-    icon: 'insights',
-    title: 'We map the gap',
-    body: 'What each gap would cost if the year went badly — written down, in numbers you can check.',
-  },
-  {
-    icon: 'balance',
-    title: 'We recommend, and explain the alternative',
-    body: 'What it costs, what it does not do, and what you could do instead — including nothing.',
-  },
-  {
-    icon: 'event_repeat',
-    title: 'We review it as life changes',
-    body: 'A plan written once is wrong within three years. This is a relationship, not a transaction.',
-  },
-];
-
-/** What a client can hold us to. Each of these is a commitment, not a claim. */
-export const assurances = [
-  {
-    icon: 'record_voice_over',
-    title: 'Advice before product',
-    body: 'No product is named in the first conversation.',
-  },
-  {
-    icon: 'currency_rupee',
-    title: 'You will be told what we earn',
-    body: 'Distribution is commission-based. Ask what we earn and you are told before you sign.',
+    title: 'Complete financial and risk discovery',
+    body: 'A structured intake of every account, obligation, dependant and health consideration. The unglamorous part self-directed planning skips, and where most planning errors actually live.',
   },
   {
     icon: 'description',
-    title: 'It is written down',
-    body: 'On paper. A plan that lives only in an adviser’s memory is not a plan.',
+    title: 'Your retirement blueprint',
+    body: 'A written document: target corpus, the gap to where you stand, a year-by-year contribution and allocation path, and a tax roadmap — delivered before any specific product is suggested.',
   },
   {
-    icon: 'handshake',
-    title: 'The relationship outlasts the sale',
-    body: 'Renewals, claims and reviews are part of it. The measure is the year it is finally needed.',
+    icon: 'balance',
+    title: 'Product selection, across insurers — not just one',
+    body: 'Where insurance or a fund solves part of the gap, it is matched against our empanelled insurers and fund houses rather than a single company’s shelf, and the comparison is walked through in plain terms before you decide.',
+  },
+  {
+    icon: 'assignment_turned_in',
+    title: 'We handle the paperwork',
+    body: 'As your licensed intermediary, our certified team completes the purchase and servicing — proposal forms, underwriting follow-up, policy issuance — so the blueprint does not become another folder of homework.',
+  },
+  {
+    icon: 'event_repeat',
+    title: 'Annual review, and a redesign as retirement nears',
+    body: 'Revisited every year, and rebuilt entirely in the two to three years before retirement, when the priority shifts from growing the corpus to protecting it and converting it into income.',
   },
 ];
 
+/**
+ * Why trust us.
+ *
+ * WHAT THIS MUST NEVER CLAIM: that Akshayvriddhi is commission-free, fee-only,
+ * or a SEBI-registered Investment Adviser. None of it is true of an Insurance
+ * Marketing Firm, and claiming it is a compliance exposure rather than merely
+ * an inaccuracy. The honest differentiator is breadth of empanelment and
+ * transparency about what is earned — which is a better story anyway.
+ */
+export const assurances = [
+  {
+    icon: 'balance',
+    title: 'Real choice, not one company’s shelf',
+    body: 'An Insurance Marketing Firm may empanel with up to six insurers in each line — life, health and general — where a corporate agent is capped at three. The product is chosen by fit, not by who we happen to represent.',
+  },
+  {
+    icon: 'currency_rupee',
+    title: 'We will tell you what we earn',
+    body: 'Like any licensed intermediary, we are paid by the insurers and fund houses we are empanelled with. Ask the commission on any recommendation and you get the number. Transparency, not a false claim to be free.',
+  },
+  {
+    icon: 'workspace_premium',
+    title: 'Built by people who have done this at scale',
+    body: 'Two decades each building agency and distribution businesses at one of India’s largest life insurers, before building this for individual households.',
+  },
+  {
+    icon: 'lock',
+    title: 'Your money never passes through us',
+    body: 'Premiums and investments go directly to the insurer or fund house. Our job is comparison, paperwork and ongoing service — never custody of your funds.',
+  },
+];
+
+/** The engagement model. Prices are the founders’ to set; see PRICING_TBC. */
+export const engagement = [
+  {
+    key: 'readiness',
+    name: 'Readiness',
+    price: 'Free',
+    priceNote: 'No card, no commitment.',
+    points: [
+      'The retirement readiness calculator',
+      'A 20-minute discovery call',
+      'A directional gap estimate',
+      'No product discussion required',
+    ],
+  },
+  {
+    key: 'blueprint',
+    name: 'Blueprint',
+    price: null,
+    priceNote: 'One-time fee, quoted on the call.',
+    recommended: true,
+    points: [
+      'A full written retirement and protection plan',
+      'Corpus target, gap analysis, insurance gap check',
+      'Comparison across empanelled insurers and funds',
+      'Fee credited back if you implement through us',
+    ],
+  },
+  {
+    key: 'continuum',
+    name: 'Family Continuum',
+    price: null,
+    priceNote: 'Annual, quoted on the call.',
+    points: [
+      'A blueprint for you and your spouse',
+      'Annual review as products and rules change',
+      'Estate and nomination-hygiene audit',
+      'Re-checked against each year’s Budget changes',
+    ],
+  },
+];
+
+/**
+ * Prices are deliberately not in this file.
+ *
+ * Nobody but the founders can set them, and a placeholder on a live page for a
+ * regulated firm is worse than an honest "quoted on the call". Fill `price` in
+ * `engagement` above when they are decided, and this constant goes away.
+ */
+export const PRICING_TBC = true;
+
 export const faqs = [
   {
-    question: 'Is this advice, or are you selling insurance?',
+    question: 'Are you a mutual fund or an insurance company?',
     answer:
-      'Both, stated plainly. Distribution is how the firm is paid, and advice is what it is paid for. That is why no product is named in the first conversation — the recommendation has to come out of your situation, not out of a target. Ask what we earn on anything recommended and you will be told before you sign.',
+      'No. We do not manufacture any financial product. We are an IRDAI-registered Insurance Marketing Firm — an intermediary empanelled with multiple insurers and fund houses, which means we compare across companies and help you choose and buy the right fit, rather than selling you the one product we happen to make.',
   },
   {
-    question: 'What does the first meeting cost?',
+    question: 'How is this different from my bank’s relationship manager, or my LIC agent?',
     answer:
-      'Nothing. It is a conversation about your household and what you are trying to protect. You leave it with a view of where you stand whether or not you go any further.',
+      'Mostly, breadth. A single-company agent — a bank relationship manager included — can usually only offer what their one employer sells. As an Insurance Marketing Firm we may empanel across up to six insurers per category, plus mutual funds, so the comparison is not limited to one company’s shelf. We do earn commission, like any licensed distributor. Ask the number on anything we recommend and we will tell you.',
   },
   {
-    question: 'I already have policies. Is there any point?',
+    question: 'Is my money safe with you?',
     answer:
-      'Usually more than for someone with none. Most households are carrying cover taken for a salary, a family or a loan that has since changed. Reading what you already hold is the first thing we do, and finding that you are adequately covered is a legitimate outcome.',
+      'Your premiums and investments go directly to the insurer or fund house. Nothing is ever held with us as an intermediary balance. Our job is comparison, paperwork and ongoing service — not custody of your funds.',
   },
   {
-    question: 'How early should retirement planning start?',
+    question: 'I already have EPF and NPS. Is that not enough?',
     answer:
-      'Earlier than feels urgent. The years that compound hardest are the first ones, and they are the years most people spend on everything else. Starting late is not a reason to skip it — it changes what the plan has to do, not whether you need one.',
+      'For most urban households, EPF and NPS alone replace roughly a third to a half of pre-retirement income — not the 70 to 80% a comfortable retirement typically needs. They are a strong base, not the whole plan.',
   },
   {
-    question: 'What is the preparedness check?',
+    question: 'NPS, PPF or EPF — which should I prioritise?',
     answer:
-      'Six questions about cover, reserves and whether your family could find what they need. It is scored, it is free, it stores nothing, and it asks for no money figures. It is an indicative self-assessment and a starting point for a conversation — not advice, and not a recommendation of any product.',
+      'Each does a different job. PPF gives a guaranteed, fully tax-free return with no market risk. EPF is similar but tied to salaried employment. NPS adds market-linked growth plus the extra ₹50,000 deduction under 80CCD(1B) that neither of the others offers. The right mix depends on your age, your risk appetite and how many working years are left — which is what the blueprint calculates rather than guesses.',
   },
   {
-    question: 'Do you only work in the big cities?',
+    question: 'Can I retire early in India?',
     answer:
-      'The opposite. Akshayvriddhi exists because serious advice has stayed close to the metros while the households building the most are elsewhere. Smaller cities are who this firm is for, not an afterthought once the metros are covered.',
+      'It is possible, but the Indian version has to plan around two things the imported FIRE playbook glosses over: no employer-subsidised health insurance once you leave a job, and a much longer uninsured gap before pension-style withdrawals become available. We can model an early retirement, but it needs an honest healthcare line, not an optimistic one.',
   },
   {
-    question: 'My uncle already sold me a policy. Isn’t this the same thing?',
+    question: 'What if I have not saved enough — is it too late?',
     answer:
-      'It is the same industry and a different job. A policy sold by someone you trust may well be a good policy — but it was chosen for the year it was sold, and nobody has read it against your household since. We start by reading what you already hold, and telling you where it stands, including when the honest answer is that it is fine.',
+      'It is almost never too late. It is later, which changes the tools available, not whether a plan is possible. The later you start, the more the plan leans on timeline, lifestyle or savings rate instead of hoping the market does the work. The one genuinely bad move is not looking: the version of "too late" people actually regret is finding out at 65 what they could have fixed at 55.',
   },
   {
-    question: 'Who regulates this?',
+    question: 'Do you help with my parents’ retirement too, or only mine?',
     answer:
-      'Insurance distribution in India is regulated by the IRDAI. Any distribution of mutual funds or pension products runs through appropriately licensed Financial Services Executives under the relevant regulator. Registration details are stated in full on our documentation.',
+      'Both. Family Continuum is built for exactly this — your own plan plus a second household, which is increasingly the real shape of retirement planning in Indian families.',
   },
-]
+  {
+    question: 'What happens when the Budget changes the rules?',
+    answer:
+      'Every Union Budget can move the numbers underneath a retirement plan: a deduction limit, a regime default, a scheme’s interest rate. Family Continuum plans are re-checked against each year’s changes as part of the annual review.',
+  },
+  {
+    question: 'Is this a robo-adviser?',
+    answer:
+      'No. The calculator gives an instant, honest first estimate. Your actual blueprint is built and reviewed by our certified team — decisions this consequential deserve a person who can ask you a follow-up question, not just an algorithm.',
+  },
+  {
+    question: 'If I want to leave, can I take my plan and go?',
+    answer:
+      'Your written blueprint is yours to keep either way. Anything bought through us is held directly with that insurer or fund house in your name, exactly as it would be through any other licensed distributor. You are never locked to us to keep what you have already bought.',
+  },
+];

@@ -3,7 +3,7 @@ import { asset } from './asset';
 
 const SITE_NAME = 'Akshayvriddhi';
 const DEFAULT_DESCRIPTION =
-  'Akshayvriddhi — prosperity with purpose. Protection, retirement and financial planning for families and business owners in India’s smaller cities, from two founders with two decades each in life insurance.';
+  'Akshayvriddhi — retirement planning for Indian households in the ten years before the salary stops. An IRDAI-registered Insurance Marketing Firm founded by two people with two decades each in life insurance.';
 
 /**
  * Per-page metadata for a single-page app.

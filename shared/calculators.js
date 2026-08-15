@@ -375,3 +375,102 @@ export function educationGoal({ costToday, yearsAway, feeInflationPct = 8, retur
     multiple: Number((futureCost / costToday).toFixed(2)),
   };
 }
+
+/* ── Readiness ───────────────────────────────────────────────────────────── */
+
+/** How much a chosen retirement lifestyle costs against today's spending. */
+export const LIFESTYLE = { same: 1, lower: 0.8, enhanced: 1.25 };
+
+/**
+ * The one number a pre-retiree is actually trying to work out: what the corpus
+ * has to be, what it is heading for, and the distance between the two.
+ *
+ * Every assumption is a named argument with a stated default rather than a
+ * constant buried in the arithmetic, because the whole point of showing this
+ * to somebody is that they can see what it assumed.
+ *
+ * The corpus is priced as an annuity-due in real terms: withdrawals are taken
+ * at the start of each year and rise with inflation, and the portfolio is
+ * assumed to earn a little above inflation once preservation matters more than
+ * growth. Working in real terms is what lets one rate stand in for two.
+ */
+export function readiness({
+  currentAge,
+  retireAge,
+  monthlyExpense,
+  lifestyle = 'same',
+  saved = 0,
+  monthlySaving = 0,
+  inflationPct = 6,
+  growthPct = 10,
+  realReturnPct = 1.5,
+  lifeExpectancy = 90,
+}) {
+  const years = Math.max(0, retireAge - currentAge);
+  const retiredYears = Math.max(1, lifeExpectancy - retireAge);
+  const i = inflationPct / 100;
+  const g = growthPct / 100;
+  const real = realReturnPct / 100;
+  const factor = LIFESTYLE[lifestyle] ?? 1;
+
+  // What a month of that life costs on the day the salary stops.
+  const monthlyAtRetirement = monthlyExpense * factor * Math.pow(1 + i, years);
+  const firstYearNeed = monthlyAtRetirement * 12;
+
+  const corpus =
+    real === 0
+      ? firstYearNeed * retiredYears
+      : firstYearNeed * ((1 - Math.pow(1 + real, -retiredYears)) / real) * (1 + real);
+
+  // What today's savings and today's habit are heading for.
+  const savedGrowsTo = saved * Math.pow(1 + g, years);
+  const months = Math.round(years * 12);
+  const m = g / 12;
+  const contributionsGrowTo =
+    months === 0
+      ? 0
+      : m === 0
+        ? monthlySaving * months
+        : monthlySaving * ((Math.pow(1 + m, months) - 1) / m) * (1 + m);
+  const projected = savedGrowsTo + contributionsGrowTo;
+
+  /* A shortfall of a few hundred rupees against a corpus of crores is noise
+     from the rounding, not a gap anyone should be shown. Anything under a
+     hundredth of a percent of the target counts as met. */
+  const shortfall = corpus - projected;
+  const immaterial = Math.max(1000, corpus * 0.0001);
+  const gap = shortfall > immaterial ? shortfall : 0;
+  const extraMonthly =
+    gap === 0 || months === 0
+      ? 0
+      : m === 0
+        ? gap / months
+        : gap / (((Math.pow(1 + m, months) - 1) / m) * (1 + m));
+
+  /* Three states, because three is what the copy answers. "Closeable" is not a
+     feeling — it is a gap the household could close by at most doubling what it
+     already puts away. Beyond that, no amount of encouraging language makes it
+     a savings-rate problem, and saying so is the honest thing. */
+  let state = 'meaningful';
+  if (gap <= 0) state = 'on-track';
+  else if (monthlySaving > 0 && extraMonthly <= monthlySaving) state = 'closeable';
+  else if (monthlySaving === 0 && extraMonthly <= monthlyExpense * 0.2) state = 'closeable';
+
+  return {
+    state,
+    corpus: rupees(corpus),
+    projected: rupees(projected),
+    gap: rupees(gap),
+    coveredPct: corpus > 0 ? Math.min(100, Math.round((projected / corpus) * 100)) : 100,
+    extraMonthly: rupees(extraMonthly),
+    totalMonthly: rupees(monthlySaving + extraMonthly),
+    monthlyAtRetirement: rupees(monthlyAtRetirement),
+    // Derived from the rounded monthly, so the two figures agree on screen.
+    firstYearNeed: rupees(monthlyAtRetirement) * 12,
+    savedGrowsTo: rupees(savedGrowsTo),
+    contributionsGrowTo: rupees(contributionsGrowTo),
+    years,
+    retiredYears,
+    lifeExpectancy,
+  };
+}

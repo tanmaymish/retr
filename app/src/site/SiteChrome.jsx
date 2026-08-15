@@ -124,8 +124,8 @@ export function SiteFooter() {
             marginBottom: 12,
           }}
         >
-          <h3 style={{ fontSize: 24 }}>Have something worth protecting?</h3>
-          <Link to="/contact" className="btn">Start a conversation →</Link>
+          <h3 style={{ fontSize: 24 }}>Want to know your number?</h3>
+          <Link to="/calculators/retirement-readiness" className="btn">Get your readiness score →</Link>
         </div>
         <div className="row-between wrap" style={{ gap: 24, alignItems: 'flex-start' }}>
           <div className="stack" style={{ gap: 12, maxWidth: 340 }}>
@@ -165,10 +165,27 @@ export function SiteFooter() {
         <div className="stack" style={{ gap: 6 }}>
           {/* The lockup reads "IMF". Spelled out here, because the abbreviation
               is also the International Monetary Fund, and a regulated firm
-              cannot leave that ambiguous. */}
-          <p className="tiny muted">
-            Akshayvriddhi IMF — an Insurance Marketing Firm. Insurance distribution in India is
-            regulated by the IRDAI. Registration number to be stated here.
+              cannot leave that ambiguous.
+
+              THIS IS A TEMPLATE. The registration and ARN numbers, and the
+              grievance address, are the founders' to supply, and the final
+              wording is what a regulator and any complaint will be held
+              against — it needs a compliance read before this ships. */}
+          <p className="tiny muted" style={{ lineHeight: 1.8, maxWidth: '92ch' }}>
+            Akshayvriddhi IMF is registered with the Insurance Regulatory and Development Authority
+            of India (IRDAI) as an Insurance Marketing Firm, Registration No. [to be stated], and is
+            empanelled with the insurers listed on this site. Mutual funds are distributed under
+            AMFI ARN [to be stated]. IRDAI registration does not guarantee the performance of any
+            insurer or product. Insurance is the subject matter of solicitation; please read the
+            policy wordings and sales brochure carefully before concluding a sale. Mutual fund
+            investments are subject to market risks; read all scheme-related documents carefully.
+          </p>
+          <p className="tiny muted" style={{ lineHeight: 1.8, maxWidth: '92ch' }}>
+            Grievances: write to [grievance address, to be stated]. Insurance complaints may also be
+            escalated through the IRDAI’s grievance portal or the Insurance Ombudsman for your
+            region; mutual fund complaints through SEBI’s SCORES portal. Figures shown by the
+            calculators on this site are illustrative projections based on the assumptions stated
+            beside them, not guarantees of future performance.
           </p>
           <p className="tiny muted">
             © {new Date().getFullYear()} {brand.name}. {brand.tagline}.
