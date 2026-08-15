@@ -13,7 +13,11 @@ name: Publish the site
 # forms say plainly that they are not connected rather than dropping what
 # someone typed.
 #
-# Turn it on once in Settings → Pages → Source: GitHub Actions.
+# Pages needs to be on for the publish job to be allowed to deploy. The
+# configure-pages step below asks for it with `enablement: true`, so a fresh
+# clone or a fork does not need anyone to visit Settings first. If the
+# repository is later renamed, the base path is read from that same step at
+# build time and follows the new name without any change here.
 
 on:
   push:
@@ -46,8 +50,13 @@ jobs:
       - name: Install workspaces
         run: npm ci
 
+      # `enablement` turns Pages on if it is off, using this workflow's own
+      # `pages: write` permission. It is a no-op when Pages is already enabled,
+      # which is why it is safe to leave in.
       - uses: actions/configure-pages@v5
         id: pages
+        with:
+          enablement: true
 
       # configure-pages reports the path the site will live under: empty or "/"
       # for a user page or a custom domain, "/<repo>" for a project page. Vite
