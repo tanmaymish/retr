@@ -86,7 +86,7 @@ export const CALCULATORS = [
       {
         key: 'saved',
         label: 'What you’ve already built',
-        helper: 'EPF, PPF, NPS, mutual funds, deposits. Leave out the house you live in — it doesn’t generate income unless you sell it.',
+        helper: 'Provident fund, pension accounts, mutual funds, deposits. Leave out the house you live in — it doesn’t generate income unless you sell it.',
         min: 0, max: 100000000, step: 500000, value: 8000000, format: money,
       },
       {
@@ -234,7 +234,7 @@ export const CALCULATORS = [
     group: 'wealth',
     icon: 'trending_up',
     title: 'SIP calculator',
-    blurb: 'What a monthly investment becomes.',
+    blurb: 'A systematic investment plan: what a monthly amount becomes.',
     intro:
       'The rate is an assumption you are choosing, not a return anyone can promise.',
     cta: 'Ask what this should be invested in',
@@ -261,7 +261,7 @@ export const CALCULATORS = [
     group: 'wealth',
     icon: 'stacked_line_chart',
     title: 'Step-up SIP',
-    blurb: 'What raising the amount every year does.',
+    blurb: 'The same monthly plan, raised each year with your salary.',
     intro:
       'The same SIP, raised each year in step with a salary. The difference is larger than people expect.',
     cta: 'Set a step-up that matches my income',
@@ -316,7 +316,7 @@ export const CALCULATORS = [
     group: 'loans',
     icon: 'account_balance',
     title: 'Home loan EMI',
-    blurb: 'The instalment, and what the loan really costs.',
+    blurb: 'The monthly instalment, and what the loan really costs.',
     intro:
       'The number that matters is not the instalment. It is the total interest.',
     cta: 'Ask how this fits the rest of the plan',
@@ -347,7 +347,7 @@ export const CALCULATORS = [
     group: 'loans',
     icon: 'fast_forward',
     title: 'EMI prepayment',
-    blurb: 'What paying extra actually buys.',
+    blurb: 'What paying extra on the instalment actually buys.',
     intro:
       'The instalment stays put, so paying extra shortens the loan instead.',
     cta: 'Ask whether to prepay or invest instead',
@@ -380,7 +380,7 @@ export const CALCULATORS = [
     title: 'Income tax: old vs new',
     blurb: 'Which regime costs you less.',
     intro:
-      'Deductions are what you would claim under the old regime — 80C, 80D, HRA, home-loan interest.',
+      'Deductions are what you would claim under the old regime — investments, insurance premiums, rent paid and home-loan interest.',
     cta: 'Ask what else is deductible',
     inputs: [
       { key: 'grossSalary', label: 'Gross annual salary', min: 300000, max: 10000000, step: 25000, value: 1500000, format: money },
@@ -410,10 +410,10 @@ export const CALCULATORS = [
     group: 'retirement',
     icon: 'elderly',
     title: 'NPS calculator',
-    blurb: 'The corpus, and the pension it buys.',
+    blurb: 'National Pension System: the corpus, and the pension it buys.',
     intro:
-      'At least 40% must buy an annuity. The pension is the part that has to last.',
-    cta: 'Ask how NPS fits my retirement',
+      'At least forty per cent must buy an annuity. The pension is the part that has to last.',
+    cta: 'Ask how this fits my retirement',
     inputs: [
       { key: 'monthly', label: 'Monthly contribution', min: 500, max: 150000, step: 500, value: 10000, format: money },
       { key: 'currentAge', label: 'Your age now', min: 18, max: 59, step: 1, value: 32, format: yrs },
@@ -429,7 +429,7 @@ export const CALCULATORS = [
           { label: 'Contributed over the years', value: formatMoney(r.invested) },
           { label: 'Withdrawable lump sum', value: formatMoney(r.lumpSum) },
           { label: 'Used to buy the annuity', value: formatMoney(r.annuityCorpus) },
-          { label: 'Monthly pension (at 6%)', value: formatMoney(r.monthlyPension) },
+          { label: 'Monthly pension, at a 6% annuity', value: formatMoney(r.monthlyPension) },
           { label: 'Years of contribution', value: `${r.years}` },
         ],
         note: 'Annuity assumed at 6%. What you are offered at retirement will differ.',
@@ -480,9 +480,9 @@ export const CALCULATORS = [
     group: 'retirement',
     icon: 'savings',
     title: 'EPF projection',
-    blurb: 'What the provident fund reaches.',
+    blurb: 'Employees’ Provident Fund: what it reaches by the time you stop.',
     intro:
-      'Your 12% plus the 3.67% of the employer’s share that reaches EPF, at the declared rate.',
+      'Your twelve per cent, plus the part of your employer’s share that reaches the provident fund, at the declared rate.',
     cta: 'Ask what this covers, and what it does not',
     inputs: [
       { key: 'basicMonthly', label: 'Monthly basic pay', min: 10000, max: 500000, step: 1000, value: 50000, format: money },
@@ -510,7 +510,7 @@ export const CALCULATORS = [
     group: 'education',
     icon: 'child_care',
     title: 'Sukanya Samriddhi',
-    blurb: 'The scheme for a daughter, to maturity.',
+    blurb: 'Sukanya Samriddhi: the scheme for a daughter, to maturity.',
     intro:
       'Fifteen years of deposits, maturing twenty-one years after opening.',
     cta: 'Ask how this fits an education goal',
@@ -536,10 +536,10 @@ export const CALCULATORS = [
     group: 'education',
     icon: 'account_balance_wallet',
     title: 'PPF calculator',
-    blurb: 'Fifteen years, tax-free at maturity.',
+    blurb: 'Public Provident Fund: fifteen years, tax-free at maturity.',
     intro:
       'Fifteen years, extendable in blocks of five. Tax-free at maturity.',
-    cta: 'Ask where PPF fits against other options',
+    cta: 'Ask where this fits against the alternatives',
     inputs: [
       { key: 'yearly', label: 'Deposited each year', min: 500, max: 150000, step: 500, value: 150000, format: money },
       { key: 'years', label: 'Term', min: 15, max: 35, step: 5, value: 15, format: yrs },

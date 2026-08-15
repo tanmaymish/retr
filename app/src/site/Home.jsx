@@ -239,23 +239,17 @@ function WhyNow() {
         />
         <div className="grid grid-3">
           {whyNow.map((reason, index) => (
-            <Reveal
-              key={reason.title}
-              className="stack stack-sm"
-              delay={(index % 3) * 90}
-              style={{
-                padding: 26,
-                borderRadius: 'var(--radius-lg)',
-                background: 'color-mix(in srgb, var(--on-band) 6%, transparent)',
-                border: '1px solid var(--gold-line)',
-                height: '100%',
-              }}
-            >
-              <Icon name={reason.icon} size={24} style={{ color: 'var(--band-accent)' }} />
-              <h4 style={{ color: 'var(--on-band)' }}>{reason.title}</h4>
-              <p className="small" style={{ color: 'color-mix(in srgb, var(--on-band) 76%, transparent)', lineHeight: 1.7 }}>
-                {reason.body}
-              </p>
+            <Reveal key={reason.title} delay={(index % 3) * 90}>
+              <div className="band-card">
+                <div className="row-between">
+                  <span className="band-mark">
+                    <Icon name={reason.icon} size={21} />
+                  </span>
+                  <span className="band-num">{String(index + 1).padStart(2, '0')}</span>
+                </div>
+                <h4>{reason.title}</h4>
+                <p>{reason.body}</p>
+              </div>
             </Reveal>
           ))}
         </div>

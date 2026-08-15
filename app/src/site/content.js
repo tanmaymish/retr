@@ -149,7 +149,7 @@ export const whyNow = [
   {
     icon: 'account_balance',
     title: 'The safety net most people still count on does not fully exist',
-    body: 'Private-sector India has no state pension comparable to the UK or US. EPF and NPS are the main formal pillars, and neither was designed on its own to replace most of a senior urban income for 25 to 30 non-earning years.',
+    body: 'Private-sector India has no state pension comparable to the UK or US. Employees’ Provident Fund (EPF) and the National Pension System (NPS) are the main formal pillars, and neither was designed on its own to replace most of a senior urban income for 25 to 30 non-earning years.',
   },
   {
     icon: 'diversity_1',
@@ -185,9 +185,9 @@ export const scenarios = [
   {
     initial: 'S',
     who: 'The Sharmas, Pune',
-    meta: 'Him: 54, PSU manager · Her: 51, runs the house and a small tuition class',
+    meta: 'Him: 54, manager at a state-owned company · Her: 51, runs the house and a small tuition class',
     setup:
-      'EPF, a small NPS account HR opened years ago, and a LIC policy a brother-in-law sold him in 2003 that he is still not sure what it does. He assumed all three added up to something decent. Nobody had ever added them up.',
+      'a provident fund, a small pension account the employer opened years ago, and a life policy a brother-in-law sold him in 2003 that he is still not sure what it does. He assumed all three added up to something decent. Nobody had ever added them up.',
     turn:
       'The total covered barely 40% of what the household spends today — and their daughter’s wedding sat unbudgeted inside the same ten-year window as his retirement. The fix was not dramatic: redirect one maturing FD, raise the NPS contribution modestly, and separate the wedding fund from the retirement fund so one stopped quietly eating the other.',
   },
@@ -213,7 +213,7 @@ export const scenarios = [
 
 /** Lines written to be lifted whole — a section header, a card, a forward. */
 export const shareable = [
-  'Your EPF was never the whole plan. It was the down payment on one.',
+  'Your provident fund was never the whole plan. It was the down payment on one.',
   'A pension is something your father might have had. A plan is something you build.',
   'Nobody plans to run out of money at 78. They just never checked at 55.',
   'The best gift for your children is not an inheritance. It is never having to worry about you.',
@@ -322,7 +322,7 @@ export const services = [
     icon: 'savings',
     title: 'EPF, NPS and PPF optimisation',
     lead: 'Make the accounts you already have pull their full weight before adding anything new.',
-    body: 'Active versus auto allocation inside NPS. Whether Tier I alone is enough. Stacking the ₹50,000 NPS deduction under 80CCD(1B) on top of your 80C limit. Voluntary Provident Fund against additional NPS. And whether your employer’s NPS structuring even captures the 14% of basic now deductible under the new regime.',
+    body: 'Whether your pension account is on active or automatic allocation, and whether the main tier alone is enough. The extra fifty-thousand-rupee deduction the National Pension System allows on top of your usual limit. Voluntary top-ups to the provident fund weighed against further pension contributions. And whether your employer’s structure even captures the share of basic pay now deductible under the new tax regime.',
     points: [
       'What each account is actually doing',
       'Deductions being left on the table',
@@ -334,7 +334,7 @@ export const services = [
     icon: 'payments',
     title: 'Post-retirement income design',
     lead: 'Turn a lump sum into a monthly paycheque built to last.',
-    body: 'A bucket strategy — near-term spending in low-volatility instruments, mid-term balanced, long-term still growing — with a withdrawal plan sized to survive a bad first five years, laddered Senior Citizen Savings Scheme deposits, and a clear-eyed comparison of annuity against the alternatives for the NPS portion that must be annuitised.',
+    body: 'A bucket strategy — near-term spending in low-volatility instruments, mid-term balanced, long-term still growing — with a withdrawal plan sized to survive a bad first five years, laddered Senior Citizen Savings Scheme deposits, and a clear-eyed comparison of an annuity against the alternatives for the pension portion the rules require you to annuitise.',
     points: [
       'Buckets by when the money is needed, not by product',
       'A withdrawal rate that survives a bad opening decade',
@@ -358,7 +358,7 @@ export const services = [
     icon: 'receipt_long',
     title: 'Tax-efficient structuring',
     lead: 'Keep more of what you have already earned — legally, every year.',
-    body: 'Old against new regime is not a one-time decision; it can be reassessed most years, and the right answer moves as income shifts towards interest and pension. Alongside that: the enhanced 80TTB deduction on interest income for seniors, capital-gains harvesting across holdings, and where relevant, legitimate family structures.',
+    body: 'Old against new regime is not a one-time decision; it can be reassessed most years, and the right answer moves as income shifts towards interest and pension. Alongside that: the larger deduction on interest income that only applies once you are a senior citizen, capital gains harvested deliberately across holdings, and where relevant, legitimate family structures.',
     points: [
       'The regime choice, revisited yearly',
       'Deductions that only apply after 60',
@@ -370,7 +370,7 @@ export const services = [
     icon: 'family_restroom',
     title: 'Estate and succession readiness',
     lead: 'Make sure your family never has to fight — or beg a bank — for what is already theirs.',
-    body: 'Somewhere in India today a family is standing in a bank branch with a death certificate and a folder, because a nomination form from twelve years ago was never updated. It is the most preventable grief in personal finance. A will checklist, a nomination audit across every bank, EPF, NPS, fund and insurance account, joint-holding structure, and a healthcare power of attorney set up before it is ever needed.',
+    body: 'Somewhere in India today a family is standing in a bank branch with a death certificate and a folder, because a nomination form from twelve years ago was never updated. It is the most preventable grief in personal finance. A will checklist, a nomination audit across every bank, provident fund, pension, mutual fund and insurance account, joint-holding structure, and a healthcare power of attorney set up before it is ever needed.',
     points: [
       'A nomination audit across every account',
       'A will checklist, and the nudge to finish it',
@@ -511,7 +511,7 @@ export const faqs = [
   {
     question: 'Are you a mutual fund or an insurance company?',
     answer:
-      'No. We do not manufacture any financial product. We are an IRDAI-registered Insurance Marketing Firm — an intermediary empanelled with multiple insurers and fund houses, which means we compare across companies and help you choose and buy the right fit, rather than selling you the one product we happen to make.',
+      'No. We do not manufacture any financial product. We are an Insurance Marketing Firm, registered with the insurance regulator (the IRDAI) — an intermediary empanelled with multiple insurers and fund houses, which means we compare across companies and help you choose and buy the right fit, rather than selling you the one product we happen to make.',
   },
   {
     question: 'How is this different from my bank’s relationship manager, or my LIC agent?',
@@ -526,17 +526,17 @@ export const faqs = [
   {
     question: 'I already have EPF and NPS. Is that not enough?',
     answer:
-      'For most urban households, EPF and NPS alone replace roughly a third to a half of pre-retirement income — not the 70 to 80% a comfortable retirement typically needs. They are a strong base, not the whole plan.',
+      'For most urban households, the provident fund and the National Pension System together replace roughly a third to a half of pre-retirement income — not the 70 to 80% a comfortable retirement typically needs. They are a strong base, not the whole plan.',
   },
   {
-    question: 'NPS, PPF or EPF — which should I prioritise?',
+    question: 'Provident fund, public provident fund or the pension scheme — which comes first?',
     answer:
-      'Each does a different job. PPF gives a guaranteed, fully tax-free return with no market risk. EPF is similar but tied to salaried employment. NPS adds market-linked growth plus the extra ₹50,000 deduction under 80CCD(1B) that neither of the others offers. The right mix depends on your age, your risk appetite and how many working years are left — which is what the blueprint calculates rather than guesses.',
+      'Each does a different job. The Public Provident Fund (PPF) gives a guaranteed, fully tax-free return with no market risk. The Employees’ Provident Fund (EPF) is similar, but tied to salaried employment. The National Pension System (NPS) adds market-linked growth, plus an extra fifty-thousand-rupee deduction neither of the others offers. The right mix depends on your age, your risk appetite and how many working years are left — which is what the blueprint calculates rather than guesses.',
   },
   {
     question: 'Can I retire early in India?',
     answer:
-      'It is possible, but the Indian version has to plan around two things the imported FIRE playbook glosses over: no employer-subsidised health insurance once you leave a job, and a much longer uninsured gap before pension-style withdrawals become available. We can model an early retirement, but it needs an honest healthcare line, not an optimistic one.',
+      'It is possible, but the Indian version has to plan around two things the imported early-retirement playbook glosses over: no employer-subsidised health insurance once you leave a job, and a much longer uninsured gap before pension withdrawals become available. We can model an early retirement, but it needs an honest healthcare line, not an optimistic one.',
   },
   {
     question: 'What if I have not saved enough — is it too late?',
@@ -563,4 +563,28 @@ export const faqs = [
     answer:
       'Your written blueprint is yours to keep either way. Anything bought through us is held directly with that insurer or fund house in your name, exactly as it would be through any other licensed distributor. You are never locked to us to keep what you have already bought.',
   },
+];
+
+/**
+ * Every abbreviation this site uses, said in words.
+ *
+ * Financial writing in India runs on initials, and a reader who has just been
+ * told their retirement is underfunded should not also have to decode
+ * 80CCD(1B). Where an abbreviation is genuinely the name of the thing — nobody
+ * calls it the Employees' Provident Fund Organisation scheme — it stays, and
+ * this is where it is explained.
+ */
+export const glossary = [
+  { term: 'EPF', full: 'Employees’ Provident Fund', body: 'The retirement fund a salaried job pays into. You contribute, your employer contributes, and it earns a rate the government notifies each year.' },
+  { term: 'PPF', full: 'Public Provident Fund', body: 'A government savings account anyone can open. Fifteen years, a rate revised quarterly, and completely tax-free at maturity.' },
+  { term: 'NPS', full: 'National Pension System', body: 'A market-linked retirement account. Part of what it builds must buy a pension at the end; the rest can be withdrawn.' },
+  { term: 'SIP', full: 'Systematic Investment Plan', body: 'A standing instruction that buys the same rupee amount of a fund every month, whatever the price that month happens to be.' },
+  { term: 'SWP', full: 'Systematic Withdrawal Plan', body: 'The reverse of the above: a standing instruction that pays you a fixed amount out of a fund each month. How a corpus becomes a salary.' },
+  { term: 'SCSS', full: 'Senior Citizen Savings Scheme', body: 'A government deposit for people over sixty, paying interest quarterly. There is a ceiling on how much one person may hold.' },
+  { term: 'EMI', full: 'Equated Monthly Instalment', body: 'The fixed monthly payment on a loan. Early on, most of it is interest; only later does it start clearing the amount borrowed.' },
+  { term: 'IRDAI', full: 'Insurance Regulatory and Development Authority of India', body: 'The regulator for insurance in India. It registers firms like ours, and its register is public.' },
+  { term: 'IMF', full: 'Insurance Marketing Firm', body: 'Our registration category — an intermediary permitted to represent several insurers rather than one. It is not the International Monetary Fund.' },
+  { term: 'SEBI', full: 'Securities and Exchange Board of India', body: 'The regulator for securities and investment advice. We are not registered with it, which is why our plans compare products rather than instruct you to buy specific securities.' },
+  { term: 'AMFI', full: 'Association of Mutual Funds in India', body: 'The industry body that issues the registration number every mutual fund distributor must display.' },
+  { term: 'Corpus', full: 'The pile itself', body: 'Not an abbreviation, but the word does a lot of work here: everything you have saved, taken together, on the day you stop earning.' },
 ];

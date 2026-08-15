@@ -175,34 +175,17 @@ function Stages() {
         />
         <div className="grid grid-4">
           {stages.map((stage, index) => (
-            <Reveal
-              key={stage.key}
-              className="stack stack-sm"
-              delay={index * 90}
-              style={{
-                padding: 26,
-                borderRadius: 'var(--radius-lg)',
-                background: 'color-mix(in srgb, var(--on-band) 6%, transparent)',
-                border: '1px solid var(--gold-line)',
-              }}
-            >
-              <div className="row-between">
-                <Icon name={stage.icon} size={24} style={{ color: 'var(--band-accent)' }} />
-                <span
-                  className="tiny"
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    letterSpacing: '0.14em',
-                    color: 'color-mix(in srgb, var(--on-band) 50%, transparent)',
-                  }}
-                >
-                  0{index + 1}
-                </span>
+            <Reveal key={stage.key} delay={index * 90}>
+              <div className="band-card">
+                <div className="row-between">
+                  <span className="band-mark">
+                    <Icon name={stage.icon} size={21} />
+                  </span>
+                  <span className="band-num">{String(index + 1).padStart(2, '0')}</span>
+                </div>
+                <h4>{stage.label}</h4>
+                <p>{stage.lead}</p>
               </div>
-              <h4 style={{ color: 'var(--on-band)' }}>{stage.label}</h4>
-              <p className="small" style={{ color: 'color-mix(in srgb, var(--on-band) 76%, transparent)' }}>
-                {stage.lead}
-              </p>
             </Reveal>
           ))}
         </div>

@@ -179,6 +179,15 @@ button, input, select, textarea { font: inherit; color: inherit; }
   border-radius: var(--radius-sm);
 }
 
+/* An icon is a ligature: the element's text is the icon's name, and the font
+   turns it into a glyph. If that font has not arrived — a slow CDN, a blocked
+   request, a subset missing the name — the browser draws the name instead, and
+   the page fills up with TRENDING_DOWN in small caps.
+
+   So the glyph is transparent until the font is confirmed loaded, at which
+   point main.jsx puts `icons-ready` on the root. The element keeps its box, so
+   nothing shifts; it simply shows nothing rather than showing debug text on a
+   page about somebody's retirement. */
 .material-symbols-rounded {
   font-family: 'Material Symbols Rounded';
   font-weight: normal;
@@ -191,7 +200,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
   direction: ltr;
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   user-select: none;
+  color: transparent;
 }
+.icons-ready .material-symbols-rounded { color: inherit; }
 
 /* ── Layout helpers ─────────────────────────────────────────────────────── */
 .stack { display: flex; flex-direction: column; }
@@ -947,3 +958,53 @@ select.input { appearance: none; background-image: none; cursor: pointer; paddin
    unknown length, wrong for a set of four that reads as two by two. */
 .grid.pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 720px) { .grid.pair { grid-template-columns: 1fr; } }
+
+/* ── Cards on the maroon band ─────────────────────────────────────────────
+   A translucent white wash over maroon reads as a placeholder: the fill is
+   neither the band nor a card, and a hairline gold border cannot carry it.
+   These sit on the wine below the band instead — a real surface, with the gold
+   spent on one rule at the top edge rather than smeared around the perimeter. */
+.band-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  padding: 30px 28px 28px;
+  border-radius: var(--radius-lg);
+  background: var(--wine);
+  border: 1px solid color-mix(in srgb, var(--band-accent) 22%, transparent);
+  box-shadow: 0 18px 40px rgba(30, 4, 10, 0.28);
+  overflow: hidden;
+}
+.band-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: var(--gold-leaf);
+}
+.band-card h4 { color: var(--on-band); font-size: 17.5px; }
+.band-card p {
+  color: color-mix(in srgb, var(--on-band) 74%, transparent);
+  font-size: 14.5px;
+  line-height: 1.75;
+}
+/* The index, set in the display serif, as the card's own quiet number. */
+.band-card .band-num {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--band-accent);
+}
+.band-card .band-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  display: grid;
+  place-items: center;
+  flex: none;
+  color: var(--band-accent);
+  background: color-mix(in srgb, var(--band-accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--band-accent) 30%, transparent);
+}

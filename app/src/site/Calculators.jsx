@@ -9,6 +9,7 @@ import { useSeo } from '../lib/seo';
 import { track } from '../lib/analytics';
 import { CALCULATORS, GROUPS, bySlug } from '../lib/calculatorSpecs';
 import { formatMoney } from '../lib/format';
+import { glossary } from './content';
 
 /**
  * The calculators.
@@ -74,6 +75,8 @@ export function CalculatorsHub() {
             </div>
           ))}
 
+          <Glossary />
+
           <Reveal>
             <Card flat className="stack stack-sm center" style={{ alignItems: 'center', padding: 32 }}>
               <Crest />
@@ -87,6 +90,33 @@ export function CalculatorsHub() {
         </div>
       </section>
     </SitePage>
+  );
+}
+
+/**
+ * The initials, said in words.
+ *
+ * Indian financial writing runs on abbreviations, and this site cannot avoid
+ * all of them — EPF and NPS are what the accounts are actually called. What it
+ * can do is never leave one unexplained on the page where the arithmetic
+ * happens.
+ */
+function Glossary() {
+  return (
+    <Reveal className="stack stack-md">
+      <div className="rule-gold lead" role="separator"><span>In plain words</span></div>
+      <div className="grid grid-3">
+        {glossary.map((entry) => (
+          <div key={entry.term} className="stack" style={{ gap: 4 }}>
+            <div className="row" style={{ gap: 8, alignItems: 'baseline' }}>
+              <strong style={{ fontFamily: 'var(--font-heading)', fontSize: 15 }}>{entry.term}</strong>
+              <span className="tiny" style={{ color: 'var(--gold-ink)' }}>{entry.full}</span>
+            </div>
+            <p className="small muted" style={{ lineHeight: 1.7 }}>{entry.body}</p>
+          </div>
+        ))}
+      </div>
+    </Reveal>
   );
 }
 
