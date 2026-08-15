@@ -6,6 +6,7 @@ import { useAuth } from './state/AuthContext';
 import Home from './site/Home';
 import About from './site/About';
 import Contact from './site/Contact';
+import Services from './site/Services';
 import PreparednessCheck from './site/PreparednessCheck';
 import { CalculatorPage, CalculatorsHub } from './site/Calculators';
 import { InsightPost, InsightsIndex } from './site/Insights';
@@ -56,6 +57,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
+      <Route path="/services" element={<Services />} />
       <Route path="/preparedness-check" element={<PreparednessCheck />} />
       <Route path="/calculators" element={<CalculatorsHub />} />
       <Route path="/calculators/:slug" element={<CalculatorPage />} />

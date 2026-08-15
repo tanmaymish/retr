@@ -32,35 +32,49 @@ export function FounderCard({ founder, compact = false }) {
       {compact ? (
         <p className="small muted" style={{ lineHeight: 1.7 }}>{founder.bio[0]}</p>
       ) : (
-        <div className="stack stack-sm">
-          {founder.bio.map((paragraph) => (
-            <p key={paragraph.slice(0, 40)} className="small" style={{ lineHeight: 1.75, color: 'var(--on-surface-variant)' }}>
-              {paragraph}
-            </p>
-          ))}
-        </div>
-      )}
+        <>
+          {/* The founders supplied four or five paragraphs each. Every word is
+              kept — but the card opens with the first and their own quote, and
+              the career behind it waits behind a disclosure. Nobody reads two
+              thousand words to decide whether to book a call. */}
+          <p className="small" style={{ lineHeight: 1.75, color: 'var(--on-surface-variant)' }}>
+            {founder.bio[0]}
+          </p>
 
-      {!compact && founder.highlights?.length > 0 && (
-        <ul className="stack stack-sm" style={{ margin: 0, padding: 0, listStyle: 'none' }}>
-          {founder.highlights.map((highlight) => (
-            <li key={highlight} className="row small" style={{ alignItems: 'flex-start', gap: 8 }}>
-              <Icon name="check_circle" size={16} style={{ color: 'var(--sage)', marginTop: 3, flex: 'none' }} />
-              <span>{highlight}</span>
-            </li>
-          ))}
-        </ul>
-      )}
+          <blockquote className="pullquote">
+            <p>“{founder.quote}”</p>
+            <footer>{founder.name} · {founder.role}</footer>
+          </blockquote>
 
-      {!compact && (
-        <blockquote className="pullquote">
-          <p>“{founder.quote}”</p>
-          <footer>{founder.name} · {founder.role}</footer>
-        </blockquote>
-      )}
-
-      {!compact && founder.closing && (
-        <p className="small muted" style={{ lineHeight: 1.75 }}>{founder.closing}</p>
+          <details className="disclosure">
+            <summary>
+              <span className="row" style={{ gap: 7 }}>
+                <Icon name="expand_more" size={19} />
+                The career behind it
+              </span>
+            </summary>
+            <div className="stack stack-sm" style={{ marginTop: 14 }}>
+              {founder.bio.slice(1).map((paragraph) => (
+                <p key={paragraph.slice(0, 40)} className="small" style={{ lineHeight: 1.75, color: 'var(--on-surface-variant)' }}>
+                  {paragraph}
+                </p>
+              ))}
+              {founder.highlights?.length > 0 && (
+                <ul className="stack stack-sm" style={{ margin: '4px 0 0', padding: 0, listStyle: 'none' }}>
+                  {founder.highlights.map((highlight) => (
+                    <li key={highlight} className="row small" style={{ alignItems: 'flex-start', gap: 8 }}>
+                      <Icon name="check_circle" size={16} style={{ color: 'var(--sage)', marginTop: 3, flex: 'none' }} />
+                      <span>{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {founder.closing && (
+                <p className="small muted" style={{ lineHeight: 1.75 }}>{founder.closing}</p>
+              )}
+            </div>
+          </details>
+        </>
       )}
 
       <a

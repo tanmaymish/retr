@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Icon } from '../components/ui';
 import { useAuth } from '../state/AuthContext';
 import { CallbackPopup, requestCallback } from './CallbackPopup';
+import { PageNav } from './PageNav';
 import { asset } from '../lib/asset';
+import { journey, navLinks } from './pages';
 import { brand } from './content';
 
 /**
@@ -46,14 +48,7 @@ export function Wordmark({ size = 44, subtitle }) {
   );
 }
 
-const LINKS = [
-  { to: '/calculators', label: 'Calculators' },
-  { to: '/preparedness-check', label: 'Preparedness check' },
-  { to: '/insights', label: 'Insights' },
-  { to: '/#services', label: 'What we do' },
-  { to: '/about', label: 'About' },
-  { to: '/contact', label: 'Contact' },
-];
+const LINKS = navLinks;
 
 export function SiteHeader() {
   const { user } = useAuth();
@@ -140,24 +135,25 @@ export function SiteFooter() {
             <p className="tiny muted">{brand.stages}</p>
           </div>
           <div className="row wrap small" style={{ gap: 40, alignItems: 'flex-start' }}>
+            {/* The same order as the nav and the pager, because it is the same
+                list. Numbered, so the site reads as a route through, not a
+                heap of links. */}
             <div className="stack" style={{ gap: 8 }}>
-              <span className="tiny caps muted">Company</span>
-              <Link to="/about">About us</Link>
-              <Link to="/about#founders">Founders</Link>
-              <Link to="/about#vision">Vision and mission</Link>
-              <Link to="/contact">Contact</Link>
+              <span className="tiny caps muted">The site, in order</span>
+              {journey.map((page, index) => (
+                <Link key={page.path} to={page.path} className="row" style={{ gap: 9 }}>
+                  <span className="tiny muted" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  {page.label}
+                </Link>
+              ))}
             </div>
             <div className="stack" style={{ gap: 8 }}>
-              <span className="tiny caps muted">Advice</span>
-              <Link to="/#services">What we do</Link>
-              <Link to="/#how">How we work</Link>
-              <Link to="/calculators">Calculators</Link>
-              <Link to="/preparedness-check">Preparedness check</Link>
-              <Link to="/insights">Insights</Link>
-              <Link to="/#faq">Questions</Link>
-            </div>
-            <div className="stack" style={{ gap: 8 }}>
-              <span className="tiny caps muted">Legal</span>
+              <span className="tiny caps muted">Also</span>
+              <Link to="/about#founders">The founders</Link>
+              <Link to="/services#how">How we work</Link>
+              <Link to="/services#faq">Questions</Link>
               <Link to="/privacy">Privacy</Link>
               <Link to="/terms">Terms</Link>
             </div>
@@ -183,12 +179,21 @@ export function SiteFooter() {
   );
 }
 
-/** Wraps a marketing page in the shared chrome. */
+/**
+ * Wraps a marketing page in the shared chrome.
+ *
+ * The pager comes from the path, so a page gets its place in the sequence by
+ * being in the journey — not by remembering to add anything. Pages outside it
+ * (a single calculator, one article) get no pager, which is right: they have
+ * their own way back.
+ */
 export function SitePage({ children }) {
+  const { pathname } = useLocation();
   return (
     <div style={{ background: 'var(--surface)' }}>
       <SiteHeader />
       {children}
+      <PageNav path={pathname} />
       <SiteFooter />
       <CallbackPopup />
     </div>
