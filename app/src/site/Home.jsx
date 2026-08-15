@@ -9,6 +9,7 @@ import { NewsStrip } from './NewsStrip';
 import { LiveDrawdown } from './Drawdown';
 import { CALCULATORS } from '../lib/calculatorSpecs';
 import { insights } from './insights';
+import { useContent } from '../lib/siteContent';
 import { brand, faqs, scenarios, services, whyNow } from './content';
 
 export default function Home() {
@@ -69,6 +70,16 @@ function TrustBar() {
 }
 
 function Hero() {
+  /* Every one of these passes its compiled value as the fallback, so an
+     unreachable content API is not a missing headline — it is this headline. */
+  const title = useContent('hero.title', 'Retire without asking anyone for money.');
+  const subtitle = useContent(
+    'hero.subtitle',
+    'A retirement plan built on your real numbers, backed by choice across several insurers and every major fund house — not one agent’s product list.',
+  );
+  const cta = useContent('hero.cta', 'Get your free readiness score');
+  const audience = useContent('brand.audience', brand.audience);
+
   return (
     <section className="hero-band" style={{ padding: '120px 0 108px' }}>
       <div className="hero-media" aria-hidden="true">
@@ -102,7 +113,7 @@ function Hero() {
         </Reveal>
 
         <Reveal as="h1" delay={120} style={{ color: 'var(--on-band)', maxWidth: '18ch' }}>
-          Retire without asking anyone for money.
+          {title}
         </Reveal>
 
         <Reveal
@@ -115,7 +126,7 @@ function Hero() {
             color: 'var(--band-accent)',
           }}
         >
-          {brand.audience}
+          {audience}
         </Reveal>
 
         <Reveal
@@ -128,13 +139,12 @@ function Hero() {
             maxWidth: '62ch',
           }}
         >
-          A retirement plan built on your real numbers, backed by choice across several
-          insurers and every major fund house — not one agent’s product list.
+          {subtitle}
         </Reveal>
 
         <Reveal className="row wrap" delay={240} style={{ gap: 14, justifyContent: 'center', marginTop: 10 }}>
           <Link to="/calculators/retirement-readiness" className="btn btn-gold btn-sheen">
-            Get your free readiness score
+            {cta}
             <Icon name="arrow_forward" size={18} />
           </Link>
           <Link to="/services" className="btn btn-on-band">
@@ -228,6 +238,7 @@ function Situation() {
  * the section reads as the argument it is.
  */
 function WhyNow() {
+  const reasons = useContent('whyNow', whyNow);
   return (
     <section className="band" style={{ padding: '96px 0' }}>
       <div className="container stack stack-lg">
@@ -238,7 +249,7 @@ function WhyNow() {
           lede="Today it has to be funded by a plan, because both of those are increasingly optional."
         />
         <div className="grid grid-3">
-          {whyNow.map((reason, index) => (
+          {reasons.map((reason, index) => (
             <Reveal key={reason.title} delay={(index % 3) * 90}>
               <div className="band-card">
                 <div className="row-between">
@@ -267,6 +278,7 @@ function WhyNow() {
  * thing that attracts a regulator's attention.
  */
 function Scenarios() {
+  const items = useContent('scenarios', scenarios);
   return (
     <section style={{ padding: '88px 0' }}>
       <div className="container stack stack-lg">
@@ -276,7 +288,7 @@ function Scenarios() {
           lede="Illustrative situations built from patterns advisers see constantly — not real clients, and not testimonials."
         />
         <div className="grid grid-3">
-          {scenarios.map((item, index) => (
+          {items.map((item, index) => (
             <Reveal key={item.who} delay={(index % 3) * 90}>
               <Card className="stack stack-sm card-gold" style={{ height: '100%' }}>
                 <div className="row" style={{ gap: 12 }}>
@@ -364,6 +376,7 @@ function Tools() {
  * is only enough to make someone want to open it.
  */
 function WhatWeDo() {
+  const pillars = useContent('services', services);
   return (
     <section style={{ background: 'var(--surface-low)', padding: '88px 0' }}>
       <div className="container stack stack-lg">
@@ -373,7 +386,7 @@ function WhatWeDo() {
           lede="Advice across a whole financial life, not one product at a time."
         />
         <div className="grid grid-4">
-          {services.map((service, index) => (
+          {pillars.map((service, index) => (
             <Reveal key={service.key} delay={index * 80}>
               <Card
                 as={Link}

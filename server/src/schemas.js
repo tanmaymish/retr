@@ -208,3 +208,54 @@ export const leadQuerySchema = z.object({
   status: z.enum(['new', 'contacted', 'qualified', 'closed', 'archived']).optional(),
   limit: z.coerce.number().int().min(1).max(200).default(100),
 });
+
+/* ── The admin surface ───────────────────────────────────────────────────── */
+
+/**
+ * What the collector will accept.
+ *
+ * Everything is bounded — path length, batch size, the shape of a property bag
+ * — because this endpoint is open to the internet by definition and the cost of
+ * a malformed or hostile batch has to be a rejection rather than a slow query.
+ * Anything that looks like it identifies a person is simply not in the schema,
+ * so it cannot arrive even by accident.
+ */
+const shortText = (max) => z.string().trim().max(max);
+
+export const collectSchema = z.object({
+  views: z
+    .array(
+      z.object({
+        path: shortText(200),
+        referrer: shortText(500).optional(),
+        device: z.enum(['mobile', 'tablet', 'desktop']).optional(),
+        dwellMs: z.number().int().min(0).max(86_400_000).optional(),
+      }),
+    )
+    .max(50)
+    .default([]),
+  events: z
+    .array(
+      z.object({
+        name: shortText(60),
+        path: shortText(200).optional(),
+        // Counts and enum-ish labels. Numbers, booleans and short strings only.
+        props: z.record(z.union([z.string().max(120), z.number(), z.boolean()])).optional(),
+      }),
+    )
+    .max(50)
+    .default([]),
+});
+
+export const contentSaveSchema = z.object({
+  value: z.string().max(20_000),
+  note: optionalText(200),
+});
+
+export const contentPublishSchema = z.object({
+  note: optionalText(200),
+});
+
+export const statsQuerySchema = z.object({
+  days: z.coerce.number().int().min(1).max(365).default(30),
+});

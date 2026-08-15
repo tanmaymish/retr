@@ -3,6 +3,7 @@ import { SitePage } from './SiteChrome';
 import { Reveal, SectionHead } from './Section';
 import { requestCallback } from './CallbackPopup';
 import { breadcrumbSchema, useSeo } from '../lib/seo';
+import { useContent } from '../lib/siteContent';
 import { assurances, engagement } from './content';
 
 /**
@@ -16,6 +17,8 @@ import { assurances, engagement } from './content';
  * absence of a commission that plainly exists.
  */
 export default function Trust() {
+  const commitments = useContent('assurances', assurances);
+
   useSeo({
     title: 'How we are paid',
     description:
@@ -43,7 +46,7 @@ export default function Trust() {
       <section style={{ paddingBottom: 80 }}>
         <div className="container stack stack-lg">
           <div className="grid pair" style={{ maxWidth: 940, marginInline: 'auto' }}>
-            {assurances.map((item, index) => (
+            {commitments.map((item, index) => (
               <Reveal key={item.title} delay={(index % 2) * 90}>
                 <Card className="stack stack-sm card-gold" style={{ height: '100%' }}>
                   <span className="medallion" style={{ width: 48, height: 48 }}>
@@ -130,6 +133,7 @@ function Licence() {
  * honest "quoted on the call". See PRICING_TBC in content.js.
  */
 function Engagement() {
+  const tiers = useContent('engagement', engagement);
   return (
     <section id="engagement" style={{ padding: '88px 0' }}>
       <div className="container stack stack-lg">
@@ -139,7 +143,7 @@ function Engagement() {
           lede="The calculator and the first call are free. A written plan that stands on its own, whether or not you ever buy through us, is the paid tier."
         />
         <div className="grid grid-3" style={{ maxWidth: 1040, marginInline: 'auto' }}>
-          {engagement.map((tier, index) => (
+          {tiers.map((tier, index) => (
             <Reveal key={tier.key} delay={index * 90}>
               <Card
                 className={`stack stack-sm${tier.recommended ? ' card-gold' : ''}`}

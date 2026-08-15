@@ -6,10 +6,20 @@ import App from './App.jsx';
 import { AuthProvider } from './state/AuthContext';
 import { ToastProvider } from './components/ui';
 import { initAnalytics } from './lib/analytics';
+import { initTelemetry } from './lib/telemetry';
+import { loadSiteContent } from './lib/siteContent';
 
 // No-op unless a provider is configured, so the default build loads no
 // third-party script at all.
 initAnalytics();
+
+/* Our own collector, first-party and cookieless. Queues to localStorage and
+   flushes on a timer, so the server being down costs nothing. */
+initTelemetry();
+
+/* Editable copy, fetched after paint. The compiled defaults are already on
+   screen by the time this resolves, so a failure here is invisible. */
+loadSiteContent();
 
 /**
  * Reveal the icon glyphs once the icon font is actually usable.

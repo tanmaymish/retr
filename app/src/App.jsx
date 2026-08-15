@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { Spinner } from './components/ui';
 import { trackPageView } from './lib/analytics';
+import { recordView } from './lib/telemetry';
 import { useAuth } from './state/AuthContext';
 import Home from './site/Home';
 import About from './site/About';
@@ -28,6 +29,11 @@ import Reminders from './app/Reminders';
 import Timeline from './app/Timeline';
 import Security from './app/Security';
 import Leads from './app/Leads';
+import AdminShell from './admin/AdminShell';
+import AdminOverview from './admin/AdminOverview';
+import AdminTraffic from './admin/AdminTraffic';
+import AdminContent from './admin/AdminContent';
+import AdminLeads from './admin/AdminLeads';
 
 // The dashboard product, from main. It keeps its own routes under /site
 // and /app; the advisory site keeps the root.
@@ -88,6 +94,15 @@ export default function App() {
         <Route path="activity" element={<Activity />} />
         <Route path="security" element={<Security />} />
         <Route path="enquiries" element={<Leads />} />
+      </Route>
+
+      {/* The founders' portal. Guarded here for the sake of the interface and
+          again on every request by the server, which is the guard that counts. */}
+      <Route path="/admin" element={<AdminShell />}>
+        <Route index element={<AdminOverview />} />
+        <Route path="traffic" element={<AdminTraffic />} />
+        <Route path="leads" element={<AdminLeads />} />
+        <Route path="content" element={<AdminContent />} />
       </Route>
 
       {/* The dashboard product. The advisory site holds the root, so this
@@ -251,6 +266,7 @@ function usePageViews() {
   const { pathname } = useLocation();
   useEffect(() => {
     trackPageView(pathname);
+    recordView(pathname);
   }, [pathname]);
 }
 

@@ -1008,3 +1008,110 @@ select.input { appearance: none; background-image: none; cursor: pointer; paddin
   background: color-mix(in srgb, var(--band-accent) 14%, transparent);
   border: 1px solid color-mix(in srgb, var(--band-accent) 30%, transparent);
 }
+
+/* ── The admin portal ─────────────────────────────────────────────────────
+   A working surface rather than a page to be read: a fixed rail, a scrolling
+   main, and denser type than the marketing site. It shares the brand's ink and
+   cream so it does not feel like a different product, but nothing here is
+   trying to persuade anybody of anything. */
+.admin-shell {
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  min-height: 100vh;
+  background: var(--surface);
+}
+.admin-nav {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 18px;
+  background: var(--surface-lowest);
+  border-right: 1px solid var(--outline-variant);
+}
+.admin-link {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  color: var(--on-surface);
+  border-left: 2px solid transparent;
+}
+.admin-link:hover { background: var(--surface-container); text-decoration: none; }
+.admin-link.is-on {
+  background: var(--primary-fixed);
+  border-left-color: var(--primary);
+  color: var(--primary);
+}
+.admin-link.is-on .muted { color: color-mix(in srgb, var(--primary) 70%, transparent); }
+.admin-foot { margin-top: auto; padding-top: 18px; border-top: 1px solid var(--outline-variant); }
+.admin-main { padding: 34px 38px 80px; max-width: 1180px; width: 100%; }
+
+@media (max-width: 900px) {
+  .admin-shell { grid-template-columns: 1fr; }
+  .admin-nav { position: relative; height: auto; border-right: 0; border-bottom: 1px solid var(--outline-variant); }
+  .admin-main { padding: 24px 18px 60px; }
+}
+
+/* A labelled bar per row: the number is the fact, the bar is only there to
+   make the ranking readable at a glance. */
+.admin-bar-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 90px 64px;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--outline-variant);
+}
+.admin-bar-row:last-child { border-bottom: 0; }
+.admin-bar { display: block; height: 6px; border-radius: var(--radius-full); background: var(--surface-high); overflow: hidden; }
+.admin-bar > span { display: block; height: 100%; background: #a8762f; border-radius: var(--radius-full); }
+.admin-bar-row > span:last-child { text-align: right; }
+
+.admin-block-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+}
+.admin-editor {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-md);
+  background: var(--surface-lowest);
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.7;
+  resize: vertical;
+}
+.admin-editor:focus-visible { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px var(--focus-ring); }
+.admin-editor[aria-invalid='true'] { border-color: var(--error); }
+
+.admin-revision {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--outline-variant);
+}
+.admin-revision:last-child { border-bottom: 0; }
+.admin-revision-preview {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 60ch;
+  font-family: var(--font-body);
+}

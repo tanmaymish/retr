@@ -5,6 +5,7 @@ import { SitePage } from './SiteChrome';
 import { Reveal, SectionHead } from './Section';
 import { requestCallback } from './CallbackPopup';
 import { breadcrumbSchema, faqSchema, useSeo } from '../lib/seo';
+import { useContent } from '../lib/siteContent';
 import { audience, brand, faqs, howItWorks, services, stages } from './content';
 
 /**
@@ -75,6 +76,7 @@ function Opening() {
 }
 
 function How() {
+  const steps = useContent('howItWorks', howItWorks);
   return (
     <section id="how" style={{ padding: '40px 0 88px' }}>
       <div className="container stack stack-lg">
@@ -84,7 +86,7 @@ function How() {
           lede="In this order, every time. The first meeting names no product, and the plan arrives in writing before one is suggested."
         />
         <ol className="stack stack-md" style={{ listStyle: 'none', margin: 0, padding: 0, maxWidth: 880, width: '100%', marginInline: 'auto' }}>
-          {howItWorks.map((step, index) => (
+          {steps.map((step, index) => (
             <Reveal as="li" key={step.title} delay={index * 70}>
               <Card className="row card-gold" style={{ alignItems: 'flex-start', gap: 20 }}>
                 <span className="medallion medallion-solid" style={{ width: 46, height: 46, borderRadius: 'var(--radius-md)' }}>
@@ -112,6 +114,7 @@ function How() {
 }
 
 function What() {
+  const pillars = useContent('services', services);
   return (
     <section id="services" style={{ background: 'var(--surface-container)', padding: '96px 0' }}>
       <div className="container stack stack-lg">
@@ -124,7 +127,7 @@ function What() {
           className="grid"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', width: '100%' }}
         >
-          {services.map((service, index) => (
+          {pillars.map((service, index) => (
             <Reveal key={service.key} delay={(index % 2) * 90}>
               <Card className="stack stack-sm card-gold" style={{ height: '100%' }}>
                 <span className="medallion" style={{ width: 52, height: 52 }}>
@@ -220,12 +223,13 @@ function Who() {
 
 
 function Faqs() {
+  const questions = useContent('faqs', faqs);
   return (
     <section id="faq" style={{ padding: '88px 0' }}>
       <div className="container stack stack-lg" style={{ maxWidth: 820 }}>
         <SectionHead eyebrow="Questions" title="Questions people actually ask." />
         <div className="stack stack-sm">
-          {faqs.map((faq) => (
+          {questions.map((faq) => (
             <details
               key={faq.question}
               style={{

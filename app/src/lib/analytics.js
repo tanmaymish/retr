@@ -10,6 +10,8 @@
  *   VITE_ANALYTICS_ID       = domain / measurement id / project id
  *   VITE_ANALYTICS_HOST     = optional self-hosted endpoint (Plausible)
  */
+import { recordEvent } from './telemetry';
+
 const provider = import.meta.env.VITE_ANALYTICS_PROVIDER ?? '';
 const id = import.meta.env.VITE_ANALYTICS_ID ?? '';
 const host = import.meta.env.VITE_ANALYTICS_HOST ?? '';
@@ -62,6 +64,9 @@ export function trackPageView(path) {
  * on purpose — nothing identifying a person is ever sent to a third party.
  */
 export function track(event, properties = {}) {
+  // Our own collector first: it does not depend on a provider being configured,
+  // and it is the one the admin portal reads.
+  recordEvent(event, properties);
   if (!loaded) return;
   if (provider === 'plausible') window.plausible?.(event, { props: properties });
   if (provider === 'ga') window.gtag?.('event', event, properties);
