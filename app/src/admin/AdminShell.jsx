@@ -43,7 +43,7 @@ export default function AdminShell() {
         <NavLink to="/" className="row" style={{ gap: 10, marginBottom: 26 }}>
           <Mark size={30} />
           <span className="stack" style={{ gap: 0 }}>
-            <strong style={{ fontFamily: 'var(--font-heading)', fontSize: 14 }}>Akshayvriddhi</strong>
+            <strong style={{ fontFamily: 'var(--font-heading)', fontSize: 14 }}>Akshay Vriddhi</strong>
             <span className="tiny muted">Admin</span>
           </span>
         </NavLink>

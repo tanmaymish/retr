@@ -15,7 +15,7 @@ import { brand } from './content';
 export function Privacy() {
   useSeo({
     title: 'Privacy notice',
-    description: 'What Akshayvriddhi stores, how it is protected, and what we do not collect.',
+    description: 'What Akshay Vriddhi stores, how it is protected, and what we do not collect.',
     path: '/privacy',
   });
 
@@ -95,7 +95,7 @@ export function Privacy() {
 export function Terms() {
   useSeo({
     title: 'Terms of use',
-    description: 'The terms under which the Akshayvriddhi vault is provided.',
+    description: 'The terms under which the Akshay Vriddhi vault is provided.',
     path: '/terms',
   });
 

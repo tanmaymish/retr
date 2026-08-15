@@ -25,7 +25,7 @@ export default function About() {
   useSeo({
     title: 'About',
     description:
-      'Akshayvriddhi begins with experience. The philosophy, the founders, and why an institution built on listening rather than selling.',
+      'Akshay Vriddhi begins with experience. The philosophy, the founders, and why an institution built on listening rather than selling.',
     path: '/about',
     jsonLd: breadcrumbSchema([
       { name: 'Home', path: '/' },
@@ -65,7 +65,7 @@ function Opening() {
           Experience that now has a larger purpose.
         </h1>
         <div className="stack stack-sm" style={{ marginTop: 8 }}>
-          <Lead>Some businesses begin with an opportunity. Akshayvriddhi begins with experience.</Lead>
+          <Lead>Some businesses begin with an opportunity. Akshay Vriddhi begins with experience.</Lead>
           <Body>
             After decades spent understanding insurance, building distribution networks, leading
             teams, transforming businesses and — most importantly — interacting with people at
@@ -79,7 +79,7 @@ function Opening() {
           <Body>
             Insurance, understood correctly, is not something you buy. It is a promise made to the
             future: that the life you spent years building can continue when circumstances change.
-            That is the purpose behind Akshayvriddhi.
+            That is the purpose behind Akshay Vriddhi.
           </Body>
         </div>
       </div>
@@ -129,7 +129,7 @@ function TwoJourneys() {
             insurance through the lenses of strategy, transformation, distribution and organisational
             leadership. The other has built his experience close to markets, advisors, teams,
             customers and families. Together, those perspectives create the foundation of
-            Akshayvriddhi.
+            Akshay Vriddhi.
           </p>
         </div>
         <div className="grid grid-4">
@@ -227,7 +227,7 @@ function Message() {
         <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, marginTop: 8 }}>
           — Shiv Maheshwari &amp; Vikram Rajput
           <br />
-          <span className="small muted" style={{ fontWeight: 400 }}>Co-Founders, Akshayvriddhi</span>
+          <span className="small muted" style={{ fontWeight: 400 }}>Co-Founders, Akshay Vriddhi</span>
         </p>
       </div>
     </section>
@@ -246,7 +246,7 @@ function Promise() {
     <section style={{ background: 'var(--surface-lowest)', padding: '88px 0 96px' }}>
       <div className="container stack stack-lg" style={{ maxWidth: 820 }}>
         <div className="stack stack-sm">
-          <span className="caps" style={{ color: 'var(--primary)' }}>The Akshayvriddhi promise</span>
+          <span className="caps" style={{ color: 'var(--primary)' }}>The Akshay Vriddhi promise</span>
           <div className="promise-strip">
             {promise.map((line) => (
               <p key={line} className="row" style={{ gap: 11, alignItems: 'flex-start' }}>

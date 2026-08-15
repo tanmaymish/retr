@@ -1,4 +1,4 @@
-/* Akshayvriddhi — design tokens, taken from the logo.
+/* Akshay Vriddhi — design tokens, taken from the logo.
    Every colour below was sampled out of the artwork in app/public/brand: the
    maroon of the crescent and the wordmark, the gold of the rising arrow and
    the bars, and the cream the whole lockup is drawn on. Maroon carries action
@@ -1115,3 +1115,16 @@ select.input { appearance: none; background-image: none; cursor: pointer; paddin
   max-width: 60ch;
   font-family: var(--font-body);
 }
+
+/* The site header's own breakpoint, wider than the app shell's.
+   "Akshay Vriddhi" set in spaced capitals plus six nav items plus a call to
+   action need more room than 900px, and the failure was ugly rather than
+   subtle — the name broke across two lines and two nav items followed it. */
+.brand-mark { display: none; }
+@media (max-width: 1100px) {
+  .brand-full { display: none; }
+  .brand-mark { display: inline-flex; }
+}
+/* Nothing in the bar may break mid-phrase. */
+.wordmark-type { white-space: nowrap; }
+header nav[aria-label='Primary'] a { white-space: nowrap; }

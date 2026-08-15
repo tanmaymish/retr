@@ -24,7 +24,7 @@ export default function Services() {
   useSeo({
     title: 'What we do',
     description:
-      'Retirement corpus planning, EPF/NPS/PPF optimisation, post-retirement income design, health cover, tax structuring, estate readiness and family conversations — the seven things Akshayvriddhi advises on, and how an engagement runs.',
+      'Retirement corpus planning, EPF/NPS/PPF optimisation, post-retirement income design, health cover, tax structuring, estate readiness and family conversations — the seven things Akshay Vriddhi advises on, and how an engagement runs.',
     path: '/services',
     jsonLd: {
       '@context': 'https://schema.org',

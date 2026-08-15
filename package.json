@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Akshayvriddhi \u2014 prosperity with purpose. Brand site, preparedness check, and a secure family document vault with trustees and time-locked emergency access.",
+  "description": "Akshay Vriddhi \u2014 prosperity with purpose. Brand site, preparedness check, and a secure family document vault with trustees and time-locked emergency access.",
   "workspaces": [
     "app",
     "server"

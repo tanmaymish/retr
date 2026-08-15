@@ -16,7 +16,7 @@
  */
 
 export const brand = {
-  name: 'Akshayvriddhi',
+  name: 'Akshay Vriddhi',
   tagline: 'Prosperity with Purpose',
   /* अक्षय + वृद्धि — growth that does not perish. It describes a cash-flow
      strategy, not just a pleasant-sounding word, and the site says so plainly
@@ -32,7 +32,7 @@ export const brand = {
 /**
  * What the site is for.
  *
- * Akshayvriddhi is a financial advisory: protection, retirement and the
+ * Akshay Vriddhi is a financial advisory: protection, retirement and the
  * planning around them. The document vault is built and still runs behind
  * /sign-in, but it is not what the firm is selling, so the site does not
  * market it. Set `showVault` to true to bring its sections and links back.
@@ -51,15 +51,15 @@ export const founders = [
     photo: 'shiv-maheshwari',
     experience: 'More than two decades in life insurance',
     bio: [
-      'With more than two decades of leadership experience within the life insurance industry, Shiv Maheshwari brings to Akshayvriddhi a rare combination of strategic thinking, distribution expertise, organisational transformation and people leadership.',
+      'With more than two decades of leadership experience within the life insurance industry, Shiv Maheshwari brings to Akshay Vriddhi a rare combination of strategic thinking, distribution expertise, organisational transformation and people leadership.',
       'His professional journey at Axis Max Life Insurance has spanned leadership across agency business, agency strategy and large-scale transformation. From managing agency operations to leading strategy and transformation initiatives involving process simplification, re-engineering, sales-force automation and change management, his career has been built around one recurring question: how can institutions, people and systems become better prepared for what comes next?',
       'Today, that question has evolved. After spending decades building businesses, teams and professional credibility, Shiv believes that experience ultimately becomes valuable when it is converted into contribution. His philosophy is simple: the first phase of a career may be about proving yourself; the next should be about aligning experience with purpose.',
-      'Akshayvriddhi represents that transition — an opportunity to translate decades of institutional knowledge into something deeply personal, helping individuals and families approach protection, prosperity and legacy with greater clarity.',
+      'Akshay Vriddhi represents that transition — an opportunity to translate decades of institutional knowledge into something deeply personal, helping individuals and families approach protection, prosperity and legacy with greater clarity.',
     ],
     quote:
       'Experience does not guarantee certainty about the future. What it gives us is perspective — and perspective can transform uncertainty into preparedness, pressure into purpose, and experience into contribution.',
     closing:
-      'For Shiv, Akshayvriddhi is not simply another chapter in an insurance career. It is about making everything learned in the previous chapters useful to someone else’s future.',
+      'For Shiv, Akshay Vriddhi is not simply another chapter in an insurance career. It is about making everything learned in the previous chapters useful to someone else’s future.',
     highlights: [
       'Agency business and agency strategy leadership',
       'Large-scale transformation: process simplification and re-engineering',
@@ -83,7 +83,7 @@ export const founders = [
     quote:
       'Behind every financial decision is a human story — a family, an ambition, a responsibility or a dream. Our responsibility is to understand that story before recommending how it should be protected.',
     closing:
-      'Through Akshayvriddhi, Vikram seeks to bring the discipline and experience of institutional insurance together with the accessibility and personal attention of a trusted advisor.',
+      'Through Akshay Vriddhi, Vikram seeks to bring the discipline and experience of institutional insurance together with the accessibility and personal attention of a trusted advisor.',
     highlights: [
       'Frontline sales leadership to regional responsibility',
       'Agency development and distribution partnerships',
@@ -224,10 +224,10 @@ export const shareable = [
 export const foundersMessage = [
   'We have spent a significant part of our professional lives in insurance. During those years, we learned about distribution, strategy, transformation, leadership, technology and business. But our greatest lessons came from people.',
   'We learned that behind every policy is a responsibility. Behind every investment is an aspiration. Behind every nomination is someone important. And behind almost every financial decision is a simple human desire: to make tomorrow a little more secure than today.',
-  'After decades of building our own professional journeys, we reached a point where experience needed to become contribution. Akshayvriddhi is that contribution.',
+  'After decades of building our own professional journeys, we reached a point where experience needed to become contribution. Akshay Vriddhi is that contribution.',
   'We want to create an organisation where people can discuss their financial lives openly, understand their choices clearly and make decisions confidently — without unnecessary complexity or pressure.',
   'We cannot predict every event that tomorrow will bring. But with experience, perspective and thoughtful planning, we can help people become better prepared for it.',
-  'That is the Akshayvriddhi we are building.',
+  'That is the Akshay Vriddhi we are building.',
 ];
 
 /* ── The vault product ──────────────────────────────────────────────────── */
@@ -297,7 +297,7 @@ export const audience = {
  * Each carries a one-line promise (what the household gets) and then the
  * substance (what is actually done), always in that order.
  *
- * REGULATORY BOUNDARY. Akshayvriddhi is an IRDAI-registered Insurance
+ * REGULATORY BOUNDARY. Akshay Vriddhi is an IRDAI-registered Insurance
  * Marketing Firm, not a SEBI-registered Investment Adviser. Insurance sits
  * squarely inside the licence; NPS, EPF, PPF and mutual fund content must stay
  * generic and educational. A specific "buy this much of that security"
@@ -428,7 +428,7 @@ export const howItWorks = [
 /**
  * Why trust us.
  *
- * WHAT THIS MUST NEVER CLAIM: that Akshayvriddhi is commission-free, fee-only,
+ * WHAT THIS MUST NEVER CLAIM: that Akshay Vriddhi is commission-free, fee-only,
  * or a SEBI-registered Investment Adviser. None of it is true of an Insurance
  * Marketing Firm, and claiming it is a compliance exposure rather than merely
  * an inaccuracy. The honest differentiator is breadth of empanelment and

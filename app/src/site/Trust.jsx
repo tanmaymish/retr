@@ -10,7 +10,7 @@ import { assurances, engagement } from './content';
  * How we are paid, and what that means for you.
  *
  * For a regulated firm this page is load-bearing rather than marketing garnish,
- * and the honest version is better copy than the dishonest one. Akshayvriddhi
+ * and the honest version is better copy than the dishonest one. Akshay Vriddhi
  * is an IRDAI-registered Insurance Marketing Firm: it earns commission, like
  * every licensed distributor. Nothing on this page may imply otherwise. The
  * differentiator is breadth of empanelment and being told the number — not the
@@ -22,7 +22,7 @@ export default function Trust() {
   useSeo({
     title: 'How we are paid',
     description:
-      'Akshayvriddhi is an IRDAI-registered Insurance Marketing Firm. We earn commission from the insurers and fund houses we are empanelled with, and we will tell you what it is. Here is the whole arrangement.',
+      'Akshay Vriddhi is an IRDAI-registered Insurance Marketing Firm. We earn commission from the insurers and fund houses we are empanelled with, and we will tell you what it is. Here is the whole arrangement.',
     path: '/trust',
     jsonLd: breadcrumbSchema([
       { name: 'Home', path: '/' },

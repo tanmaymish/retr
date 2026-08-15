@@ -66,13 +66,14 @@ export function SiteHeader() {
       }}
     >
       <div className="container row-between" style={{ height: 72 }}>
-        {/* Narrow screens get the emblem alone: the name set in wide capitals
-            is too long to share a 390px bar with the call to action. */}
+        {/* Below a comfortable desktop width the name and six nav items cannot
+            both fit, so the name gives way first: the emblem still identifies
+            the site, and the nav is what a visitor came here to use. */}
         <Link to="/" style={{ color: 'var(--on-surface)' }}>
-          <span className="hide-mobile">
+          <span className="brand-full">
             <Wordmark subtitle={brand.tagline} />
           </span>
-          <span className="show-mobile">
+          <span className="brand-mark">
             <Mark size={40} alt={brand.name} />
           </span>
         </Link>
@@ -172,7 +173,7 @@ export function SiteFooter() {
               wording is what a regulator and any complaint will be held
               against — it needs a compliance read before this ships. */}
           <p className="tiny muted" style={{ lineHeight: 1.8, maxWidth: '92ch' }}>
-            Akshayvriddhi IMF is registered with the Insurance Regulatory and Development Authority
+            Akshay Vriddhi IMF is registered with the Insurance Regulatory and Development Authority
             of India (IRDAI) as an Insurance Marketing Firm, Registration No. [to be stated], and is
             empanelled with the insurers listed on this site. Mutual funds are distributed under
             AMFI ARN [to be stated]. IRDAI registration does not guarantee the performance of any

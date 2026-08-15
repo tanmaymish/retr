@@ -93,7 +93,7 @@ if (FONT_DIR && existsSync(FONT_DIR)) {
   if (existsSync(sheet)) fontCss = readFileSync(sheet, 'utf8');
 }
 
-const title = html.match(/<title>([^<]*)<\/title>/)?.[1] ?? 'Akshayvriddhi';
+const title = html.match(/<title>([^<]*)<\/title>/)?.[1] ?? 'Akshay Vriddhi';
 
 writeFileSync(
   out,

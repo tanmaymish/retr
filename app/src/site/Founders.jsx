@@ -122,7 +122,7 @@ export function FounderPhoto({ founder, size = 96 }) {
   return (
     <Portrait
       name={founder.photo}
-      alt={`${founder.name}, ${founder.role} of Akshayvriddhi`}
+      alt={`${founder.name}, ${founder.role} of Akshay Vriddhi`}
       size={size}
       onError={() => setFailed(true)}
     />

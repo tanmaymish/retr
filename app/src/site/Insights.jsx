@@ -84,7 +84,7 @@ export function InsightPost() {
 
   useSeo({
     title: post ? post.title : 'Insights',
-    description: post ? post.summary : 'Insights from Akshayvriddhi.',
+    description: post ? post.summary : 'Insights from Akshay Vriddhi.',
     path: `/insights/${slug}`,
     type: 'article',
     noIndex: !post,
