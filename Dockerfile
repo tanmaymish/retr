@@ -7,7 +7,7 @@
 # root lockfile. Installing inside app/ or server/ would resolve the workspace
 # root above it anyway.
 
-FROM node:22-bookworm-slim AS base
+FROM node:26-bookworm-slim AS base
 WORKDIR /build
 # better-sqlite3 compiles from source when no prebuild matches the platform.
 RUN apt-get update \
@@ -33,7 +33,7 @@ FROM base AS server-deps
 RUN npm ci --omit=dev --workspace @akshayvriddhi/server
 
 # ── Runtime ──────────────────────────────────────────────────────────────────
-FROM node:22-bookworm-slim AS runtime
+FROM node:26-bookworm-slim AS runtime
 ENV NODE_ENV=production \
     PORT=4000 \
     HOST=0.0.0.0 \
