@@ -1,0 +1,69 @@
+version: 2
+
+# Somebody has to be told when a dependency this site is built on turns out to
+# be vulnerable, and it should not be a visitor. `npm audit` in the verify
+# workflow fails the build once a high or critical advisory lands; this opens
+# the pull request that fixes it, so the two work as a pair rather than the
+# build simply staying red.
+#
+# Grouped and weekly on purpose. A financial advisory does not have a platform
+# team watching a queue, and a stream of one-line pull requests nobody reviews
+# is worse than none: it trains you to merge without looking.
+
+updates:
+  # The whole npm workspace. Dependabot reads the root lockfile and resolves
+  # app/ and server/ from it, which is the same thing `npm ci` does — so there
+  # is one entry here, not three.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:00"
+      timezone: Asia/Kolkata
+    open-pull-requests-limit: 5
+    groups:
+      # Everything that only matters while building. A Vite or oxlint bump
+      # cannot reach a visitor, so these travel together.
+      build-tooling:
+        dependency-type: development
+        update-types: [minor, patch]
+      # Things that do run in front of a visitor or in the server process.
+      # Majors stay separate so they are read one at a time.
+      runtime:
+        dependency-type: production
+        update-types: [minor, patch]
+    commit-message:
+      prefix: deps
+
+  # The actions in .github/workflows. These run with write access to this
+  # repository, so a compromised one is a supply-chain problem rather than a
+  # bug — worth updating on the same schedule as everything else.
+  #
+  # Actions here are pinned by tag. Pinning by commit SHA instead is the
+  # stronger position, and Dependabot maintains SHA pins with the version in a
+  # trailing comment once they are applied.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:00"
+      timezone: Asia/Kolkata
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: ci
+
+  # The base image the server ships on. Security patches to node:22-bookworm-slim
+  # arrive here.
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:00"
+      timezone: Asia/Kolkata
+    commit-message:
+      prefix: docker

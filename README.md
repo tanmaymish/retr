@@ -66,6 +66,47 @@ call-to-action opens the dialog, a calculator produces a figure, the portal
 route resolves, and nothing throws. Pass `VITE_BASE` to match the path the site
 will be published under. It runs on every publish, before the deploy.
 
+### What runs, and when
+
+`verify.yml` is the single definition of "this revision is good": lint, the
+server tests, a dependency audit, a browser driving both built bundles, and the
+image building. It is a reusable workflow with two callers, so the pull request
+gate and the release gate cannot drift apart.
+
+| Workflow | Runs on | Does |
+| --- | --- | --- |
+| `ci.yml` | pull requests, branch pushes | calls `verify.yml` |
+| `pages.yml` | push to `main` | calls `verify.yml`, then builds and publishes |
+| `codeql.yml` | pull requests, `main`, weekly | static analysis → Security → Code scanning |
+| `ai-pipeline.yml` | weekly, `ai/**` changes | regenerates machine-written copy and **opens a pull request** |
+
+Nothing publishes unless `verify` is green — a push to `main` is not proof on
+its own, since `main` can be reached by a merge whose checks were never
+required, by a direct push, or by a revert.
+
+#### Two settings this repository still needs
+
+The workflows above run on every pull request, but **nothing yet stops one being
+merged while they are red.** That is a repository setting, not a file, so it has
+to be switched on by hand:
+
+1. **Settings → Branches → add a rule for `main`**, and require these checks:
+   - `Verify / Lint, tests and dependencies`
+   - `Verify / Drive the built site`
+   - `Verify / The image builds`
+
+   Also tick *Require a pull request before merging* and *Require review from
+   Code Owners* — `.github/CODEOWNERS` puts the regulated paths (the copy, the
+   calculators, the footer's registration wording, the enquiry routes) behind a
+   named reviewer.
+
+2. **Settings → Code security → enable Dependabot alerts and security updates.**
+   `.github/dependabot.yml` schedules the version bumps; the alerts are what
+   tell you about a vulnerability before the weekly run does.
+
+Until the branch rule exists, the checks are advisory. They report, and a
+determined click can still merge past them.
+
 ### Production
 
 ```bash

@@ -1,0 +1,53 @@
+name: Code scanning
+
+# Static analysis, on the code that handles other people's money and documents.
+#
+# The server holds encrypted documents, session cookies, enquiry records and an
+# admin surface. The tests prove it does what it is meant to; this looks for the
+# things tests do not — an injection path, a tainted value reaching a filesystem
+# call, a comparison that is not constant-time.
+#
+# Findings appear under Security → Code scanning, and on the pull request that
+# introduced them.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly, so a newly published query pattern finds old code too. Analysis
+    # improves after code is written; a scan that only runs on change never
+    # revisits anything already merged.
+    - cron: "17 4 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  analyse:
+    name: Analyse JavaScript
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          # security-extended adds the lower-confidence security queries. The
+          # noise is manageable on a codebase this size, and the alternative is
+          # only being told about what is already obvious.
+          queries: security-extended
+
+      - uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript-typescript"

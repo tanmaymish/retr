@@ -1,5 +1,23 @@
 name: CI
 
+# What runs on a pull request, and on a push to a working branch.
+#
+# The checks themselves live in `verify.yml`, which `pages.yml` also calls
+# before it publishes. This file exists to say *when* they run, not what they
+# are — so there is no way for the pull request gate and the release gate to
+# drift apart.
+#
+# These are the checks to mark as required in Settings → Branches → branch
+# protection for `main`, by the job names they report under:
+#
+#   Verify / Lint, tests and dependencies
+#   Verify / Drive the built site
+#   Verify / The image builds
+#
+# Without that, a pull request can be merged while they are still running or
+# failing — which is how a release once went out with every "Request a call"
+# button dead on every page.
+
 on:
   push:
     branches: [main, "claude/**"]
@@ -9,55 +27,12 @@ on:
 permissions:
   contents: read
 
+# Superseding a pull request's own earlier run is a saving; cancelling a run on
+# main is losing the record of whether main was ever good.
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
-# This repository is a single npm workspace. Installing from the root lockfile
-# is the only correct way to install it: running `npm ci` inside app/ or server/
-# still resolves the workspace root above them, so a per-directory install would
-# read the root lockfile anyway and fail the moment the two disagree.
 jobs:
   verify:
-    name: Lint, test and build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: package-lock.json
-
-      - name: Install workspaces
-        run: npm ci
-
-      - name: Lint the client
-        run: npm run lint
-
-      - name: Server tests
-        run: npm test
-
-      - name: Build the client
-        run: npm run build
-
-      - name: Check the prerendered routes exist
-        run: |
-          for file in index.html about.html preparedness-check.html contact.html sitemap.xml robots.txt; do
-            test -s "app/dist/$file" || { echo "missing or empty: app/dist/$file"; exit 1; }
-          done
-          echo "prerender output present"
-
-  docker:
-    name: Docker image builds
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: false
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+    uses: ./.github/workflows/verify.yml
