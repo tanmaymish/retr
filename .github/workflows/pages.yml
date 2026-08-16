@@ -44,8 +44,16 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # The same checks a pull request has to pass, run again against exactly what
+  # is about to be published. A push to main is not proof on its own: main can
+  # be reached by a merge whose checks were never required, by a direct push, or
+  # by a revert. Nothing is published until this is green.
+  verify:
+    uses: ./.github/workflows/verify.yml
+
   build:
     name: Build the static site
+    needs: verify
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

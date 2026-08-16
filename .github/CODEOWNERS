@@ -1,0 +1,36 @@
+# Who has to look at what.
+#
+# With "Require review from Code Owners" enabled in branch protection, a pull
+# request touching one of these paths cannot merge until the owner has reviewed
+# it. Everything else needs an ordinary review.
+#
+# Add the founders' GitHub accounts beside @tanmaymish for the regulated paths.
+# The point of listing them is that copy which carries a regulatory obligation
+# should not be able to reach the public site on one person's say-so.
+
+*                                   @tanmaymish
+
+# Words a visitor reads, and the numbers behind them.
+/app/src/site/content.js            @tanmaymish
+/app/src/site/Trust.jsx             @tanmaymish
+/app/scripts/prerender.mjs          @tanmaymish
+/shared/calculators.js              @tanmaymish
+/shared/preparedness.js             @tanmaymish
+
+# Registration numbers, disclaimers and grievance routes live in the footer.
+/app/src/site/SiteChrome.jsx        @tanmaymish
+
+# Machine-written copy, and the prompts that produce it.
+/ai/                                @tanmaymish
+/app/src/data/ai/                   @tanmaymish
+
+# Enquiries, sessions, encrypted documents, and who may read them.
+/server/src/routes/                 @tanmaymish
+/server/src/middleware/             @tanmaymish
+/server/src/db/                     @tanmaymish
+/server/src/engine/                 @tanmaymish
+
+# What runs with write access to this repository, and what reaches production.
+/.github/                           @tanmaymish
+/Dockerfile                         @tanmaymish
+/fly.toml                           @tanmaymish
