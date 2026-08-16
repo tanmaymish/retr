@@ -148,18 +148,41 @@ let firstView = true;
  */
 export function recordView(path) {
   if (!telemetryEnabled) return;
+  safely(() => {
+    flushDwell();
+    currentPath = path;
+    openedAt = Date.now();
 
-  flushDwell();
-  currentPath = path;
-  openedAt = Date.now();
+    // The referrer is only meaningful for the first page of a visit; after that
+    // it is our own site, which tells us nothing about where anyone came from.
+    const external =
+      firstView && document.referrer && !document.referrer.startsWith(window.location.origin);
+    firstView = false;
 
-  // The referrer is only meaningful for the first page of a visit; after that
-  // it is our own site, which tells us nothing about where anyone came from.
-  const external =
-    firstView && document.referrer && !document.referrer.startsWith(window.location.origin);
-  firstView = false;
+    enqueue({ t: 'v', d: { path, device: device(), ...(external ? { referrer: document.referrer } : {}) } });
+  });
+}
 
-  enqueue({ t: 'v', d: { path, device: device(), ...(external ? { referrer: document.referrer } : {}) } });
+/**
+ * Counting a visit is not worth a broken page.
+ *
+ * `recordView` runs in a route effect and `recordEvent` inside click handlers,
+ * so anything that throws in here propagates into React and unmounts the tree
+ * below it. Nothing this module does is load-bearing for a visitor: the
+ * calculators, the navigation and the forms all work whether or not a single
+ * event is ever recorded. So the boundary swallows, notes it once for whoever
+ * has a console open, and lets the site carry on.
+ */
+let warned = false;
+function safely(what) {
+  try {
+    what();
+  } catch (error) {
+    if (!warned) {
+      warned = true;
+      console.warn('telemetry failed; the site carries on without it', error);
+    }
+  }
 }
 
 /** How long the page just left was open, as an event rather than a second view. */
@@ -172,10 +195,18 @@ function flushDwell() {
   if (ms >= 1000) enqueue({ t: 'e', d: { name: 'page_dwell', path, props: { ms } } });
 }
 
-/** A named thing somebody did. Counts and labels only. */
+/**
+ * A named thing somebody did. Counts and labels only.
+ *
+ * `currentPath` — not `lastPath`, which is what this read until the dwell fix
+ * above renamed it and left this line behind. A ReferenceError here is not
+ * contained to analytics: `track()` is called from click handlers all over the
+ * site, so every one of them threw, on every tracked interaction, in any build
+ * with a collector configured.
+ */
 export function recordEvent(name, props) {
   if (!telemetryEnabled) return;
-  enqueue({ t: 'e', d: { name, path: lastPath ?? undefined, props } });
+  safely(() => enqueue({ t: 'e', d: { name, path: currentPath ?? undefined, props } }));
 }
 
 /**

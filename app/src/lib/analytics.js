@@ -52,11 +52,34 @@ function inject(src, attributes = {}) {
   document.head.appendChild(script);
 }
 
+/**
+ * Measurement must never be able to break the thing it measures.
+ *
+ * These run inside click handlers and route effects, so a throw here propagates
+ * into React and takes the page with it. A third-party tag is somebody else's
+ * code loaded over somebody else's network; it does not get to decide whether a
+ * button works. Our own collector guards itself at its boundary, in
+ * telemetry.js, for the same reason.
+ */
+let warned = false;
+function attempt(what) {
+  try {
+    what();
+  } catch (error) {
+    if (!warned) {
+      warned = true;
+      console.warn('analytics failed; the site carries on without it', error);
+    }
+  }
+}
+
 /** A page view. Called by the router, because the router is what changes pages. */
 export function trackPageView(path) {
   if (!loaded) return;
-  if (provider === 'plausible') window.plausible?.('pageview', { u: location.origin + path });
-  if (provider === 'ga') window.gtag?.('event', 'page_view', { page_path: path });
+  attempt(() => {
+    if (provider === 'plausible') window.plausible?.('pageview', { u: location.origin + path });
+    if (provider === 'ga') window.gtag?.('event', 'page_view', { page_path: path });
+  });
 }
 
 /**
@@ -68,8 +91,10 @@ export function track(event, properties = {}) {
   // and it is the one the admin portal reads.
   recordEvent(event, properties);
   if (!loaded) return;
-  if (provider === 'plausible') window.plausible?.(event, { props: properties });
-  if (provider === 'ga') window.gtag?.('event', event, properties);
+  attempt(() => {
+    if (provider === 'plausible') window.plausible?.(event, { props: properties });
+    if (provider === 'ga') window.gtag?.('event', event, properties);
+  });
 }
 
 export const analyticsEnabled = Boolean(provider && id);

@@ -44,6 +44,28 @@ npm run check          # lint + tests + production build
 npm run build && npm start   # production mode: the API serves the built client
 ```
 
+The suite above never opens a browser, and there is a class of failure it
+cannot see: a control that renders correctly, is not disabled, and does nothing
+when clicked. That shipped once — every "Request a call" button on every page
+was dead in the published build, and every check passed. So there is one test
+that clicks:
+
+```bash
+npx --prefix app playwright install chromium              # once
+VITE_STATIC=true npm run build && npm --prefix app run smoke
+```
+
+It drives `app/dist` — what is about to be published, not what the dev server
+happens to do. Two pages get their contents from the API rather than from the
+bundle, so on a build made for the server (`npm run build` with no
+`VITE_STATIC`) run it as `SMOKE_SERVED=1 npm --prefix app run smoke` and those
+two are reported as skipped instead of failing on a server that is not up.
+
+It asserts on behaviour rather than on files: the pages render, the
+call-to-action opens the dialog, a calculator produces a figure, the portal
+route resolves, and nothing throws. Pass `VITE_BASE` to match the path the site
+will be published under. It runs on every publish, before the deploy.
+
 ### Production
 
 ```bash

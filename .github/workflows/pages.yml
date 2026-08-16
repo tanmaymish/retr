@@ -98,6 +98,19 @@ jobs:
           test -f app/dist/.nojekyll || { echo "missing .nojekyll"; exit 1; }
           echo "site looks complete"
 
+      # Files being present is not the same as the site working. This drives the
+      # bundle that is about to be published in a real browser and clicks it: a
+      # release once went out where every "Request a call" button on every page
+      # was a dead control, and every check above passed.
+      - name: Install a browser
+        working-directory: app
+        run: npx playwright install --with-deps chromium
+
+      # VITE_BASE was written to GITHUB_ENV above, so the smoke server mounts
+      # dist at the same path the published site will live under.
+      - name: Click the site
+        run: npm --prefix app run smoke
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: app/dist
