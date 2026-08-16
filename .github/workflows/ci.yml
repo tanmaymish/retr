@@ -8,11 +8,15 @@ name: CI
 # drift apart.
 #
 # These are the checks to mark as required in Settings → Branches → branch
-# protection for `main`, by the job names they report under:
+# protection for `main`. A required check is matched by its exact reported
+# name, and a called workflow reports as `<caller job id> / <job name>` — so
+# these strings come from the `verify:` key below, not from verify.yml's
+# `name:`. Copy them as they are; a name that matches nothing is accepted
+# silently and blocks nothing.
 #
-#   Verify / Lint, tests and dependencies
-#   Verify / Drive the built site
-#   Verify / The image builds
+#   verify / Lint, tests and dependencies
+#   verify / Drive the built site
+#   verify / The image builds
 #
 # Without that, a pull request can be merged while they are still running or
 # failing — which is how a release once went out with every "Request a call"

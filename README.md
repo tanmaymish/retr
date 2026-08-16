@@ -90,10 +90,15 @@ The workflows above run on every pull request, but **nothing yet stops one being
 merged while they are red.** That is a repository setting, not a file, so it has
 to be switched on by hand:
 
-1. **Settings → Branches → add a rule for `main`**, and require these checks:
-   - `Verify / Lint, tests and dependencies`
-   - `Verify / Drive the built site`
-   - `Verify / The image builds`
+1. **Settings → Branches → add a rule for `main`**, and require these three
+   checks, copied exactly — a required check is matched by its reported name,
+   and one that matches nothing is accepted silently and blocks nothing:
+   - `verify / Lint, tests and dependencies`
+   - `verify / Drive the built site`
+   - `verify / The image builds`
+
+   (The lowercase `verify` is the calling job's id in `ci.yml`; a reusable
+   workflow reports as `<caller job id> / <job name>`.)
 
    Also tick *Require a pull request before merging* and *Require review from
    Code Owners* — `.github/CODEOWNERS` puts the regulated paths (the copy, the
