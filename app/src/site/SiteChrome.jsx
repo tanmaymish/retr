@@ -87,6 +87,14 @@ export function SiteHeader() {
         </nav>
 
         <div className="row" style={{ gap: 10 }}>
+          {/* An admin arriving on the public site is almost always on their way
+              to the portal. One click, rather than remembering a URL. */}
+          {user?.role === 'admin' && (
+            <Link to="/admin" className="btn btn-sm btn-secondary hide-mobile">
+              <Icon name="dashboard" size={17} />
+              Portal
+            </Link>
+          )}
           {user ? (
             <Link to="/vault" className="btn btn-sm">Open my vault</Link>
           ) : (
@@ -188,9 +196,21 @@ export function SiteFooter() {
             calculators on this site are illustrative projections based on the assumptions stated
             beside them, not guarantees of future performance.
           </p>
-          <p className="tiny muted">
-            © {new Date().getFullYear()} {brand.name}. {brand.tagline}.
-          </p>
+          {/* The way in to the founders' portal. Kept here rather than in the
+              client-facing columns, and deliberately not hidden: the interface
+              is not the guard. Every route behind it checks the session and the
+              role on the server, which answers 403 to anyone else however they
+              arrived. A link that only appears once you are already signed in
+              is no safer and much harder to find. */}
+          <div className="row-between wrap" style={{ gap: 12 }}>
+            <p className="tiny muted">
+              © {new Date().getFullYear()} {brand.name}. {brand.tagline}.
+            </p>
+            <Link to="/admin" className="tiny muted row" style={{ gap: 5 }}>
+              <Icon name="lock" size={13} />
+              Founders’ portal
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

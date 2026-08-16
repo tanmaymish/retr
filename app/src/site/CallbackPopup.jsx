@@ -4,7 +4,7 @@ import { Button, Field, Icon, Input, Modal } from '../components/ui';
 import { canSubmitLeads, submitLead } from '../lib/backend';
 import { track } from '../lib/analytics';
 import { useAuth } from '../state/AuthContext';
-import { brand } from './content';
+import { brand, founders } from './content';
 
 /**
  * The callback prompt.
@@ -17,6 +17,15 @@ import { brand } from './content';
  * for. It waits for a sign that the visitor is actually reading; it appears at
  * most once, ever, on a device; and dismissing it is one key, one click outside,
  * or one button. Nothing on this site is gated behind it.
+ *
+ * A fourth rule, learned the hard way: **the button always opens something.**
+ * There are thirteen "Request a call" buttons across the site, and every one of
+ * them calls `requestCallback()` below. If this component ever returns null,
+ * all thirteen become dead controls that swallow a click in silence — which is
+ * exactly what happened when the published build had no enquiry endpoint
+ * configured. Not being able to *receive* an enquiry is a reason to say so, in
+ * the dialog, with a route that does work. It is not a reason to stop opening
+ * the dialog.
  */
 
 const STORAGE_KEY = 'akshayvriddhi.callback.v1';
@@ -63,8 +72,11 @@ export function CallbackPopup() {
   const armed = useRef(false);
   const answered = useRef(null);
 
-  // Never ask for details there is nowhere to send.
-  const suppressed = Boolean(user) || SKIP_PATHS.includes(pathname) || !canSubmitLeads;
+  /* Whether to raise the prompt *unasked*. Interrupting someone to ask for a
+     phone number there is nowhere to send is the one version of this popup that
+     deserves the blocker — so when there is no inbox the site stays quiet and
+     waits to be asked. Clicking a button is being asked. */
+  const autoAsk = !user && !SKIP_PATHS.includes(pathname) && canSubmitLeads;
 
   const show = useCallback(() => {
     if (armed.current) return;
@@ -84,7 +96,7 @@ export function CallbackPopup() {
   }, []);
 
   useEffect(() => {
-    if (suppressed || alreadyAnswered()) return undefined;
+    if (!autoAsk || alreadyAnswered()) return undefined;
 
     const timer = setTimeout(show, DWELL_MS);
 
@@ -106,7 +118,7 @@ export function CallbackPopup() {
       window.removeEventListener('scroll', onScroll);
       document.removeEventListener('mouseout', onMouseOut);
     };
-  }, [show, suppressed]);
+  }, [show, autoAsk]);
 
   // Closing after a successful enquiry is not a dismissal, and must not be
   // recorded or reported as one.
@@ -117,23 +129,74 @@ export function CallbackPopup() {
     track('callback_prompt_dismissed');
   }
 
-  if (suppressed) return null;
-
   return (
     <Modal
       open={open}
       onClose={close}
-      title="Shall we call you?"
+      /* Asking "shall we call you?" and then admitting we cannot take the
+         number is a bad sequence. When there is no inbox the dialog says what
+         it actually is from the title down. */
+      title={canSubmitLeads ? 'Shall we call you?' : 'Speak to the founders'}
       width={520}
     >
-      <CallbackForm
-        onDone={() => {
-          answered.current = 'submitted';
-          remember('submitted');
-        }}
-        onDismiss={close}
-      />
+      {canSubmitLeads ? (
+        <CallbackForm
+          onDone={() => {
+            answered.current = 'submitted';
+            remember('submitted');
+          }}
+          onDismiss={close}
+        />
+      ) : (
+        <DirectRoutes onDismiss={close} />
+      )}
     </Modal>
+  );
+}
+
+/**
+ * What the dialog shows when the site has no inbox behind it.
+ *
+ * The founders' LinkedIn profiles are the only contact route this site can
+ * honestly offer today — they are real, they are already published on the About
+ * page, and a message sent there reaches a person. A phone number and an email
+ * address belong here too, and will as soon as the founders supply them; until
+ * then this does not invent either.
+ */
+export function DirectRoutes({ onDismiss }) {
+  return (
+    <div className="stack stack-sm">
+      <p className="small muted">
+        The enquiry form on this site is not connected to an inbox yet, so anything typed into one
+        would not reach anybody. Rather than take your details and lose them, here is the way
+        through that does work.
+      </p>
+
+      <div className="stack" style={{ gap: 8 }}>
+        {founders.map((founder) => (
+          <a
+            key={founder.id}
+            className="btn btn-secondary btn-block"
+            href={founder.linkedin}
+            target="_blank"
+            rel="noreferrer noopener"
+            onClick={() => track('direct_contact', { via: 'linkedin', founder: founder.id })}
+          >
+            <Icon name="open_in_new" size={17} />
+            Message {founder.name}
+          </a>
+        ))}
+      </div>
+
+      <p className="tiny muted">
+        Both founders read their own messages. {brand.name} will never ask you for a payment, a
+        one-time password or your policy credentials over any channel.
+      </p>
+
+      <Button type="button" variant="ghost" onClick={onDismiss} className="btn-block">
+        Close
+      </Button>
+    </div>
   );
 }
 

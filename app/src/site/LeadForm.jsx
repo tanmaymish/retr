@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, Card, Field, Icon, Input } from '../components/ui';
 import { canSubmitLeads, submitLead } from '../lib/backend';
 import { track } from '../lib/analytics';
+import { founders } from './content';
 
 export const INTERESTS = [
   { value: 'protection_review', label: 'A protection review' },
@@ -162,6 +163,11 @@ export function LeadForm({ source = 'contact', checkScore = null, compact = fals
  * A static build with no enquiry endpoint configured. Saying so is the only
  * honest option: a form that silently drops what someone typed is worse than
  * no form.
+ *
+ * Saying so is not enough on its own, though. Someone reached this because they
+ * wanted to make contact, so the panel has to end with a route that works
+ * rather than an apology and a dead end — the same two profiles the callback
+ * dialog offers, so the site gives one answer to this wherever it comes up.
  */
 export function NoInbox() {
   return (
@@ -171,9 +177,24 @@ export function NoInbox() {
         <strong>The enquiry form is not connected yet.</strong>
       </div>
       <p className="small muted">
-        This build has no inbox behind it, so nothing typed here would reach anyone. Please use the
-        founders' LinkedIn profiles on the About page until it is wired up.
+        Nothing typed here would reach anybody, so rather than take your details and lose them:
+        both founders read their own messages on LinkedIn.
       </p>
+      <div className="stack" style={{ gap: 8 }}>
+        {founders.map((founder) => (
+          <a
+            key={founder.id}
+            className="btn btn-secondary btn-block"
+            href={founder.linkedin}
+            target="_blank"
+            rel="noreferrer noopener"
+            onClick={() => track('direct_contact', { via: 'linkedin', founder: founder.id })}
+          >
+            <Icon name="open_in_new" size={17} />
+            Message {founder.name}
+          </a>
+        ))}
+      </div>
     </Card>
   );
 }

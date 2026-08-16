@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, Field, Icon, Input, Meter, Select } from '../components/ui';
 import { SitePage } from './SiteChrome';
-import { submitLead } from '../lib/backend';
+import { canSubmitLeads, submitLead } from '../lib/backend';
 import { useSeo } from '../lib/seo';
 import { track } from '../lib/analytics';
-import { HOUSEHOLDS, INTERESTS, TIMEFRAMES } from './LeadForm';
+import { HOUSEHOLDS, INTERESTS, NoInbox, TIMEFRAMES } from './LeadForm';
 
 const STEPS = [
   { key: 'you', title: 'Tell us about yourself', blurb: 'So we know who we are speaking to.' },
@@ -131,6 +131,13 @@ export default function Contact() {
               </p>
             </header>
 
+            {/* Five steps that end in "nothing was sent" is a worse experience
+                than one honest sentence at the top. Until there is an inbox,
+                this page is the contact routes and nothing else. */}
+            {!canSubmitLeads && <NoInbox />}
+
+            {canSubmitLeads && (
+            <>
             <div className="stack stack-sm">
               <div className="row-between">
                 <span className="tiny caps muted">Step {step + 1} of {STEPS.length}</span>
@@ -290,6 +297,8 @@ export default function Contact() {
               We use what you send here to respond to your enquiry and for nothing else. See our{' '}
               <Link to="/privacy">privacy notice</Link>.
             </p>
+            </>
+            )}
           </div>
         </div>
       </section>
