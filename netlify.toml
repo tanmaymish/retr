@@ -1,14 +1,15 @@
 [build]
   command = "VITE_BASE=/ npm run build"
   publish = "app/dist"
+  functions = "netlify/functions"
 
 [build.environment]
   NODE_VERSION = "22"
 
-# Proxy /api calls to Vercel serverless API backend
+# Direct all /api requests to Netlify serverless function
 [[redirects]]
   from = "/api/*"
-  to = "https://retr-app.vercel.app/api/:splat"
+  to = "/.netlify/functions/api/:splat"
   status = 200
   force = true
 

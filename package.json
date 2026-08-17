@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Akshay Vriddhi \u2014 prosperity with purpose. Brand site, preparedness check, and a secure family document vault with trustees and time-locked emergency access.",
+  "description": "Akshay Vriddhi — prosperity with purpose. Brand site, preparedness check, and a secure family document vault with trustees and time-locked emergency access.",
   "workspaces": [
     "app",
     "server"
@@ -21,5 +21,8 @@
     "test": "npm --prefix server test",
     "lint": "npm --prefix app run lint",
     "check": "npm run lint && npm test && npm run build"
+  },
+  "dependencies": {
+    "serverless-http": "^4.0.0"
   }
 }
