@@ -1,0 +1,135 @@
+name: Publish the site
+
+# The portfolio site, built as a static bundle and published to GitHub Pages.
+#
+# This publishes the marketing site only. There is no API behind Pages, so the
+# build runs with VITE_STATIC=true: the preparedness check scores in the
+# browser using the same shared/preparedness.js the server uses, and the doors
+# into the vault are left off rather than left broken.
+#
+# Two repository variables connect this to the server, and neither is required:
+#
+#   LEADS_ENDPOINT  where an enquiry is posted. Unset, the forms say plainly
+#                   that they are not connected rather than dropping what
+#                   somebody typed.
+#   API_URL         the origin the API is deployed at, e.g.
+#                   https://akshayvriddhi.fly.dev. Set it and the published
+#                   site reports its traffic to the founders' portal and picks
+#                   up any copy edited there. Unset, the collector is off and
+#                   the copy compiled into the bundle is used — the site is
+#                   complete either way.
+#
+# This workflow is the only thing that deploys to Pages. There used to be a
+# second one, and the two raced for the same deployment on every push.
+#
+# Pages needs to be on for the publish job to be allowed to deploy. The
+# configure-pages step below asks for it with `enablement: true`, so a fresh
+# clone or a fork does not need anyone to visit Settings first. If the
+# repository is later renamed, the base path is read from that same step at
+# build time and follows the new name without any change here.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One publish at a time, and never cancel one half-done.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # The same checks a pull request has to pass, run again against exactly what
+  # is about to be published. A push to main is not proof on its own: main can
+  # be reached by a merge whose checks were never required, by a direct push, or
+  # by a revert. Nothing is published until this is green.
+  verify:
+    uses: ./.github/workflows/verify.yml
+
+  build:
+    name: Build the static site
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install workspaces
+        run: npm ci
+
+      # `enablement` turns Pages on if it is off, using this workflow's own
+      # `pages: write` permission. It is a no-op when Pages is already enabled,
+      # which is why it is safe to leave in.
+      - uses: actions/configure-pages@v5
+        id: pages
+        with:
+          enablement: true
+
+      # configure-pages reports the path the site will live under: empty or "/"
+      # for a user page or a custom domain, "/<repo>" for a project page. Vite
+      # wants exactly one trailing slash either way.
+      - name: Work out the base path
+        run: |
+          base='${{ steps.pages.outputs.base_path }}'
+          [ -z "$base" ] && base='/'
+          case "$base" in */) ;; *) base="$base/" ;; esac
+          echo "VITE_BASE=$base" >> "$GITHUB_ENV"
+          echo "building for base $base"
+
+      - name: Build
+        env:
+          VITE_STATIC: 'true'
+          VITE_LEADS_ENDPOINT: ${{ vars.LEADS_ENDPOINT }}
+          # Point the published site at the API, and its page views and content
+          # overrides start flowing. Unset, the site still works completely: the
+          # collector is off and the copy compiled into the bundle is used.
+          VITE_COLLECT_ENDPOINT: ${{ vars.API_URL && format('{0}/api/collect', vars.API_URL) }}
+          VITE_CONTENT_ENDPOINT: ${{ vars.API_URL && format('{0}/api/content', vars.API_URL) }}
+          SITE_URL: ${{ steps.pages.outputs.base_url }}
+        run: npm run build
+
+      - name: Check what will be published
+        run: |
+          for file in index.html 404.html about.html preparedness-check.html sitemap.xml robots.txt brand/logo.png; do
+            test -s "app/dist/$file" || { echo "missing or empty: app/dist/$file"; exit 1; }
+          done
+          test -f app/dist/.nojekyll || { echo "missing .nojekyll"; exit 1; }
+          echo "site looks complete"
+
+      # Files being present is not the same as the site working. This drives the
+      # bundle that is about to be published in a real browser and clicks it: a
+      # release once went out where every "Request a call" button on every page
+      # was a dead control, and every check above passed.
+      - name: Install a browser
+        working-directory: app
+        run: npx playwright install --with-deps chromium
+
+      # VITE_BASE was written to GITHUB_ENV above, so the smoke server mounts
+      # dist at the same path the published site will live under.
+      - name: Click the site
+        run: npm --prefix app run smoke
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: app/dist
+
+  deploy:
+    name: Publish
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

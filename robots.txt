@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /vault
+Disallow: /vault/
+Disallow: /onboarding
+Disallow: /verify
+Disallow: /invite/
+
+Sitemap: https://tanmaymish.github.io/retr/sitemap.xml

@@ -1,0 +1,42 @@
+name: CI
+
+# What runs on a pull request, and on a push to a working branch.
+#
+# The checks themselves live in `verify.yml`, which `pages.yml` also calls
+# before it publishes. This file exists to say *when* they run, not what they
+# are — so there is no way for the pull request gate and the release gate to
+# drift apart.
+#
+# These are the checks to mark as required in Settings → Branches → branch
+# protection for `main`. A required check is matched by its exact reported
+# name, and a called workflow reports as `<caller job id> / <job name>` — so
+# these strings come from the `verify:` key below, not from verify.yml's
+# `name:`. Copy them as they are; a name that matches nothing is accepted
+# silently and blocks nothing.
+#
+#   verify / Lint, tests and dependencies
+#   verify / Drive the built site
+#   verify / The image builds
+#
+# Without that, a pull request can be merged while they are still running or
+# failing — which is how a release once went out with every "Request a call"
+# button dead on every page.
+
+on:
+  push:
+    branches: [main, "claude/**"]
+  pull_request:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+# Superseding a pull request's own earlier run is a saving; cancelling a run on
+# main is losing the record of whether main was ever good.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  verify:
+    uses: ./.github/workflows/verify.yml
