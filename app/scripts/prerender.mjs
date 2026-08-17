@@ -20,7 +20,7 @@ const dist = join(root, 'dist');
 /* CI passes the real one from actions/configure-pages, so this default only
    affects a local build. It names the GitHub Pages address the project page
    will have, rather than a placeholder domain nobody owns. */
-const SITE = process.env.SITE_URL || 'https://tanmaymish.github.io/akshayvriddhi';
+const SITE = process.env.SITE_URL || 'https://tanmaymish.github.io/retr';
 
 const ROUTES = [
   {
