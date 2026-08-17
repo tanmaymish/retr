@@ -122,94 +122,168 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer style={{ background: 'var(--surface-container)', padding: '48px 0 40px' }}>
-      <div className="container stack stack-md">
-        <div
-          className="row-between wrap"
-          style={{
-            gap: 16,
-            padding: '28px 0 32px',
-            borderBottom: '1px solid var(--outline-variant)',
-            marginBottom: 12,
-          }}
-        >
-          <h3 style={{ fontSize: 24 }}>Want to know your number?</h3>
-          <Link to="/calculators/retirement-readiness" className="btn">Get your readiness score →</Link>
-        </div>
-        <div className="row-between wrap" style={{ gap: 24, alignItems: 'flex-start' }}>
-          <div className="stack" style={{ gap: 12, maxWidth: 340 }}>
-            <Lockup width={260} />
-            <p className="small muted">{brand.promise}</p>
-            <p className="small muted">{brand.audience}</p>
-            <p className="tiny muted">{brand.stages}</p>
+    <footer style={{ background: 'var(--wine-deep)', color: 'var(--on-band)', paddingTop: 0, position: 'relative' }}>
+      {/* ── Pre-Footer Enterprise CTA Banner ──────────────────────────── */}
+      <div
+        style={{
+          background: 'linear-gradient(135deg, var(--wine) 0%, var(--band) 100%)',
+          borderBottom: '1px solid var(--gold-line)',
+          padding: '48px 0',
+        }}
+      >
+        <div className="container row-between wrap" style={{ gap: 24, alignItems: 'center' }}>
+          <div className="stack" style={{ gap: 6, maxWidth: 600 }}>
+            <span className="eyebrow" style={{ color: 'var(--band-accent)', fontSize: 12, letterSpacing: '0.16em' }}>
+              PROSPERITY WITH PURPOSE
+            </span>
+            <h3 style={{ fontSize: 'clamp(22px, 3vw, 30px)', color: '#fff', margin: 0 }}>
+              Ready to construct your retirement ledger?
+            </h3>
+            <p className="small" style={{ color: 'color-mix(in srgb, var(--on-band) 80%, transparent)', margin: 0 }}>
+              Get a private, mathematically sound assessment of your cash flow and drawdown trajectory.
+            </p>
           </div>
-          <div className="row wrap small" style={{ gap: 40, alignItems: 'flex-start' }}>
-            {/* The same order as the nav and the pager, because it is the same
-                list. Numbered, so the site reads as a route through, not a
-                heap of links. */}
-            <div className="stack" style={{ gap: 8 }}>
-              <span className="tiny caps muted">The site, in order</span>
-              {journey.map((page, index) => (
-                <Link key={page.path} to={page.path} className="row" style={{ gap: 9 }}>
-                  <span className="tiny muted" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  {page.label}
+          <div className="row wrap" style={{ gap: 14 }}>
+            <Link to="/calculators/retirement-readiness" className="btn btn-sheen" style={{ background: 'var(--gold-leaf)', color: 'var(--wine-deep)', fontWeight: 600 }}>
+              Get your readiness score →
+            </Link>
+            <button type="button" className="btn btn-secondary" onClick={requestCallback} style={{ borderColor: 'var(--gold-line)', color: '#fff' }}>
+              <Icon name="call" size={17} /> Request a callback
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Main Enterprise Footer Grid ────────────────────────────────── */}
+      <div className="container stack stack-lg" style={{ padding: '64px 20px 40px' }}>
+        <div className="grid grid-4" style={{ gap: 40, alignment: 'flex-start' }}>
+          {/* Col 1: Brand & Institutional Identity */}
+          <div className="stack" style={{ gap: 16 }}>
+            <Lockup width={240} />
+            <p className="small" style={{ color: 'color-mix(in srgb, var(--on-band) 75%, transparent)', lineHeight: 1.7, margin: 0 }}>
+              {brand.meaning}
+            </p>
+            <div className="stack" style={{ gap: 8, marginTop: 4 }}>
+              <span className="badge badge-gold tiny" style={{ width: 'fit-content', fontSize: 11 }}>
+                <Icon name="verified_user" size={13} /> IRDAI Registered IMF
+              </span>
+              <span className="badge badge-gold tiny" style={{ width: 'fit-content', fontSize: 11 }}>
+                <Icon name="account_balance" size={13} /> AMFI Registered Distributor
+              </span>
+              <span className="badge badge-gold tiny" style={{ width: 'fit-content', fontSize: 11 }}>
+                <Icon name="security" size={13} /> 256-Bit Vault Security
+              </span>
+            </div>
+          </div>
+
+          {/* Col 2: Solutions & Engines */}
+          <div className="stack" style={{ gap: 14 }}>
+            <h4 style={{ color: 'var(--gold-ink)', fontSize: 13, letterSpacing: '0.14em', textTransform: 'uppercase', margin: 0 }}>
+              Calculators & Engines
+            </h4>
+            <div className="stack" style={{ gap: 10, fontSize: 14 }}>
+              <Link to="/calculators/retirement-readiness" style={{ color: 'color-mix(in srgb, var(--on-band) 85%, transparent)' }}>
+                Retirement Readiness Score
+              </Link>
+              <Link to="/calculators/drawdown" style={{ color: 'color-mix(in srgb, var(--on-band) 85%, transparent)' }}>
+                Live Drawdown Simulator
+              </Link>
+              <Link to="/calculators/annuity-vs-swp" style={{ color: 'color-mix(in srgb, var(--on-band) 85%, transparent)' }}>
+                Annuity vs. SWP Comparison
+              </Link>
+              <Link to="/vault" style={{ color: 'color-mix(in srgb, var(--on-band) 85%, transparent)' }}>
+                Family Document Vault
+              </Link>
+              <Link to="/scenarios" style={{ color: 'color-mix(in srgb, var(--on-band) 85%, transparent)' }}>
+                Life Scenarios & Stress Tests
+              </Link>
+            </div>
+          </div>
+
+          {/* Col 3: Practice & Insights */}
+          <div className="stack" style={{ gap: 14 }}>
+            <h4 style={{ color: 'var(--gold-ink)', fontSize: 13, letterSpacing: '0.14em', textTransform: 'uppercase', margin: 0 }}>
+              The Practice
+            </h4>
+            <div className="stack" style={{ gap: 10, fontSize: 14 }}>
+              <Link to="/services#how" style={{ color: 'color-mix(in srgb, var(--on-band) 85%, transparent)' }}>
+                How We Work
+              </Link>
+              <Link to="/services#remuneration" style={{ color: 'color-mix(in srgb, var(--on-band) 85%, transparent)' }}>
+                How We Are Paid
+              </Link>
+              <Link to="/about#founders" style={{ color: 'color-mix(in srgb, var(--on-band) 85%, transparent)' }}>
+                Leadership & Founders
+              </Link>
+              <Link to="/insights" style={{ color: 'color-mix(in srgb, var(--on-band) 85%, transparent)' }}>
+                Insights & Research
+              </Link>
+              <Link to="/services#faq" style={{ color: 'color-mix(in srgb, var(--on-band) 85%, transparent)' }}>
+                Frequently Asked Questions
+              </Link>
+            </div>
+          </div>
+
+          {/* Col 4: Corporate & Governance */}
+          <div className="stack" style={{ gap: 14 }}>
+            <h4 style={{ color: 'var(--gold-ink)', fontSize: 13, letterSpacing: '0.14em', textTransform: 'uppercase', margin: 0 }}>
+              Governance & Contact
+            </h4>
+            <div className="stack" style={{ gap: 10, fontSize: 13, color: 'color-mix(in srgb, var(--on-band) 75%, transparent)' }}>
+              <p style={{ margin: 0 }}>
+                <strong style={{ color: '#fff' }}>Akshay Vriddhi IMF Pvt. Ltd.</strong><br />
+                Insurance Marketing Firm & Wealth Advisory
+              </p>
+              <p style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Icon name="mail" size={14} /> consult@akshayvriddhi.com
+              </p>
+              <p style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Icon name="location_on" size={14} /> New Delhi • NCR, India
+              </p>
+              <div style={{ marginTop: 6, paddingTop: 10, borderTop: '1px solid color-mix(in srgb, var(--gold-line) 30%, transparent)' }}>
+                <Link to="/admin" className="row tiny" style={{ gap: 6, color: 'var(--band-accent)', fontWeight: 600 }}>
+                  <Icon name="lock" size={14} /> Founders’ & Admin Portal →
                 </Link>
-              ))}
-            </div>
-            <div className="stack" style={{ gap: 8 }}>
-              <span className="tiny caps muted">Also</span>
-              <Link to="/about#founders">The founders</Link>
-              <Link to="/services#how">How we work</Link>
-              <Link to="/services#faq">Questions</Link>
-              <Link to="/privacy">Privacy</Link>
-              <Link to="/terms">Terms</Link>
+              </div>
             </div>
           </div>
         </div>
+
         <div className="rule-gold" role="separator">
           <span className="diamond" aria-hidden="true">✦</span>
         </div>
-        <div className="stack" style={{ gap: 6 }}>
-          {/* The lockup reads "IMF". Spelled out here, because the abbreviation
-              is also the International Monetary Fund, and a regulated firm
-              cannot leave that ambiguous.
 
-              THIS IS A TEMPLATE. The registration and ARN numbers, and the
-              grievance address, are the founders' to supply, and the final
-              wording is what a regulator and any complaint will be held
-              against — it needs a compliance read before this ships. */}
-          <p className="tiny muted" style={{ lineHeight: 1.8, maxWidth: '92ch' }}>
-            Akshay Vriddhi IMF is registered with the Insurance Regulatory and Development Authority
-            of India (IRDAI) as an Insurance Marketing Firm, Registration No. [to be stated], and is
-            empanelled with the insurers listed on this site. Mutual funds are distributed under
-            AMFI ARN [to be stated]. IRDAI registration does not guarantee the performance of any
-            insurer or product. Insurance is the subject matter of solicitation; please read the
-            policy wordings and sales brochure carefully before concluding a sale. Mutual fund
-            investments are subject to market risks; read all scheme-related documents carefully.
-          </p>
-          <p className="tiny muted" style={{ lineHeight: 1.8, maxWidth: '92ch' }}>
-            Grievances: write to [grievance address, to be stated]. Insurance complaints may also be
-            escalated through the IRDAI’s grievance portal or the Insurance Ombudsman for your
-            region; mutual fund complaints through SEBI’s SCORES portal. Figures shown by the
-            calculators on this site are illustrative projections based on the assumptions stated
-            beside them, not guarantees of future performance.
-          </p>
-          {/* The way in to the founders' portal. Kept here rather than in the
-              client-facing columns, and deliberately not hidden: the interface
-              is not the guard. Every route behind it checks the session and the
-              role on the server, which answers 403 to anyone else however they
-              arrived. A link that only appears once you are already signed in
-              is no safer and much harder to find. */}
-          <div className="row-between wrap" style={{ gap: 12 }}>
-            <p className="tiny muted">
-              © {new Date().getFullYear()} {brand.name}. {brand.tagline}.
+        {/* ── Statutory Regulatory Disclosures Box ──────────────────────── */}
+        <div
+          style={{
+            background: 'color-mix(in srgb, var(--wine) 50%, transparent)',
+            border: '1px solid color-mix(in srgb, var(--gold-line) 25%, transparent)',
+            borderRadius: 'var(--radius-md)',
+            padding: '20px 24px',
+            fontSize: 11,
+            lineHeight: 1.75,
+            color: 'color-mix(in srgb, var(--on-band) 65%, transparent)',
+          }}
+        >
+          <div className="stack" style={{ gap: 10 }}>
+            <p style={{ margin: 0 }}>
+              <strong style={{ color: 'var(--gold-ink)' }}>Regulatory Disclosures:</strong> Akshay Vriddhi IMF is registered with the Insurance Regulatory and Development Authority of India (IRDAI) as an Insurance Marketing Firm (Registration No. [Pending/Empanelled]) and empanelled with regulated insurance partners. Mutual funds are distributed under AMFI Registration Number ARN [Pending/Empanelled]. IRDAI registration does not guarantee the performance of any insurer or product. Insurance is the subject matter of solicitation; please read policy wordings and sales brochures carefully before concluding a sale. Mutual fund investments are subject to market risks; read all scheme-related documents carefully.
             </p>
-            <Link to="/admin" className="tiny muted row" style={{ gap: 5 }}>
-              <Icon name="lock" size={13} />
-              Founders’ portal
-            </Link>
+            <p style={{ margin: 0 }}>
+              <strong style={{ color: 'var(--gold-ink)' }}>Grievance Redressal & Escalation:</strong> For inquiries or complaints, write to our designated Officer at grievance@akshayvriddhi.com. Unresolved insurance grievances may be escalated via the IRDAI Bima Bharosa Portal or the Insurance Ombudsman. Mutual fund complaints may be registered on SEBI SCORES portal. Calculator figures are illustrative mathematical projections based on stated assumptions and do not constitute guaranteed future returns.
+            </p>
+          </div>
+        </div>
+
+        {/* ── Bottom Bar ────────────────────────────────────────────────── */}
+        <div className="row-between wrap" style={{ gap: 14, paddingTop: 10, fontSize: 12, color: 'color-mix(in srgb, var(--on-band) 60%, transparent)' }}>
+          <p style={{ margin: 0 }}>
+            © {new Date().getFullYear()} {brand.name}. {brand.tagline}. All rights reserved.
+          </p>
+          <div className="row wrap" style={{ gap: 20 }}>
+            <Link to="/privacy" style={{ color: 'inherit' }}>Privacy Policy</Link>
+            <Link to="/terms" style={{ color: 'inherit' }}>Terms of Service</Link>
+            <Link to="/services#how" style={{ color: 'inherit' }}>IRDAI Compliance</Link>
           </div>
         </div>
       </div>

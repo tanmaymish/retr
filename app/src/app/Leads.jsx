@@ -149,7 +149,7 @@ function LeadCard({ lead, onUpdate }) {
         <div className="stack stack-sm" style={{ paddingTop: 12, borderTop: '1px solid var(--outline-variant)' }}>
           <Detail label="Received" value={formatDateTime(lead.createdAt)} />
           <Detail label="Planning for" value={labelOf(HOUSEHOLDS, lead.household)} />
-          <Detail label="Interested in" value={lead.interests.map((v) => labelOf(INTERESTS, v)).join(', ')} />
+          <Detail label="Interested in" value={Array.isArray(lead.interests) ? lead.interests.map((v) => labelOf(INTERESTS, v)).filter(Boolean).join(', ') : ''} />
           <Detail label="Timing" value={labelOf(TIMEFRAMES, lead.timeframe)} />
           {lead.message && (
             <div className="stack" style={{ gap: 4 }}>

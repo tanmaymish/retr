@@ -23,7 +23,6 @@ export default function Home() {
 
   return (
     <SitePage>
-      <NewsStrip />
       <Hero />
       <TrustBar />
       <Situation />
@@ -46,22 +45,22 @@ export default function Home() {
  */
 function TrustBar() {
   const facts = [
-    { value: 'Two decades', label: 'each, in life insurance', note: 'Shiv Maheshwari and Vikram Rajput' },
-    { value: 'Up to six', label: 'insurers per category', note: 'Not one company’s shelf' },
-    { value: 'In writing', label: 'before any product', note: 'The plan comes first, every time' },
-    { value: 'Ask the number', label: 'on any commission', note: 'We are paid, and we will say what' },
+    { value: '20+ Years', label: 'leadership in life insurance', note: 'Shiv Maheshwari & Vikram Rajput' },
+    { value: '6 Insurers', label: 'empanelled per category', note: 'Unbiased institutional shelf' },
+    { value: 'Plan First', label: 'written blueprint before products', note: 'Mathematically sound strategy' },
+    { value: 'Full Disclosure', label: '100% transparent fee structure', note: 'No hidden commission agendas' },
   ];
 
   return (
-    <section style={{ background: 'var(--surface-lowest)', borderBottom: '1px solid var(--outline-variant)' }}>
-      <div className="container grid grid-4" style={{ padding: '40px 20px', textAlign: 'center' }}>
+    <section style={{ background: 'var(--wine-deep)', borderBottom: '1px solid var(--gold-line)', color: 'var(--on-band)' }}>
+      <div className="container grid grid-4" style={{ padding: '36px 20px', textAlign: 'center' }}>
         {facts.map((fact, index) => (
           <Reveal key={fact.label} className="stack" delay={index * 80} style={{ gap: 4, alignItems: 'center' }}>
-            <strong style={{ fontFamily: 'var(--font-heading)', fontSize: 26, color: 'var(--primary)' }}>
+            <strong style={{ fontFamily: 'var(--font-display)', fontSize: 24, color: '#f0dba6', letterSpacing: '0.04em' }}>
               {fact.value}
             </strong>
-            <span className="small">{fact.label}</span>
-            <span className="tiny muted">{fact.note}</span>
+            <span className="small" style={{ fontWeight: 600, color: 'var(--on-band)' }}>{fact.label}</span>
+            <span className="tiny" style={{ color: 'color-mix(in srgb, var(--on-band) 65%, transparent)' }}>{fact.note}</span>
           </Reveal>
         ))}
       </div>
@@ -70,8 +69,6 @@ function TrustBar() {
 }
 
 function Hero() {
-  /* Every one of these passes its compiled value as the fallback, so an
-     unreachable content API is not a missing headline — it is this headline. */
   const title = useContent('hero.title', 'Retire without asking anyone for money.');
   const subtitle = useContent(
     'hero.subtitle',
@@ -81,7 +78,7 @@ function Hero() {
   const audience = useContent('brand.audience', brand.audience);
 
   return (
-    <section className="hero-band" style={{ padding: '120px 0 108px' }}>
+    <section className="hero-band masterclass-hero" style={{ padding: '128px 0 116px' }}>
       <div className="hero-media" aria-hidden="true">
         <Photo
           name="four-directions"
@@ -94,25 +91,21 @@ function Hero() {
         />
       </div>
 
-      <div className="container stack" style={{ alignItems: 'center', gap: 22, textAlign: 'center' }}>
-        <Crest />
-        <Reveal
-          as="span"
-          className="eyebrow"
-          delay={60}
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 11.5,
-            fontWeight: 600,
-            letterSpacing: '0.24em',
-            textTransform: 'uppercase',
-            color: 'var(--band-accent)',
-          }}
-        >
-          {brand.tagline}
+      <div className="container stack" style={{ alignItems: 'center', gap: 24, textAlign: 'center' }}>
+        <Reveal delay={40}>
+          <span className="masterclass-badge">
+            <span style={{ color: 'var(--gold)' }}>✦</span> PRIVATE RETIREMENT & WEALTH ADVISORY
+          </span>
         </Reveal>
 
-        <Reveal as="h1" delay={120} style={{ color: 'var(--on-band)', maxWidth: '18ch' }}>
+        <Crest />
+
+        <Reveal
+          as="h1"
+          delay={120}
+          className="gold-gradient-text masterclass-glow-text"
+          style={{ maxWidth: '18ch', fontSize: 'clamp(36px, 5.5vw, 64px)', lineHeight: 1.1, margin: '8px 0' }}
+        >
           {title}
         </Reveal>
 
@@ -122,8 +115,8 @@ function Hero() {
           style={{
             fontFamily: 'var(--font-serif)',
             fontStyle: 'italic',
-            fontSize: 21,
-            color: 'var(--band-accent)',
+            fontSize: 'clamp(19px, 2.2vw, 24px)',
+            color: '#f0dba6',
           }}
         >
           {audience}
@@ -133,21 +126,34 @@ function Hero() {
           as="p"
           delay={180}
           style={{
-            fontSize: 19,
-            lineHeight: 1.7,
-            color: 'color-mix(in srgb, var(--on-band) 82%, transparent)',
-            maxWidth: '62ch',
+            fontSize: 'clamp(16px, 1.8vw, 19px)',
+            lineHeight: 1.75,
+            color: 'color-mix(in srgb, var(--on-band) 85%, transparent)',
+            maxWidth: '64ch',
           }}
         >
           {subtitle}
         </Reveal>
 
-        <Reveal className="row wrap" delay={240} style={{ gap: 14, justifyContent: 'center', marginTop: 10 }}>
-          <Link to="/calculators/retirement-readiness" className="btn btn-gold btn-sheen">
+        {/* Wealth Blueprint Highlights */}
+        <Reveal delay={210} className="row wrap" style={{ gap: 10, justifyContent: 'center', margin: '6px 0' }}>
+          <span className="badge badge-gold tiny" style={{ background: 'rgba(42, 12, 20, 0.6)' }}>
+            Corpus Gap Analysis
+          </span>
+          <span className="badge badge-gold tiny" style={{ background: 'rgba(42, 12, 20, 0.6)' }}>
+            SWP vs Annuity Modeling
+          </span>
+          <span className="badge badge-gold tiny" style={{ background: 'rgba(42, 12, 20, 0.6)' }}>
+            Family Vault Protection
+          </span>
+        </Reveal>
+
+        <Reveal className="row wrap" delay={240} style={{ gap: 16, justifyContent: 'center', marginTop: 8 }}>
+          <Link to="/calculators/retirement-readiness" className="btn btn-gold btn-sheen" style={{ fontSize: 16, padding: '14px 28px' }}>
             {cta}
             <Icon name="arrow_forward" size={18} />
           </Link>
-          <Link to="/services" className="btn btn-on-band">
+          <Link to="/services" className="btn btn-on-band" style={{ fontSize: 16, padding: '14px 28px', borderColor: 'var(--gold-line)' }}>
             See how the plan is built →
           </Link>
         </Reveal>
@@ -156,7 +162,7 @@ function Hero() {
           as="p"
           delay={300}
           className="tiny"
-          style={{ color: 'color-mix(in srgb, var(--on-band) 62%, transparent)', marginTop: 4, letterSpacing: '0.1em' }}
+          style={{ color: '#d9b063', marginTop: 8, letterSpacing: '0.14em', fontWeight: 600 }}
         >
           {brand.stages}
         </Reveal>
@@ -176,32 +182,35 @@ function Hero() {
 function Situation() {
   const doors = [
     {
+      badge: 'TARGET CORPUS',
       icon: 'target',
-      eyebrow: 'Ten years to go',
-      title: 'What is my number?',
+      eyebrow: 'Ten years to retirement',
+      title: 'What is my exact target corpus?',
       to: '/calculators/retirement-readiness',
-      cta: 'See the gap',
+      cta: 'Calculate target gap',
     },
     {
+      badge: 'CAPITAL DRAWDOWN',
       icon: 'hourglass_bottom',
-      eyebrow: 'Already have a corpus',
-      title: 'How long will it last?',
+      eyebrow: 'Existing capital allocation',
+      title: 'How long will my corpus last?',
       to: '/calculators/retirement-drawdown',
-      cta: 'See the year it runs out',
+      cta: 'Simulate depletion year',
     },
     {
+      badge: 'FUTURE MILESTONES',
       icon: 'school',
-      eyebrow: 'Children still to educate',
-      title: 'What will it cost?',
+      eyebrow: 'Legacy & Higher Education',
+      title: 'What is the future cost of goals?',
       to: '/calculators/education-goal',
-      cta: 'See the bill in that year',
+      cta: 'Project inflation-adjusted bill',
     },
   ];
 
   return (
-    <section style={{ padding: '76px 0 12px' }}>
+    <section style={{ padding: '88px 0 24px', background: 'var(--surface-low)' }}>
       <div className="container stack stack-lg">
-        <SectionHead eyebrow="Where you are" title="Start with the question you actually have." />
+        <SectionHead eyebrow="DECISION FRAMEWORKS" title="Start with the exact question you have today." lede="Run your real numbers against institutional inflation and annuity rate models." />
         <div className="grid grid-3">
           {doors.map((door, index) => (
             <Reveal key={door.to} delay={index * 90}>
@@ -209,16 +218,27 @@ function Situation() {
                 as={Link}
                 to={door.to}
                 className="card-link card-gold stack stack-sm"
-                style={{ height: '100%', padding: 28 }}
+                style={{
+                  height: '100%',
+                  padding: 32,
+                  background: 'var(--surface-lowest)',
+                  transition: 'all 0.25s ease',
+                  border: '1px solid var(--gold-line)',
+                }}
               >
-                <span className="medallion medallion-solid" style={{ width: 50, height: 50 }}>
-                  <Icon name={door.icon} size={24} />
-                </span>
-                <span className="tiny caps" style={{ color: 'var(--gold-ink)', letterSpacing: '0.14em' }}>
+                <div className="row-between" style={{ alignItems: 'center' }}>
+                  <span className="medallion medallion-solid" style={{ width: 48, height: 48 }}>
+                    <Icon name={door.icon} size={22} />
+                  </span>
+                  <span className="tiny caps" style={{ color: 'var(--gold-ink)', letterSpacing: '0.14em', fontWeight: 700 }}>
+                    {door.badge}
+                  </span>
+                </div>
+                <span className="tiny caps muted" style={{ letterSpacing: '0.12em', marginTop: 8 }}>
                   {door.eyebrow}
                 </span>
-                <h3 style={{ fontSize: 24 }}>{door.title}</h3>
-                <span className="row small" style={{ gap: 6, color: 'var(--primary)', fontWeight: 600, marginTop: 'auto' }}>
+                <h3 style={{ fontSize: 22, lineHeight: 1.35, color: 'var(--on-surface)' }}>{door.title}</h3>
+                <span className="row small" style={{ gap: 6, color: 'var(--primary)', fontWeight: 600, marginTop: 'auto', paddingTop: 12 }}>
                   {door.cta} <Icon name="arrow_forward" size={16} />
                 </span>
               </Card>
@@ -248,7 +268,7 @@ function WhyNow() {
           title="Retirement used to be funded by a pension and a joint family."
           lede="Today it has to be funded by a plan, because both of those are increasingly optional."
         />
-        <div className="grid grid-3">
+        <div className="why-now-grid">
           {reasons.map((reason, index) => (
             <Reveal key={reason.title} delay={(index % 3) * 90}>
               <div className="band-card">
@@ -391,7 +411,7 @@ function WhatWeDo() {
               <Card
                 as={Link}
                 to="/services#services"
-                className="card-link stack stack-sm"
+                className="card-link card-gold stack stack-sm"
                 style={{ height: '100%' }}
               >
                 <span className="medallion" style={{ width: 46, height: 46 }}>
@@ -424,14 +444,14 @@ function Reading() {
     <section style={{ background: 'var(--surface-container)', padding: '92px 0' }}>
       <div className="container stack stack-lg">
         <SectionHead
-          eyebrow="Insights"
+          eyebrow="Insights & Intelligence"
           title="What we would tell you in the meeting."
           lede="Written plainly, with no product names and no forecasts."
         />
         <div className="grid grid-3">
           {insights.slice(0, 3).map((post, index) => (
             <Reveal key={post.slug} delay={(index % 3) * 80}>
-              <Card as={Link} to={`/insights/${post.slug}`} className="card-link stack stack-sm" style={{ height: '100%' }}>
+              <Card as={Link} to={`/insights/${post.slug}`} className="card-link card-gold stack stack-sm" style={{ height: '100%' }}>
                 <span className="badge badge-gold">{post.category}</span>
                 <h4>{post.title}</h4>
                 <p className="small muted" style={{ lineHeight: 1.7 }}>{post.summary}</p>
@@ -442,6 +462,9 @@ function Reading() {
             </Reveal>
           ))}
         </div>
+        
+        <NewsStrip />
+
         <Reveal className="row" style={{ justifyContent: 'center' }}>
           <Link to="/insights" className="btn btn-secondary">Everything we have written</Link>
         </Reveal>
@@ -459,26 +482,37 @@ function Reading() {
  */
 function FoundersTeaser() {
   return (
-    <section style={{ padding: '88px 0' }}>
+    <section style={{ padding: '96px 0', background: 'var(--surface-low)', borderTop: '1px solid var(--outline-variant)' }}>
       <div className="container">
-        <Reveal className="founders-strip">
-          <Photo
-            name="founders-at-work"
-            alt="Shiv Maheshwari and Vikram Rajput at a table, working through the founders’ vision beneath a wall showing the four stages: create, continue, consume, distribute."
-            width={1400}
-            height={933}
-            sizes="(max-width: 900px) 100vw, 620px"
-          />
-          <div className="stack stack-sm" style={{ justifyContent: 'center' }}>
-            <span className="eyebrow" style={{ color: 'var(--gold-ink)' }}>The people behind it</span>
-            <h2 style={{ fontSize: 'clamp(26px, 3.2vw, 38px)' }}>Two decades each. One question left over.</h2>
-            <p className="muted" style={{ lineHeight: 1.75, maxWidth: '44ch' }}>
-              Shiv Maheshwari and Vikram Rajput spent their careers inside life insurance —
-              distribution, strategy, transformation, and a great many households. Then: what can
-              all of it now do for someone else?
+        <Reveal className="founders-strip" style={{ alignItems: 'center' }}>
+          <div style={{ borderRadius: 'var(--radius-lg)', overflow: 'hidden', border: '1px solid var(--gold-line)', boxShadow: 'var(--elev-3)' }}>
+            <Photo
+              name="founders-at-work"
+              alt="Shiv Maheshwari and Vikram Rajput at a table"
+              width={1400}
+              height={933}
+              sizes="(max-width: 900px) 100vw, 620px"
+            />
+          </div>
+          <div className="stack stack-sm" style={{ justifyContent: 'center', padding: '12px 0' }}>
+            <span className="badge badge-gold tiny" style={{ width: 'fit-content', fontSize: 11 }}>
+              <Icon name="verified_user" size={14} /> FOUNDERS & ADVISORY LEADERSHIP
+            </span>
+            <h2 style={{ fontSize: 'clamp(28px, 3.4vw, 42px)', lineHeight: 1.15, marginTop: 6 }}>
+              Two decades each.<br />One question left over.
+            </h2>
+            <p className="muted" style={{ lineHeight: 1.8, fontSize: 16, maxWidth: '44ch' }}>
+              Shiv Maheshwari and Vikram Rajput spent their careers inside Indian life insurance —
+              agency strategy, organizational transformation, and a great many households.
             </p>
-            <Link to="/about#founders" className="row small" style={{ gap: 7, color: 'var(--primary)', fontWeight: 600, marginTop: 4 }}>
-              Read their story <Icon name="arrow_forward" size={17} />
+            <blockquote className="pullquote" style={{ margin: '8px 0 12px', padding: '16px 20px', background: 'var(--surface-lowest)', borderColor: 'var(--gold)' }}>
+              <p style={{ fontSize: 15, fontStyle: 'italic', margin: 0, lineHeight: 1.6 }}>
+                “Experience ultimately becomes valuable when it is converted into contribution.”
+              </p>
+              <footer style={{ marginTop: 6, fontSize: 11 }}>— Shiv Maheshwari, Co-Founder</footer>
+            </blockquote>
+            <Link to="/about#founders" className="row small" style={{ gap: 7, color: 'var(--primary)', fontWeight: 700, fontSize: 15 }}>
+              Read the full leadership story <Icon name="arrow_forward" size={17} />
             </Link>
           </div>
         </Reveal>

@@ -65,7 +65,9 @@ export function cors(config) {
     const origin = req.headers.origin;
     if (!origin) return next();
 
-    if (allowed.has(origin)) {
+    const isLocalhost = !config.isProduction && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+
+    if (allowed.has(origin) || isLocalhost) {
       res.setHeader('Access-Control-Allow-Origin', origin);
       res.setHeader('Access-Control-Allow-Credentials', 'true');
       res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-CSRF-Token');

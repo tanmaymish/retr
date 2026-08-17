@@ -128,7 +128,7 @@ export default function PreparednessCheck() {
                         type="button"
                         onClick={() => choose(option.value)}
                         aria-pressed={selected}
-                        className="card"
+                        className="card card-gold"
                         style={{
                           textAlign: 'left',
                           cursor: 'pointer',

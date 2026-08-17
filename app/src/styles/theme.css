@@ -226,17 +226,49 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .grid-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 .grid-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 
-/* ── Cards ──────────────────────────────────────────────────────────────── */
+/* ── Executive Cards Design System ────────────────────────────────────────── */
 .card {
+  position: relative;
   background: var(--surface-lowest);
   border-radius: var(--radius-lg);
-  padding: 24px;
-  box-shadow: var(--elev-1);
-  border: 1px solid var(--card-border);
+  padding: 28px;
+  box-shadow: 0 4px 20px rgba(42, 28, 20, 0.05);
+  border: 1px solid var(--gold-line);
+  overflow: hidden;
+  transition: transform 0.25s var(--spring), border-color 0.25s ease, box-shadow 0.25s ease;
 }
-.card-flat { background: var(--surface-low); box-shadow: none; }
-.card-link { display: block; color: inherit; transition: box-shadow 0.25s var(--spring), transform 0.25s var(--spring); }
-.card-link:hover { box-shadow: var(--elev-hover); transform: translateY(-2px); text-decoration: none; }
+
+/* Metallic gold hairline accent along the top edge of every card */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: var(--gold-leaf);
+  opacity: 0.85;
+}
+
+.card-flat {
+  background: var(--surface-low);
+  box-shadow: none;
+}
+
+.card-gold {
+  border-color: var(--gold-line);
+  box-shadow: 0 6px 24px rgba(184, 134, 63, 0.1);
+}
+
+.card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.card-link:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+  box-shadow: 0 16px 36px rgba(184, 134, 63, 0.2);
+  text-decoration: none;
+}
 
 /* ── Buttons ────────────────────────────────────────────────────────────── */
 .btn {
@@ -958,6 +990,93 @@ select.input { appearance: none; background-image: none; cursor: pointer; paddin
    unknown length, wrong for a set of four that reads as two by two. */
 .grid.pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 720px) { .grid.pair { grid-template-columns: 1fr; } }
+
+/* ── Five-card grid for WhyNow ────────────────────────────────────────────
+   3 on top, 2 centred below — a 6-column base gives equal halves on each
+   row without the fifth card sitting alone on its own line. */
+.why-now-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--grid-gap, 20px);
+}
+.why-now-grid > *:nth-child(-n+3) { grid-column: span 2; }
+.why-now-grid > *:nth-child(4) { grid-column: 2 / 4; }
+.why-now-grid > *:nth-child(5) { grid-column: 4 / 6; }
+@media (max-width: 600px) {
+  .why-now-grid { grid-template-columns: 1fr; }
+  .why-now-grid > * { grid-column: span 1 !important; }
+}
+
+/* ── Pillars / Services 7-Card Symmetrical Grid ──────────────────────────
+   Flex wrap container with centered justification ensures card 07 (and any
+   leftover card) is aligned symmetrically in the middle of the bottom row. */
+.pillars-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center !important;
+  align-items: stretch;
+  gap: var(--gutter);
+  width: 100%;
+}
+.pillars-grid > * {
+  flex: 0 1 320px !important; /* using 0 to prevent stretching to 360 which causes uneven gaps or alignment issues */
+  width: 100%;
+  max-width: none;
+  display: flex !important;
+}
+
+/* ── MasterClass Luxury Utilities ────────────────────────────────────────── */
+.masterclass-hero {
+  background:
+    radial-gradient(1000px 500px at 50% 30%, rgba(184, 134, 63, 0.18), transparent 70%),
+    radial-gradient(1200px 600px at 50% 0%, color-mix(in srgb, var(--burgundy) 70%, transparent), transparent 80%),
+    linear-gradient(180deg, var(--wine-deep) 0%, #170408 100%);
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--gold-line);
+}
+
+.masterclass-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  background: rgba(184, 134, 63, 0.12);
+  border: 1px solid var(--gold-line);
+  color: #f0dba6;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  box-shadow: 0 0 15px rgba(184, 134, 63, 0.15);
+}
+
+.masterclass-card {
+  background: rgba(42, 12, 20, 0.75);
+  backdrop-filter: blur(16px);
+  border: 1px solid color-mix(in srgb, var(--gold) 40%, transparent);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  transition: transform 0.25s var(--spring), border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.masterclass-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+  box-shadow: 0 16px 40px rgba(184, 134, 63, 0.25);
+}
+
+.masterclass-glow-text {
+  text-shadow: 0 0 30px rgba(240, 219, 166, 0.35);
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #fff 0%, #f0dba6 50%, #d9b063 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 /* ── Cards on the maroon band ─────────────────────────────────────────────
    A translucent white wash over maroon reads as a placeholder: the fill is

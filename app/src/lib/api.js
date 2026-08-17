@@ -5,7 +5,7 @@
  * CSRF cookie in a header. Nothing sensitive is kept in localStorage — a token
  * in localStorage is a token any injected script can read.
  */
-const BASE = import.meta.env.VITE_API_URL ?? '';
+const BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
 export class ApiError extends Error {
   constructor({ status, code, message, details, requestId }) {

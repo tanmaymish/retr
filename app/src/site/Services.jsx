@@ -123,13 +123,10 @@ function What() {
           title="Seven pillars."
           lede="Each one carries a promise — what you get — and then the substance behind it."
         />
-        <div
-          className="grid"
-          style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', width: '100%' }}
-        >
+        <div className="pillars-grid">
           {pillars.map((service, index) => (
-            <Reveal key={service.key} delay={(index % 2) * 90}>
-              <Card className="stack stack-sm card-gold" style={{ height: '100%' }}>
+            <Reveal key={service.key} delay={(index % 2) * 90} style={{ display: 'flex' }}>
+              <Card className="stack stack-sm card-gold" style={{ height: '100%', width: '100%' }}>
                 <span className="medallion" style={{ width: 52, height: 52 }}>
                   <Icon name={service.icon} size={24} />
                 </span>

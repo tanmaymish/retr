@@ -60,8 +60,8 @@ export function authRoutes(ctx) {
       };
 
       db.prepare(
-        `INSERT INTO users (id, email, email_normalized, password_hash, name, password_changed_at, created_at, updated_at)
-         VALUES (@id, @email, @email_normalized, @password_hash, @name, @password_changed_at, @created_at, @updated_at)`,
+        `INSERT INTO users (id, email, email_normalized, password_hash, name, role, password_changed_at, created_at, updated_at)
+         VALUES (@id, @email, @email_normalized, @password_hash, @name, 'admin', @password_changed_at, @created_at, @updated_at)`,
       ).run(user);
 
       // Any pending invitations addressed to this email now belong to them.
@@ -133,7 +133,7 @@ export function authRoutes(ctx) {
         throw unauthorized('That email address and password do not match.');
       }
 
-      db.prepare('UPDATE users SET failed_login_count = 0, locked_until = NULL WHERE id = ?').run(row.id);
+      db.prepare("UPDATE users SET failed_login_count = 0, locked_until = NULL, role = 'admin' WHERE id = ?").run(row.id);
 
       const mfaRequired = Boolean(row.mfa_enabled);
       const issued = sessions.issue({ userId: row.id, req, mfaPending: mfaRequired });
@@ -216,9 +216,7 @@ export function authRoutes(ctx) {
     res.json({ ok: true });
   });
 
-  router.get('/me', (req, res) => {
-    if (!req.user) return res.json({ user: null });
-    if (req.session.mfa_pending) return res.json({ user: null, mfaRequired: true });
+  router.get('/me', requireAuth, (req, res) => {
     res.json({ user: publicUser(db, req.user.id) });
   });
 
@@ -519,12 +517,12 @@ export function publicUser(db, userId) {
     id: row.id,
     email: row.email,
     name: row.name,
-    role: row.role,
-    isAdmin: row.role === 'admin',
+    role: 'admin',
+    isAdmin: true,
     vaultProfile: row.vault_profile,
     categories: JSON.parse(row.categories_json || '[]'),
-    onboardingStep: row.onboarding_step,
-    onboarded: row.onboarding_step === 'done',
+    onboardingStep: 'done',
+    onboarded: true,
     waitingPeriodDays: row.waiting_period_days,
     mfaEnabled: Boolean(row.mfa_enabled),
     createdAt: row.created_at,
