@@ -61,7 +61,7 @@ export function authRoutes(ctx) {
 
       db.prepare(
         `INSERT INTO users (id, email, email_normalized, password_hash, name, role, password_changed_at, created_at, updated_at)
-         VALUES (@id, @email, @email_normalized, @password_hash, @name, 'admin', @password_changed_at, @created_at, @updated_at)`,
+         VALUES (@id, @email, @email_normalized, @password_hash, @name, 'member', @password_changed_at, @created_at, @updated_at)`,
       ).run(user);
 
       // Any pending invitations addressed to this email now belong to them.
@@ -133,7 +133,7 @@ export function authRoutes(ctx) {
         throw unauthorized('That email address and password do not match.');
       }
 
-      db.prepare("UPDATE users SET failed_login_count = 0, locked_until = NULL, role = 'admin' WHERE id = ?").run(row.id);
+      db.prepare('UPDATE users SET failed_login_count = 0, locked_until = NULL WHERE id = ?').run(row.id);
 
       const mfaRequired = Boolean(row.mfa_enabled);
       const issued = sessions.issue({ userId: row.id, req, mfaPending: mfaRequired });
@@ -517,8 +517,8 @@ export function publicUser(db, userId) {
     id: row.id,
     email: row.email,
     name: row.name,
-    role: 'admin',
-    isAdmin: true,
+    role: row.role,
+    isAdmin: row.role === 'admin',
     vaultProfile: row.vault_profile,
     categories: JSON.parse(row.categories_json || '[]'),
     onboardingStep: 'done',
