@@ -5,6 +5,13 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# Proxy /api calls to Vercel serverless API backend
+[[redirects]]
+  from = "/api/*"
+  to = "https://retr-app.vercel.app/api/:splat"
+  status = 200
+  force = true
+
 # SPA routing: redirect all requests to index.html unless a static file matches
 [[redirects]]
   from = "/*"
