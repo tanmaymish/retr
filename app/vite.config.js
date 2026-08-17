@@ -7,7 +7,7 @@ import react from '@vitejs/plugin-react';
 // A project page on GitHub Pages is served from /<repo>/, so the base has to be
 // set at build time; anything served from a domain root leaves it alone.
 export default defineConfig({
-  base: process.env.VITE_BASE || '/retr/',
+  base: process.env.VITE_BASE || '/',
   plugins: [react()],
   server: {
     port: 5180,

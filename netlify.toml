@@ -1,0 +1,12 @@
+[build]
+  command = "VITE_BASE=/ npm run build"
+  publish = "app/dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# SPA routing: redirect all requests to index.html unless a static file matches
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
