@@ -15,6 +15,7 @@
     "dev": "node scripts/dev.mjs",
     "dev:server": "npm --prefix server run dev",
     "dev:client": "npm --prefix app run dev",
+    "vercel-build": "npm run build",
     "build": "npm --prefix app run build && node -e \"import('fs').then(fs => fs.cpSync('app/dist', 'dist', {recursive: true}))\"",
     "start": "npm --prefix server start",
     "test": "npm --prefix server test",
